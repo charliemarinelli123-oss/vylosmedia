@@ -3,6 +3,27 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Light / dark toggle. Follows the system until the visitor picks one.
+  var toggle = document.getElementById('themeToggle');
+  var darkQuery = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+  function isDark() {
+    var t = root.dataset.theme;
+    return t ? t === 'dark' : !!(darkQuery && darkQuery.matches);
+  }
+  function syncToggle() {
+    if (toggle) toggle.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      syncToggle();
+    });
+    if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', syncToggle);
+    syncToggle();
+  }
+
   // Nav border once the page scrolls
   var nav = document.getElementById('nav');
   function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 8); }
@@ -23,7 +44,7 @@
   // Rotating caption on the phone
   var caption = document.getElementById('caption');
   var lines = [
-    ['Your business,', 'seen by', 'North County.'],
+    ['Your business,', 'seen by', 'SoCal.'],
     ['New customers', 'start with', 'a scroll.'],
     ['Your first Reel', 'is on us.']
   ];
