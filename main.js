@@ -16,9 +16,20 @@
   if (toggle) {
     toggle.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
-      root.dataset.theme = next;
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      syncToggle();
+      function apply() {
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        syncToggle();
+      }
+      if (!document.startViewTransition || reduceMotion) { apply(); return; }
+      // Circular wipe that grows out of the toggle
+      var r = toggle.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.startViewTransition(apply).ready.then(function () {
+        root.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
+          { duration: 650, easing: 'cubic-bezier(.16, 1, .3, 1)', pseudoElement: '::view-transition-new(root)' });
+      });
     });
     if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', syncToggle);
     syncToggle();
@@ -30,16 +41,79 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Gentle reveal on scroll
+  // Reveal on scroll: section heads and panels rise in from a soft blur, grouped items one after another
   if ('IntersectionObserver' in window && !reduceMotion) {
+    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .cities, .faq, .about-copy, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
+      .forEach(function (el) { el.classList.add('reveal'); });
+    document.querySelectorAll('.bento, .steps, .tiles, .grid-3').forEach(function (group) {
+      Array.prototype.forEach.call(group.children, function (el, i) {
+        el.classList.add('reveal'); el.style.setProperty('--d', (i * 0.07) + 's');
+      });
+    });
     root.classList.add('js');
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        el.classList.add('in'); io.unobserve(el);
+        setTimeout(function () { el.classList.add('done'); }, 1200 + (parseFloat(el.style.getPropertyValue('--d')) || 0) * 1000);
       });
     }, { rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
   }
+
+  if (!reduceMotion) {
+    var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    // Glass cards: light follows the pointer
+    document.querySelectorAll('.card, .tile, .steps li, .factors').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    // Phone mockup: tilts toward the pointer on desktop, follows the scroll on phones
+    var phone = document.querySelector('.phone');
+    var screen = document.querySelector('.screen');
+    function tilt(rx, ry) {
+      phone.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+      phone.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+      screen.style.setProperty('--gx', (ry * 3) + '%');
+    }
+    if (phone && screen) {
+      if (finePointer) {
+        var heroEl = document.querySelector('.hero');
+        heroEl.addEventListener('pointermove', function (e) {
+          var r = phone.getBoundingClientRect();
+          var dx = (e.clientX - (r.left + r.width / 2)) / innerWidth;
+          var dy = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+          tilt(-dy * 10, dx * 14);
+        });
+        heroEl.addEventListener('pointerleave', function () { tilt(0, 0); });
+      } else {
+        window.addEventListener('scroll', function () {
+          var t = Math.min(window.scrollY / 500, 1);
+          tilt(t * 8, -t * 5);
+        }, { passive: true });
+      }
+    }
+  }
+
+  // Scroll progress line under the nav
+  var bar = document.createElement('span');
+  bar.className = 'progress';
+  bar.setAttribute('aria-hidden', 'true');
+  nav.appendChild(bar);
+  var ticking = false;
+  function progress() {
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.setProperty('--p', max > 0 ? Math.min(window.scrollY / max, 1) : 0);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
+  progress();
 
   // Rotating caption on the phone
   var caption = document.getElementById('caption');
