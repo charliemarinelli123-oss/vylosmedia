@@ -21,18 +21,23 @@
         try { localStorage.setItem('theme', next); } catch (e) {}
         syncToggle();
       }
-      if (!document.startViewTransition || reduceMotion) { apply(); return; }
-      // Circular wipe that grows out of the toggle
-      var r = toggle.getBoundingClientRect();
-      var x = r.left + r.width / 2, y = r.top + r.height / 2;
-      var end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      document.startViewTransition(apply).ready.then(function () {
-        root.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
-          { duration: 650, easing: 'cubic-bezier(.16, 1, .3, 1)', pseudoElement: '::view-transition-new(root)' });
-      });
+      if (reduceMotion) { apply(); return; }
+      // Slow blurred cross-fade (keyframes live in styles.css)
+      if (document.startViewTransition) { document.startViewTransition(apply); return; }
+      root.classList.add('theming');
+      apply();
+      setTimeout(function () { root.classList.remove('theming'); }, 1100);
     });
     if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', syncToggle);
     syncToggle();
+  }
+
+  // Photo strip: duplicate the frames so the drift loops seamlessly
+  var track = document.querySelector('.strip-track');
+  if (track && !reduceMotion) {
+    Array.prototype.slice.call(track.children).forEach(function (img) {
+      var c = img.cloneNode(true); c.alt = ''; c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
+    });
   }
 
   // Nav border once the page scrolls
