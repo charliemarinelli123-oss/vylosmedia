@@ -10,6 +10,7 @@
 ## Pages
 
 - [Home](https://vylosmedia.com/): services, process, pricing approach, FAQ and contact
+- [About](https://vylosmedia.com/about/): who Vylos Media is, founder Charlie Marinelli, and how we work
 - [Video production in Carlsbad](https://vylosmedia.com/video-production-carlsbad/)
 - [Video production in San Diego](https://vylosmedia.com/video-production-san-diego/)
 - [Video production in Oceanside](https://vylosmedia.com/video-production-oceanside/)

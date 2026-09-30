@@ -185,7 +185,11 @@
   var dock = document.getElementById('dock');
   var hero = document.querySelector('.hero');
   var contact = document.getElementById('contact');
-  if (dock && 'IntersectionObserver' in window) {
+  if (dock && !(hero && contact)) {
+    // Pages without a hero or contact form: show the bar after a little scrolling
+    window.addEventListener('scroll', function () { dock.classList.toggle('show', window.scrollY > 300); }, { passive: true });
+  }
+  if (dock && hero && contact && 'IntersectionObserver' in window) {
     var heroIn = true, contactIn = false;
     function update() { dock.classList.toggle('show', !heroIn && !contactIn); }
     new IntersectionObserver(function (es) { heroIn = es[0].isIntersecting; update(); }).observe(hero);
