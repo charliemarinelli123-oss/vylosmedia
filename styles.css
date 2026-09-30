@@ -270,3 +270,29 @@ section { padding-block: clamp(64px, 9vw, 110px); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js .reveal { transform: none; opacity: 1; }
 }
+
+/* About */
+.about { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(24px, 6vw, 72px); }
+.about-copy { display: grid; gap: 16px; color: var(--muted); font-size: 18px; max-width: 38em; min-width: 0; }
+@media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+
+/* City links */
+.cities a { color: inherit; }
+.cities a:hover { text-decoration: none; }
+.cities li:has(a):hover { box-shadow: 0 0 0 1px var(--line); }
+.footer-cities { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.footer-cities a { color: var(--muted); }
+
+/* City pages */
+.city-hero { padding-block: clamp(40px, 6vw, 72px) clamp(48px, 7vw, 80px); }
+.city-hero .lede { max-width: 38em; }
+.crumbs { font-size: 14px; color: var(--muted); margin-bottom: 28px; display: flex; gap: 8px; flex-wrap: wrap; }
+.crumbs a { color: var(--muted); }
+.city-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 72px); align-items: center; }
+.band .factors { background: var(--card); }
+.fit-list li { padding: 14px 0; }
+section:not(.band) .steps li { background: var(--band); }
+.cta-row.center { justify-content: center; margin-top: 0; }
+.nearby { margin-top: 56px; text-align: center; }
+.nearby .cities li { background: var(--band); }
+@media (max-width: 860px) { .city-grid { grid-template-columns: 1fr; } }

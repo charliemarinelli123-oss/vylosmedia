@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vylosmedia.com/sitemap.xml
