@@ -1,273 +1,300 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vylos Media — Cinematic Post-Production</title>
-  <meta name="description" content="Vylos Media is a post-production company specializing in high-end cinematic editing and content strategy. We make your vision undeniable." />
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Vylos Media | Video Marketing in Carlsbad &amp; North County San Diego</title>
+  <meta name="description" content="Vylos Media makes short-form video for local businesses in Carlsbad and across North County San Diego. Reels, TikToks and promo videos that bring in customers. Your first Reel is free.">
+  <link rel="canonical" href="https://vylosmedia.com/">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vylosmedia.com/">
+  <meta property="og:site_name" content="Vylos Media">
+  <meta property="og:title" content="Vylos Media | Video that brings customers in">
+  <meta property="og:description" content="Short-form video for local businesses in Carlsbad and North County San Diego. Your first Reel is free.">
+  <meta property="og:image" content="https://vylosmedia.com/icon.jpg">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="icon.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="icon.jpg">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Vylos Media",
+    "url": "https://vylosmedia.com",
+    "logo": "https://vylosmedia.com/icon.jpg",
+    "email": "charlie@vylosmedia.com",
+    "description": "Short-form video and social media content for local businesses.",
+    "address": { "@type": "PostalAddress", "addressLocality": "Carlsbad", "addressRegion": "CA", "addressCountry": "US" },
+    "areaServed": [
+      { "@type": "AdministrativeArea", "name": "North County San Diego" },
+      "Carlsbad", "Oceanside", "Vista", "San Marcos", "Encinitas", "Escondido", "Solana Beach", "Del Mar", "Poway", "Fallbrook"
+    ],
+    "sameAs": ["https://instagram.com/vylosmedia"]
+  }
+  </script>
 </head>
 <body>
 
-  <!-- ───────── NAV ───────── -->
-  <header class="nav" id="nav">
-    <a href="/" class="nav__logo">
-      <img src="logo.jpg" alt="Vylos Media" class="nav__logo-img" />
-      <span class="nav__logo-text">VYLOS MEDIA</span>
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Vylos Media home">
+      <img src="icon.jpg" alt="" width="28" height="28">
+      <span>Vylos Media</span>
     </a>
-    <nav class="nav__links">
+    <nav class="nav-links" aria-label="Main">
       <a href="#services">Services</a>
-      <a href="#contact" class="nav__cta">Contact</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
     </nav>
-    <!-- Mobile burger -->
-    <button class="nav__burger" id="burger" aria-label="Open menu">
-      <span></span><span></span>
-    </button>
-  </header>
-
-  <!-- Mobile menu overlay -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu__close" id="mobileClose" aria-label="Close menu">✕</button>
-    <nav class="mobile-menu__links">
-      <a href="#services" class="mobile-menu__link" id="mobileServicesLink">Services</a>
-      <a href="#contact" class="mobile-menu__link" id="mobileContactLink">Contact</a>
-    </nav>
+    <a class="btn btn-dark btn-sm" href="#contact">Get a free Reel</a>
   </div>
+</header>
 
-  <!-- ───────── HERO ───────── -->
-  <section class="hero" id="hero">
-    <div class="hero__content">
-      <p class="hero__eyebrow">Post-Production · Content Strategy</p>
-      <h1 class="hero__headline">
-        <span class="hero__line hero__line--serif-italic">We make your</span>
-        <span class="hero__line hero__line--serif-bold">vision</span>
-        <span class="hero__line hero__line--serif-italic">undeniable.</span>
-      </h1>
-      <p class="hero__sub">
-        Vylos Media delivers cinematic editing and content strategy<br class="br-desktop" />
-        for personal brands, creators, and forward-thinking businesses.
-      </p>
-      <div class="hero__actions">
-        <a href="#contact" class="btn btn--primary">Get In Touch</a>
-        <a href="#services" class="btn btn--ghost">Our Services</a>
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Video marketing for North County San Diego</p>
+        <h1>Video that brings customers through your door.</h1>
+        <p class="lede">Vylos Media creates short-form video for local businesses. Reels, TikToks and promo videos that get you seen by people nearby and give them a reason to come in.</p>
+        <div class="cta-row">
+          <a class="btn btn-dark" href="#contact">Get your first Reel free</a>
+          <a class="link-arrow" href="#services">See what we do</a>
+        </div>
+        <p class="note">Based in Carlsbad. We reply within 24 hours.</p>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="phone">
+          <div class="screen">
+            <div class="screen-top"><span>Reels</span><span class="dot"></span></div>
+            <p class="screen-caption" id="caption"><span>Your business,</span> <span>seen by</span> <span>North County.</span></p>
+            <div class="screen-bottom">
+              <span class="avatar"><img src="icon.jpg" alt=""></span>
+              <span class="handle">yourbusiness</span>
+              <span class="follow">Follow</span>
+            </div>
+          </div>
+        </div>
+        <div class="chip c1"><span class="ico">
+          <svg viewBox="0 0 24 24"><path d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7zm0 11a4 4 0 110-8 4 4 0 010 8z"/></svg></span>Seen by people nearby</div>
+        <div class="chip c2"><span class="ico">
+          <svg viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 011 1v17l-7-4-7 4V4a1 1 0 011-1z"/></svg></span>Saved and shared</div>
+        <div class="chip c3"><span class="ico">
+          <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg></span>Tapped for directions</div>
       </div>
     </div>
-
-    <!-- Ambient geometric accent -->
-    <div class="hero__bg-line" aria-hidden="true"></div>
   </section>
 
-  <!-- ───────── SOCIAL PROOF TICKER ───────── -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__track">
-      <span>Cinematic Editing</span>
-      <span class="ticker__dot">·</span>
-      <span>Content Strategy</span>
-      <span class="ticker__dot">·</span>
-      <span>Color Grading</span>
-      <span class="ticker__dot">·</span>
-      <span>Reels & Short-Form</span>
-      <span class="ticker__dot">·</span>
-      <span>Brand Storytelling</span>
-      <span class="ticker__dot">·</span>
-      <span>Long-Form Video</span>
-      <span class="ticker__dot">·</span>
-      <span>Cinematic Editing</span>
-      <span class="ticker__dot">·</span>
-      <span>Content Strategy</span>
-      <span class="ticker__dot">·</span>
-      <span>Color Grading</span>
-      <span class="ticker__dot">·</span>
-      <span>Reels & Short-Form</span>
-      <span class="ticker__dot">·</span>
-      <span>Brand Storytelling</span>
-      <span class="ticker__dot">·</span>
-      <span>Long-Form Video</span>
-      <span class="ticker__dot">·</span>
+  <!-- Why video -->
+  <section class="band" id="why">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Why video</p>
+        <h2>Your next customer is scrolling right now.</h2>
+        <p class="sub">People pick where to eat, train and shop from their phones. Good video puts your business in front of them and makes the choice easy.</p>
+      </div>
+      <div class="tiles three">
+        <article class="tile reveal">
+          <h3>Get found</h3>
+          <p>Reels and TikToks reach people who don't follow you yet. That's how new locals discover you.</p>
+        </article>
+        <article class="tile reveal">
+          <h3>Get remembered</h3>
+          <p>A strong first second stops the scroll. Clear captions and a real story keep people watching to the end.</p>
+        </article>
+        <article class="tile reveal">
+          <h3>Get chosen</h3>
+          <p>Showing your space, your people and your product builds trust before anyone walks in.</p>
+        </article>
+      </div>
     </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Everything your business needs to show up on social.</h2>
+      </div>
+      <div class="bento">
+        <article class="card card-lg reveal">
+          <p class="card-kicker">Most requested</p>
+          <h3>Reels &amp; TikToks</h3>
+          <p>Short, vertical videos built to stop the scroll. Hooks, captions, music and edits made for how people watch on Instagram, TikTok and YouTube Shorts.</p>
+          <ul class="ticks">
+            <li>Planned around what your customers care about</li>
+            <li>Sized for every platform from one shoot</li>
+            <li>Captions written for you</li>
+          </ul>
+        </article>
+        <article class="card reveal">
+          <h3>Content days</h3>
+          <p>We come to your location and film a batch of videos in one visit, so you have weeks of content ready to post.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Editing your footage</h3>
+          <p>Already filming on your phone? Send the clips and get back polished, ready-to-post videos.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Promo &amp; ad videos</h3>
+          <p>Videos for launches, events, new menus and paid ads, cut to drive one clear action.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Content planning</h3>
+          <p>A simple plan for what to post and when, so your page stays active without you thinking about it.</p>
+        </article>
+        <article class="card reveal">
+          <h3>Graphics &amp; design</h3>
+          <p>Thumbnails, cover images, story graphics and promo posts that match your brand.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="band" id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>Simple from the first message.</h2>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><span class="num">1</span><h3>Tell us about your business</h3><p>Fill in the form or DM us on Instagram. We look at your page and your goals.</p></li>
+        <li class="reveal"><span class="num">2</span><h3>Get your free Reel</h3><p>We make your first Reel free so you can see the quality before you spend anything.</p></li>
+        <li class="reveal"><span class="num">3</span><h3>Get a custom plan</h3><p>We build a plan and quote around what you need and what you want to spend.</p></li>
+        <li class="reveal"><span class="num">4</span><h3>Post and grow</h3><p>You get finished videos on a steady schedule, ready to post.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing">
+    <div class="wrap pricing-grid">
+      <div class="section-head left">
+        <p class="eyebrow">Pricing</p>
+        <h2>Priced around your goals.</h2>
+        <p class="sub">Every business needs something different, so there are no one-size-fits-all packages. Your price depends on the length and scope of the work, and you get a custom quote built to fit your goals and budget.</p>
+        <a class="btn btn-dark" href="#contact">Get a custom quote</a>
+      </div>
+      <div class="factors reveal">
+        <p class="factors-title">What shapes your quote</p>
+        <ul>
+          <li><strong>Video length</strong><span>A 15 second Reel or a 2 minute promo</span></li>
+          <li><strong>How many videos</strong><span>A single project or content every month</span></li>
+          <li><strong>Filming</strong><span>We shoot on location, or edit your footage</span></li>
+          <li><strong>Extras</strong><span>Planning, captions, graphics and ad versions</span></li>
+        </ul>
+        <p class="free-note">Your first Reel is always free.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Area -->
+  <section class="band" id="area">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Service area</p>
+        <h2>Based in Carlsbad. Serving all of North County.</h2>
+        <p class="sub">We film on location anywhere in North County San Diego. Editing-only projects work from anywhere.</p>
+      </div>
+      <ul class="cities">
+        <li class="home">Carlsbad</li><li>Oceanside</li><li>Vista</li><li>San Marcos</li><li>Encinitas</li><li>Escondido</li><li>Solana Beach</li><li>Del Mar</li><li>Poway</li><li>Fallbrook</li>
+      </ul>
+      <p class="for">Great fit for cafés and restaurants, gyms and studios, salons and barbers, retail shops, med spas, real estate and local services.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap faq-wrap">
+      <div class="section-head">
+        <p class="eyebrow">FAQ</p>
+        <h2>Questions, answered.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is the first Reel really free?</summary>
+          <p>Yes. We make one Reel for your business at no cost so you can see the quality first. If you like it, we talk about what's next. If not, it's still yours to post.</p>
+        </details>
+        <details>
+          <summary>How much does it cost after that?</summary>
+          <p>It depends on video length, how many videos you want and whether we film on location. You get a custom quote after a quick conversation about your goals and budget.</p>
+        </details>
+        <details>
+          <summary>Do I need to film anything myself?</summary>
+          <p>No. We can come film at your location, or edit clips you already have. Whatever is easier for you.</p>
+        </details>
+        <details>
+          <summary>Do you post the videos for me?</summary>
+          <p>We deliver finished videos with captions, ready to post. Ask about scheduling and posting when you get your quote.</p>
+        </details>
+        <details>
+          <summary>What areas do you cover?</summary>
+          <p>We're based in Carlsbad and film across North County San Diego, including Oceanside, Vista, San Marcos, Encinitas, Escondido and nearby.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="band" id="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <p class="eyebrow">Get started</p>
+        <h2>Let's make your first Reel.</h2>
+        <p class="sub">Tell us a little about your business. We'll reply within 24 hours with an idea for your free Reel.</p>
+        <dl class="channels">
+          <div><dt>Email</dt><dd><span id="email">charlie@vylosmedia.com</span> <button class="copy" type="button" data-copy="charlie@vylosmedia.com">Copy</button></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">@vylosmedia</a></dd></div>
+          <div><dt>Location</dt><dd>Carlsbad, California</dd></div>
+        </dl>
+      </div>
+      <form class="form" id="leadForm" novalidate>
+        <div class="row">
+          <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
+          <label for="f-biz">Business<input id="f-biz" name="business" autocomplete="organization" required></label>
+        </div>
+        <div class="row">
+          <label for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+          <label for="f-ig"><span>Instagram <span class="opt">(optional)</span></span><input id="f-ig" name="instagram" placeholder="@"></label>
+        </div>
+        <label for="f-need">What are you looking for?
+          <select id="f-need" name="need">
+            <option>My free first Reel</option>
+            <option>Videos every month</option>
+            <option>A one-time promo video</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+        <label for="f-msg"><span>Tell us about your business <span class="opt">(optional)</span></span><textarea id="f-msg" name="message" rows="4"></textarea></label>
+        <button class="btn btn-dark btn-block" type="submit">Send</button>
+        <p class="form-status" id="formStatus" role="status" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="brand"><img src="icon.jpg" alt="" width="24" height="24"><span>Vylos Media</span></div>
+    <p>Carlsbad, California · Serving North County San Diego</p>
+    <div class="footer-links">
+      <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">Instagram</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <p class="copyright">© <span id="year">2026</span> Vylos Media</p>
   </div>
+</footer>
 
-  <!-- ───────── SERVICES ───────── -->
-  <section class="services" id="services">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-eyebrow">What We Do</p>
-        <h2 class="section-title">Craft meets <em>strategy.</em></h2>
-      </div>
+<div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-      <div class="services__grid">
-
-        <div class="service-card">
-          <div class="service-card__num">01</div>
-          <h3 class="service-card__title">Cinematic Editing</h3>
-          <p class="service-card__desc">
-            Frame-perfect cuts, pacing that holds attention, and a visual
-            language that elevates every piece of content above the noise.
-          </p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-card__num">02</div>
-          <h3 class="service-card__title">Content Strategy</h3>
-          <p class="service-card__desc">
-            A clear blueprint for what to post, when to post it, and how
-            to position your brand as the authority in your space.
-          </p>
-        </div>
-
-        <div class="service-card">
-          <div class="service-card__num">03</div>
-          <h3 class="service-card__title">Short-Form & Reels</h3>
-          <p class="service-card__desc">
-            Hook-driven, retention-optimized short-form edits engineered
-            for Instagram, TikTok, and YouTube Shorts.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── DIVIDER STATEMENT ───────── -->
-  <section class="statement">
-    <div class="container">
-      <p class="statement__text">
-        "Most brands have the footage.<br />
-        <em>Very few have the story.</em>"
-      </p>
-    </div>
-  </section>
-
-  <!-- ───────── SOCIAL ───────── -->
-  <section class="social" id="social">
-    <div class="container">
-      <p class="section-eyebrow" style="text-align:center;">Follow the Work</p>
-      <div class="social__links">
-
-        <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener" class="social__link" aria-label="Instagram">
-          <svg class="social__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-            <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
-          </svg>
-          <span>Instagram</span>
-          <svg class="social__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 13L13 3M13 3H6M13 3v7"/>
-          </svg>
-        </a>
-
-        <a href="https://twitter.com/vylosmedia" target="_blank" rel="noopener" class="social__link" aria-label="Twitter / X">
-          <svg class="social__icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          <span>Twitter / X</span>
-          <svg class="social__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 13L13 3M13 3H6M13 3v7"/>
-          </svg>
-        </a>
-
-        <a href="https://youtube.com/@vylosmedia" target="_blank" rel="noopener" class="social__link" aria-label="YouTube">
-          <svg class="social__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
-            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
-          </svg>
-          <span>YouTube</span>
-          <svg class="social__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 13L13 3M13 3H6M13 3v7"/>
-          </svg>
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── CONTACT ───────── -->
-  <section class="contact" id="contact">
-    <div class="container contact__inner">
-
-      <div class="contact__copy">
-        <p class="section-eyebrow">Work With Us</p>
-        <h2 class="section-title">Ready to elevate<br /><em>your content?</em></h2>
-        <p class="contact__body">
-          We take on a small number of retainer clients each quarter.
-          Reach out directly — we respond within 24 hours.
-        </p>
-      </div>
-
-      <div class="contact__channels">
-
-        <a href="mailto:charlie@vylosmedia.com" class="contact-channel">
-          <div class="contact-channel__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="M2 7l10 7 10-7"/>
-            </svg>
-          </div>
-          <div class="contact-channel__text">
-            <p class="contact-channel__label">Email</p>
-            <p class="contact-channel__value">charlie@vylosmedia.com</p>
-          </div>
-          <svg class="contact-channel__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 13L13 3M13 3H6M13 3v7"/>
-          </svg>
-        </a>
-
-        <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener" class="contact-channel">
-          <div class="contact-channel__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
-            </svg>
-          </div>
-          <div class="contact-channel__text">
-            <p class="contact-channel__label">Instagram DM</p>
-            <p class="contact-channel__value">@vylosmedia</p>
-          </div>
-          <svg class="contact-channel__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 13L13 3M13 3H6M13 3v7"/>
-          </svg>
-        </a>
-
-        <a href="https://twitter.com/vylosmedia" target="_blank" rel="noopener" class="contact-channel">
-          <div class="contact-channel__icon">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </div>
-          <div class="contact-channel__text">
-            <p class="contact-channel__label">Twitter / X DM</p>
-            <p class="contact-channel__value">@vylosmedia</p>
-          </div>
-          <svg class="contact-channel__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 13L13 3M13 3H6M13 3v7"/>
-          </svg>
-        </a>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ───────── FOOTER ───────── -->
-  <footer class="footer">
-    <div class="container footer__inner">
-      <p class="footer__brand">VYLOS MEDIA</p>
-      <p class="footer__tagline">We make your vision undeniable.</p>
-      <div class="footer__divider"></div>
-      <div class="footer__bottom">
-        <p>© 2025 Vylos Media. All rights reserved.</p>
-        <a href="mailto:charlie@vylosmedia.com">charlie@vylosmedia.com</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="main.js"></script>
+<script src="main.js" defer></script>
 </body>
 </html>
