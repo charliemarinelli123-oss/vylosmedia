@@ -591,3 +591,13 @@ html.theming, html.theming *, html.theming *::before, html.theming *::after {
 @keyframes focus { 0%, 100% { transform: scale(1.35); opacity: 0; } 18% { transform: scale(1); opacity: 1; } 70% { transform: scale(1); opacity: 1; } 85% { opacity: .0; } }
 .vf-brand { position: absolute; left: 0; right: 0; bottom: 28px; text-align: center; font-size: 11px; font-weight: 800; letter-spacing: .5em; opacity: .7; }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr !important; } .viewfinder { aspect-ratio: 16 / 11; } }
+
+/* About: principles and signature */
+.principles { list-style: none; margin: 34px 0 0; padding: 0; display: grid; }
+.principles li { display: grid; grid-template-columns: 3.2em 8em 1fr; align-items: baseline; gap: 12px; padding: 18px 0; border-top: 1px solid var(--line); }
+.principles li:last-child { border-bottom: 1px solid var(--line); }
+.principles .idx { margin: 0; font-size: 26px; }
+.principles strong { font-weight: 700; letter-spacing: -0.01em; }
+.principles span:last-child { color: var(--muted); }
+.about-sign { margin-top: 26px; font-size: 14px; color: var(--muted); letter-spacing: .02em; }
+@media (max-width: 560px) { .principles li { grid-template-columns: 2.6em 1fr; } .principles span:last-child { grid-column: 2; } }
