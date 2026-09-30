@@ -276,7 +276,7 @@
         <div class="phone">
           <div class="screen">
             <div class="screen-top"><span>Reels</span><span class="dot"></span></div>
-            <p class="screen-caption" id="caption"><span>Your business,</span> <span>seen by</span> <span>SoCal.</span></p>
+            <p class="screen-caption" id="caption"><span>Your business,</span> <span>seen by</span> <span>the world.</span></p>
             <div class="screen-bottom">
               <span class="avatar"><img src="icon.jpg" alt=""></span>
               <span class="handle">yourbusiness</span>
@@ -292,20 +292,6 @@
           <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg></span>Tapped for directions</div>
       </div>
     </div>
-  </section>
-
-  <!-- Photo strip -->
-  <section class="strip" aria-label="Shot and color graded by Vylos Media">
-    <div class="strip-track">
-      <img src="img/sunset.jpg" alt="Sunset over the ocean" width="900" height="1600" loading="lazy">
-      <img src="img/dinner.jpg" alt="Candlelit restaurant table" width="1600" height="1066" loading="lazy">
-      <img src="img/estate.jpg" alt="Stone estate under a blue sky" width="1200" height="1600" loading="lazy">
-      <img src="img/beach.jpg" alt="Rocky beach cove" width="1600" height="892" loading="lazy">
-      <img src="img/tacos.jpg" alt="Plated taco with lime" width="1200" height="1600" loading="lazy">
-      <img src="img/vista.jpg" alt="Hills and city skyline at golden hour" width="1200" height="1600" loading="lazy">
-      <img src="img/sunset-coast.jpg" alt="Palm trees on the coast at sunset" width="1200" height="1600" loading="lazy">
-    </div>
-    <p class="strip-note">Shot and color graded by Vylos Media</p>
   </section>
 
   <!-- Why video -->
@@ -344,7 +330,14 @@
         <h2>Filmed, edited and <span class="hl">color graded</span> for you.<span class="mark" aria-hidden="true"></span></h2>
       </div>
       <div class="bento">
-        <article class="card card-lg card-photo reveal">
+        <article class="card card-lg reveal">
+          <div class="timeline" aria-hidden="true">
+            <div class="tl-ruler"></div>
+            <div class="tl-track"><span style="--x:0%;--w:22%"></span><span style="--x:24%;--w:34%"></span><span style="--x:60%;--w:18%"></span><span style="--x:80%;--w:20%"></span></div>
+            <div class="tl-track"><span style="--x:6%;--w:30%"></span><span style="--x:40%;--w:26%"></span><span style="--x:70%;--w:24%"></span></div>
+            <div class="tl-track tl-audio"><span style="--x:0%;--w:100%"></span></div>
+            <i class="tl-head"></i>
+          </div>
           <p class="card-kicker">The full package</p>
           <h3>From your idea to the final cut</h3>
           <p>One team handles the whole video. We listen to what you want, film it, then edit and color grade every shot so it looks and feels right for your brand.</p>
@@ -394,16 +387,6 @@
     </div>
   </section>
 
-  <!-- Statement -->
-  <section class="statement" aria-label="Vylos Media">
-    <div class="wrap">
-      <figure class="statement-frame reveal">
-        <img src="img/coast.jpg" alt="" width="1600" height="893" loading="lazy">
-        <figcaption>Video that <span class="hl">gets noticed.</span></figcaption>
-      </figure>
-    </div>
-  </section>
-
   <!-- Pricing -->
   <section id="pricing">
     <div class="wrap pricing-grid">
@@ -444,15 +427,24 @@
   <!-- About -->
   <section id="about">
     <div class="wrap about">
-      <div class="section-head left">
+      <div class="about-lead">
         <p class="eyebrow">About</p>
-        <h2>About Vylos Media</h2>
-        <figure class="about-photo"><img src="img/gear.jpg" alt="Vylos Media camera rig on set" width="900" height="1600" loading="lazy"></figure>
+        <h2>One team, <span class="hl">start to finish.</span></h2>
+        <p class="about-intro">Vylos Media is a video production company based in Carlsbad, California, founded by Charlie Marinelli. We listen to your idea, film it with our direction or yours, then edit and color grade every shot, so you get one finished video without juggling different people.</p>
+        <dl class="facts">
+          <div><dt>Founder</dt><dd>Charlie Marinelli</dd></div>
+          <div><dt>Home base</dt><dd>Carlsbad, California</dd></div>
+          <div><dt>Filming across</dt><dd>San Diego County, Orange County and LA up to Malibu</dd></div>
+          <div><dt>What we make</dt><dd>Reels, TikToks, YouTube Shorts, promo and ad videos</dd></div>
+          <div><dt>Reach us</dt><dd><a href="mailto:charlie@vylosmedia.com">charlie@vylosmedia.com</a> · <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">@vylosmedia</a></dd></div>
+        </dl>
       </div>
-      <div class="about-copy">
-        <p>Vylos Media is a video production company based in Carlsbad, California, founded by Charlie Marinelli. We work with businesses across San Diego County and Orange County, and in Los Angeles up to Malibu.</p>
-        <p>We handle the whole video. We listen to your idea, plan the shoot, film on location with our own direction or yours, then edit and color grade every shot. Most of our work is short-form video for Instagram Reels, TikTok and YouTube Shorts, plus promo and ad videos.</p>
-        <p>Reach us at charlie@vylosmedia.com or <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">@vylosmedia</a> on Instagram.</p>
+      <div class="viewfinder" aria-hidden="true">
+        <span class="vf-corner tl"></span><span class="vf-corner tr"></span><span class="vf-corner bl"></span><span class="vf-corner br"></span>
+        <span class="vf-rec"><i></i>REC</span>
+        <span class="vf-tc" id="timecode">00:00:00:00</span>
+        <span class="vf-focus"></span>
+        <span class="vf-brand">VYLOS</span>
       </div>
     </div>
   </section>
