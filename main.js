@@ -104,7 +104,7 @@
   // Rotating caption on the phone
   var caption = document.getElementById('caption');
   var lines = [
-    ['Your business,', 'seen by', 'the world.'],
+    ['Your brand,', 'seen by', 'the world.'],
     ['New customers', 'start with', 'a scroll.'],
     ['Your first Reel', 'is on us.']
   ];
@@ -199,13 +199,23 @@
   // About viewfinder: running timecode
   var tc = document.getElementById('timecode');
   if (tc && !reduceMotion) {
-    var t0 = Date.now();
+    var t0 = Date.now(), tcOn = true;
     function pad(n) { return (n < 10 ? '0' : '') + n; }
+    new IntersectionObserver(function (es) { tcOn = es[0].isIntersecting; }).observe(tc);
     setInterval(function () {
+      if (!tcOn) return;
       var f = Math.floor((Date.now() - t0) / (1000 / 24));
       var s = Math.floor(f / 24);
       tc.textContent = '00:' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60) + ':' + pad(f % 24);
     }, 1000 / 24);
+  }
+
+  // "Made for" band: duplicate the list so the loop is seamless
+  var track = document.querySelector('.marquee-track');
+  if (track) {
+    Array.prototype.slice.call(track.children).forEach(function (el) {
+      var c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
+    });
   }
 
   var year = document.getElementById('year');

@@ -440,14 +440,11 @@ html { scroll-behavior: smooth; }
   .card:hover, .tile:hover, .steps li:hover { translate: 0 -4px; box-shadow: 0 24px 50px -24px var(--shadow), inset 0 1px 0 var(--glass-hi); }
 }
 
-/* Buttons: light sweep on hover, springy press on tap */
-.btn { position: relative; overflow: hidden; isolation: isolate; transition: background-color .3s ease, transform .5s var(--ease), translate .5s var(--ease), box-shadow .5s var(--ease); }
-.btn-dark::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(110deg, transparent 30%, color-mix(in srgb, var(--btn-text) 18%, transparent) 50%, transparent 70%);
-  transform: translateX(-120%); transition: transform .9s var(--ease); }
+/* Buttons: a soft warm glow that gently zooms in on hover, springy press on tap */
+.btn { position: relative; isolation: isolate; transition: background-color .3s ease, transform .45s var(--ease), box-shadow .45s var(--ease); }
+.btn-glow { box-shadow: 0 0 0 0 transparent, 0 8px 26px -12px var(--glow); }
 @media (hover: hover) {
-  .btn-dark:hover { translate: 0 -1px; box-shadow: 0 10px 28px -10px var(--glow); }
-  .btn-dark:hover::before { transform: translateX(120%); }
+  .btn-dark:hover { transform: scale(1.04); box-shadow: 0 0 0 1px color-mix(in srgb, var(--link) 22%, transparent), 0 12px 34px -10px var(--glow), 0 0 42px -8px color-mix(in srgb, var(--link) 45%, transparent); }
 }
 .btn:active { transform: scale(.96); transition-duration: .12s; }
 .theme-toggle { transition: background-color .2s ease, transform .5s var(--ease); }
@@ -472,23 +469,15 @@ html { scroll-behavior: smooth; }
   .faq details[open]::details-content { height: auto; }
 }
 
-/* Theme switch: a slow, blurred cross-fade */
+/* Theme switch: a quick, soft cross-fade */
 ::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; }
-::view-transition-old(root) { animation: theme-out 1.2s cubic-bezier(.4, 0, .2, 1) both; }
-::view-transition-new(root) { animation: theme-in 1.2s cubic-bezier(.4, 0, .2, 1) both; }
-@keyframes theme-out {
-  0% { opacity: 1; filter: blur(0); }
-  45% { opacity: .75; filter: blur(10px); }
-  100% { opacity: 0; filter: blur(22px); }
-}
-@keyframes theme-in {
-  0% { opacity: 0; filter: blur(22px); transform: scale(1.012); }
-  50% { opacity: .7; filter: blur(8px); }
-  100% { opacity: 1; filter: blur(0); transform: none; }
-}
+::view-transition-old(root) { animation: theme-out .45s cubic-bezier(.4, 0, .2, 1) both; }
+::view-transition-new(root) { animation: theme-in .45s cubic-bezier(.4, 0, .2, 1) both; }
+@keyframes theme-out { from { opacity: 1; filter: blur(0); } to { opacity: 0; filter: blur(4px); } }
+@keyframes theme-in { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: blur(0); } }
 /* Browsers without view transitions get a gentle color fade instead */
 html.theming, html.theming *, html.theming *::before, html.theming *::after {
-  transition: background-color 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease !important;
+  transition: background-color .4s ease, color .4s ease, border-color .4s ease, box-shadow .4s ease !important;
 }
 
 /* ---------- Editorial layout: fewer boxes, more imagery ---------- */
@@ -607,3 +596,46 @@ html.theming, html.theming *, html.theming *::before, html.theming *::after {
 .about-page h1 { font-size: clamp(36px, 4.8vw, 56px); line-height: 1.06; letter-spacing: -0.04em; }
 .nav-links a[aria-current="page"] { opacity: 1; }
 .nav-links a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- Round 6: depth, glow, "Made for" band ---------- */
+html { -webkit-tap-highlight-color: transparent; }
+:root { --lift: 0 18px 44px -26px rgba(58, 40, 22, .38), 0 2px 8px -4px rgba(58, 40, 22, .12); }
+:root[data-theme="dark"] { --lift: 0 20px 50px -24px rgba(0, 0, 0, .7), 0 2px 10px -4px rgba(0, 0, 0, .5); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --lift: 0 20px 50px -24px rgba(0, 0, 0, .7), 0 2px 10px -4px rgba(0, 0, 0, .5); } }
+
+/* Soft drop shadows to lift the key panels off the page */
+.factors, .form, .faq, .timeline, .viewfinder, .card { box-shadow: var(--lift), inset 0 1px 0 var(--glass-hi); }
+.chip { box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .35); }
+.phone { filter: drop-shadow(0 40px 60px rgba(40, 26, 12, .28)); }
+
+/* Glow on key accents */
+.hero h1 .hl { text-shadow: 0 0 28px color-mix(in srgb, var(--link) 35%, transparent); }
+.nav .btn-glow { box-shadow: 0 0 22px -6px color-mix(in srgb, var(--link) 55%, transparent); }
+
+/* Hover details */
+.link-arrow::after { display: inline-block; transition: transform .45s var(--ease); }
+@media (hover: hover) {
+  .link-arrow:hover::after { transform: translateX(4px); }
+  .tiles .tile { transition: border-color .5s var(--ease), translate .6s var(--ease); }
+  .tiles .tile:hover { border-top-color: var(--link); translate: 0 -3px; }
+  .factors li { transition: padding-left .45s var(--ease); }
+  .factors li:hover { padding-left: 8px; }
+  .faq summary { transition: color .3s ease; }
+  .faq summary:hover { color: var(--link); }
+  .chip { transition: transform .5s var(--ease); }
+  .chip:hover { transform: translateY(-3px); }
+}
+
+/* "Made for": a slow scrolling band of who we work with */
+.builtfor { padding: clamp(28px, 4vw, 44px) 0; border-block: 1px solid var(--line); text-align: center; overflow: hidden; }
+.builtfor-label { font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.marquee-track { display: flex; width: max-content; animation: marquee 48s linear infinite; }
+.marquee-track span { font: italic 500 clamp(24px, 3.2vw, 36px)/1.2 var(--serif); color: var(--accent); padding: 0 clamp(18px, 2.4vw, 32px); white-space: nowrap; display: inline-flex; align-items: center; }
+.marquee-track span::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--link); opacity: .6; margin-left: clamp(18px, 2.4vw, 32px); }
+@media (hover: hover) { .marquee:hover .marquee-track { animation-play-state: paused; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
+  .marquee { -webkit-mask-image: none; mask-image: none; }
+}
