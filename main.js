@@ -62,27 +62,41 @@
     });
   });
 
-  // Contact form: opens the visitor's email app with the message filled in
+  // Contact form: sends to Formspree, which emails charlie@vylosmedia.com
   var form = document.getElementById('leadForm');
   var status = document.getElementById('formStatus');
   if (form) {
+    var submitBtn = form.querySelector('button[type="submit"]');
+    function show(msg, isError) {
+      status.hidden = false;
+      status.className = 'form-status' + (isError ? ' error' : '');
+      status.textContent = msg;
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var d = {};
-      new FormData(form).forEach(function (v, k) { d[k] = String(v).trim(); });
-      status.hidden = false;
-      if (!d.name || !d.business || !/^\S+@\S+\.\S+$/.test(d.email)) {
-        status.className = 'form-status error';
-        status.textContent = 'Please add your name, business and a valid email.';
+      var data = new FormData(form);
+      var name = String(data.get('name') || '').trim();
+      var business = String(data.get('business') || '').trim();
+      var email = String(data.get('email') || '').trim();
+      if (!name || !business || !/^\S+@\S+\.\S+$/.test(email)) {
+        show('Please add your name, business and a valid email.', true);
         return;
       }
-      var body = 'Name: ' + d.name + '\nBusiness: ' + d.business + '\nEmail: ' + d.email +
-        '\nInstagram: ' + (d.instagram || '-') + '\nLooking for: ' + d.need + '\n\n' + (d.message || '');
-      var href = 'mailto:charlie@vylosmedia.com?subject=' + encodeURIComponent('New inquiry: ' + d.business) +
-        '&body=' + encodeURIComponent(body);
-      status.className = 'form-status';
-      status.textContent = "Your email app should open with your message ready to send. If it doesn't, email charlie@vylosmedia.com or DM @vylosmedia.";
-      window.location.href = href;
+      data.set('_subject', 'New inquiry: ' + business);
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+        .then(function (res) {
+          if (!res.ok) throw new Error('bad status');
+          form.reset();
+          show("Thanks, " + name + ". We got your message and will reply within 24 hours.", false);
+          submitBtn.textContent = 'Sent';
+        })
+        .catch(function () {
+          show("That didn't go through. Please try again, or email charlie@vylosmedia.com.", true);
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send';
+        });
     });
   }
 
