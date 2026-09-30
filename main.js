@@ -40,7 +40,7 @@
 
   // Reveal on scroll: section heads and panels rise in from a soft blur, grouped items one after another
   if ('IntersectionObserver' in window && !reduceMotion) {
-    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
+    document.querySelectorAll('main section:not(.hero) .section-head, .footer-sign, .factors, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
       .forEach(function (el) { el.classList.add('reveal'); });
     document.querySelectorAll('.bento, .steps, .tiles, .grid-3').forEach(function (group) {
       Array.prototype.forEach.call(group.children, function (el, i) {
@@ -216,6 +216,43 @@
     Array.prototype.slice.call(track.children).forEach(function (el) {
       var c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
     });
+  }
+
+  // Hero headline: words rise into place from behind a mask, one after another
+  var h1 = document.querySelector('.hero h1');
+  if (h1 && !reduceMotion) {
+    var units = [];
+    Array.prototype.slice.call(h1.childNodes).forEach(function (n) {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(function (w) { if (w) units.push(/^\s+$/.test(w) ? document.createTextNode(w) : w); });
+      else units.push(n);
+    });
+    h1.textContent = '';
+    var k = 0;
+    units.forEach(function (u) {
+      if (u.nodeType === 3) { h1.appendChild(u); return; }
+      var w = document.createElement('span'), inner = document.createElement('span');
+      w.className = 'w'; inner.className = 'wi';
+      if (typeof u === 'string') inner.textContent = u; else inner.appendChild(u);
+      inner.style.animationDelay = (0.12 + k++ * 0.09) + 's';
+      w.appendChild(inner); h1.appendChild(w);
+    });
+    h1.classList.add('split');
+  }
+
+  // Hero drifts gently as you scroll away from it
+  var heroCopy = document.querySelector('.hero-copy'), heroVis = document.querySelector('.hero-visual');
+  if (heroCopy && heroVis && !reduceMotion) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var y = Math.min(window.scrollY, 900);
+        heroCopy.style.translate = '0 ' + (y * 0.12) + 'px';
+        heroCopy.style.opacity = Math.max(0, 1 - y / 800);
+        heroVis.style.translate = '0 ' + (y * -0.05) + 'px';
+      });
+    }, { passive: true });
   }
 
   var year = document.getElementById('year');
