@@ -32,14 +32,6 @@
     syncToggle();
   }
 
-  // Photo strip: duplicate the frames so the drift loops seamlessly
-  var track = document.querySelector('.strip-track');
-  if (track && !reduceMotion) {
-    Array.prototype.slice.call(track.children).forEach(function (img) {
-      var c = img.cloneNode(true); c.alt = ''; c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
-    });
-  }
-
   // Nav border once the page scrolls
   var nav = document.getElementById('nav');
   function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 8); }
@@ -48,7 +40,7 @@
 
   // Reveal on scroll: section heads and panels rise in from a soft blur, grouped items one after another
   if ('IntersectionObserver' in window && !reduceMotion) {
-    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .cities, .faq, .about-copy, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
+    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
       .forEach(function (el) { el.classList.add('reveal'); });
     document.querySelectorAll('.bento, .steps, .tiles, .grid-3').forEach(function (group) {
       Array.prototype.forEach.call(group.children, function (el, i) {
@@ -70,24 +62,13 @@
   if (!reduceMotion) {
     var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    // Glass cards: light follows the pointer
-    document.querySelectorAll('.card, .tile, .steps li, .factors').forEach(function (el) {
-      el.addEventListener('pointermove', function (e) {
-        var r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-      });
-    });
-
     // Phone mockup: tilts toward the pointer on desktop, follows the scroll on phones
     var phone = document.querySelector('.phone');
-    var screen = document.querySelector('.screen');
     function tilt(rx, ry) {
       phone.style.setProperty('--rx', rx.toFixed(2) + 'deg');
       phone.style.setProperty('--ry', ry.toFixed(2) + 'deg');
-      screen.style.setProperty('--gx', (ry * 3) + '%');
     }
-    if (phone && screen) {
+    if (phone) {
       if (finePointer) {
         var heroEl = document.querySelector('.hero');
         heroEl.addEventListener('pointermove', function (e) {
@@ -123,7 +104,7 @@
   // Rotating caption on the phone
   var caption = document.getElementById('caption');
   var lines = [
-    ['Your business,', 'seen by', 'SoCal.'],
+    ['Your business,', 'seen by', 'the world.'],
     ['New customers', 'start with', 'a scroll.'],
     ['Your first Reel', 'is on us.']
   ];
@@ -204,11 +185,27 @@
   var dock = document.getElementById('dock');
   var hero = document.querySelector('.hero');
   var contact = document.getElementById('contact');
-  if (dock && 'IntersectionObserver' in window) {
+  if (dock && !(hero && contact)) {
+    // Pages without a hero or contact form: show the bar after a little scrolling
+    window.addEventListener('scroll', function () { dock.classList.toggle('show', window.scrollY > 300); }, { passive: true });
+  }
+  if (dock && hero && contact && 'IntersectionObserver' in window) {
     var heroIn = true, contactIn = false;
     function update() { dock.classList.toggle('show', !heroIn && !contactIn); }
     new IntersectionObserver(function (es) { heroIn = es[0].isIntersecting; update(); }).observe(hero);
     new IntersectionObserver(function (es) { contactIn = es[0].isIntersecting; update(); }).observe(contact);
+  }
+
+  // About viewfinder: running timecode
+  var tc = document.getElementById('timecode');
+  if (tc && !reduceMotion) {
+    var t0 = Date.now();
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    setInterval(function () {
+      var f = Math.floor((Date.now() - t0) / (1000 / 24));
+      var s = Math.floor(f / 24);
+      tc.textContent = '00:' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60) + ':' + pad(f % 24);
+    }, 1000 / 24);
   }
 
   var year = document.getElementById('year');
