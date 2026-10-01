@@ -305,6 +305,63 @@
     }, { passive: true });
   }
 
+  // Latest Instagram posts, from the Behold feed (refreshed by Behold, no keys on the site)
+  var latest = document.getElementById('latest');
+  if (latest && window.fetch) {
+    fetch(latest.getAttribute('data-feed'))
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) {
+        var posts = (Array.isArray(d) ? d : d.posts || []).slice(0, 3);
+        if (!posts.length) return;
+        var grid = document.getElementById('ig-grid');
+        posts.forEach(function (p, i) {
+          var size = p.sizes && (p.sizes.medium || p.sizes.large || p.sizes.small);
+          var src = (size && size.mediaUrl) || (p.mediaType === 'VIDEO' ? p.thumbnailUrl : p.mediaUrl) || p.thumbnailUrl;
+          if (!src) return;
+          var a = document.createElement('a');
+          a.className = 'ig-post reveal in done';
+          a.href = p.permalink || 'https://instagram.com/vylosmedia';
+          a.target = '_blank'; a.rel = 'noopener';
+          var cap = (p.prunedCaption || p.caption || '').trim();
+          a.setAttribute('aria-label', 'Open on Instagram' + (cap ? ': ' + cap.slice(0, 80) : ''));
+          var img = document.createElement('img');
+          img.src = src; img.alt = cap ? cap.slice(0, 120) : 'Instagram post by Vylos Media';
+          img.loading = 'lazy'; img.decoding = 'async'; img.width = 480; img.height = 600;
+          a.appendChild(img);
+          if (p.mediaType === 'VIDEO' || p.isReel) {
+            var badge = document.createElement('span');
+            badge.className = 'ig-badge'; badge.setAttribute('aria-hidden', 'true');
+            badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+            a.appendChild(badge);
+          } else if (p.mediaType === 'CAROUSEL_ALBUM') {
+            var stack = document.createElement('span');
+            stack.className = 'ig-badge'; stack.setAttribute('aria-hidden', 'true');
+            stack.innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 3h12a2 2 0 012 2v12h-2V5H7zM3 7h12a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V9a2 2 0 012-2z"/></svg>';
+            a.appendChild(stack);
+          }
+          var view = document.createElement('span');
+          view.className = 'ig-view'; view.setAttribute('aria-hidden', 'true'); view.textContent = 'View on Instagram';
+          a.appendChild(view);
+          if (!reduceMotion) { a.classList.remove('in', 'done'); a.style.setProperty('--d', (i * 0.1) + 's'); }
+          grid.appendChild(a);
+        });
+        latest.hidden = false;
+        if (!reduceMotion && 'IntersectionObserver' in window) {
+          var head = latest.querySelector('.section-head');
+          head.classList.add('reveal');
+          var o = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              if (!e.isIntersecting) return;
+              e.target.classList.add('in'); o.unobserve(e.target);
+              (function (el) { setTimeout(function () { el.classList.add('done'); }, 1400); })(e.target);
+            });
+          }, { rootMargin: '0px 0px -8% 0px' });
+          latest.querySelectorAll('.reveal').forEach(function (el) { o.observe(el); });
+        }
+      })
+      .catch(function () { /* feed unavailable: the section stays hidden */ });
+  }
+
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();
