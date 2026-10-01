@@ -667,13 +667,6 @@ section { padding-block: clamp(80px, 12vw, 150px); }
 @keyframes word-in { from { transform: translateY(105%); opacity: 0; } to { transform: none; opacity: 1; } }
 .hero-copy, .hero-visual { will-change: translate, opacity; }
 
-/* A signature line to close every page */
-.footer-sign { text-align: center; font: italic 500 clamp(40px, 7vw, 88px)/1 var(--serif); color: var(--text); letter-spacing: -0.02em;
-  padding-block: clamp(56px, 9vw, 110px) clamp(40px, 6vw, 72px); margin: 0 auto; }
-.footer-sign em { color: var(--link); font-style: italic; }
-.footer { padding-top: 0; }
-.footer .footer-inner { border-top: 1px solid var(--line); padding-top: 32px; }
-.footer { border-top: 0; }
 
 /* Fine film grain gives the flat colour a printed, tactile finish */
 body::after { content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none; opacity: .045;
@@ -685,3 +678,28 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 100; pointer-even
   .hero h1 .wi { animation: none; }
   .section-head .eyebrow::before, .section-head .eyebrow::after { transition: none; }
 }
+
+/* ---------- Round 7 ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* "Scrolling right now": a feed of words spins past with motion blur and settles on the line */
+.reel { display: inline-block; height: 1.3em; overflow: hidden; vertical-align: -0.335em; line-height: 1.3em;
+  font-family: var(--serif); font-style: italic; font-weight: 500; font-size: 1.12em; letter-spacing: -0.01em; }
+.reel-track { display: flex; flex-direction: column; align-items: center; transform: translateY(-10.4em); will-change: transform; }
+.reel-track > span { display: block; height: 1.3em; line-height: 1.3em; white-space: nowrap; color: var(--muted); }
+.reel .hl { font-size: 1em; line-height: 1.3em; color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .reel-track { transform: none; } .reel-track > span:not(.hl) { display: none; } }
+
+/* Phone profile photo: a warm abstract portrait instead of the logo */
+.avatar-art { background:
+  radial-gradient(circle at 50% 38%, #f3d9b8 0 22%, transparent 23%),
+  radial-gradient(ellipse 60% 44% at 50% 100%, #f3d9b8 0 70%, transparent 72%),
+  linear-gradient(140deg, #b07a4f, #5a3a24); }
+
+/* Services: three supporting cards stack beside the main one */
+@media (min-width: 981px) { .card-lg { grid-row: span 3; } }
+
+/* The main services card tilts like the phone instead of lifting */
+.card-lg, .js .card-lg.reveal { transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .8s var(--ease), opacity 1.2s ease, filter 1.2s ease, box-shadow .6s var(--ease); }
+.js .card-lg.reveal:not(.in) { transform: perspective(1400px) rotateX(12deg) rotateY(-6deg) scale(.96); }
+@media (hover: hover) { .card-lg:hover { translate: none; } }

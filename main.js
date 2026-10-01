@@ -40,7 +40,7 @@
 
   // Reveal on scroll: section heads and panels rise in from a soft blur, grouped items one after another
   if ('IntersectionObserver' in window && !reduceMotion) {
-    document.querySelectorAll('main section:not(.hero) .section-head, .footer-sign, .factors, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
+    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
       .forEach(function (el) { el.classList.add('reveal'); });
     document.querySelectorAll('.bento, .steps, .tiles, .grid-3').forEach(function (group) {
       Array.prototype.forEach.call(group.children, function (el, i) {
@@ -85,6 +85,56 @@
         }, { passive: true });
       }
     }
+  }
+
+  // Services card: tilts toward the pointer like the phone, or with the scroll on phones
+  var bigCard = document.querySelector('.card-lg');
+  if (bigCard && !reduceMotion) {
+    var setCard = function (rx, ry) { bigCard.style.setProperty('--rx', rx.toFixed(2) + 'deg'); bigCard.style.setProperty('--ry', ry.toFixed(2) + 'deg'); };
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      var svc = document.getElementById('services');
+      svc.addEventListener('pointermove', function (e) {
+        var r = bigCard.getBoundingClientRect();
+        setCard(-((e.clientY - (r.top + r.height / 2)) / innerHeight) * 8, ((e.clientX - (r.left + r.width / 2)) / innerWidth) * 10);
+      });
+      svc.addEventListener('pointerleave', function () { setCard(0, 0); });
+    } else {
+      window.addEventListener('scroll', function () {
+        var r = bigCard.getBoundingClientRect();
+        var t = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
+        setCard(t * 8, -t * 4);
+      }, { passive: true });
+    }
+  }
+
+  // "Scrolling right now": spin through a feed of words with motion blur, then settle
+  var reel = document.querySelector('.reel-track');
+  if (reel && !reduceMotion && 'IntersectionObserver' in window) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.setAttribute('aria-hidden', 'true');
+    svg.style.position = 'absolute';
+    svg.innerHTML = '<filter id="vmb" x="0" y="-50%" width="100%" height="200%"><feGaussianBlur stdDeviation="0 0"/></filter>';
+    document.body.appendChild(svg);
+    var blurEl = svg.querySelector('feGaussianBlur');
+    var items = reel.children, n = items.length;
+    reel.style.transform = 'translateY(0)';
+    reel.style.transition = 'none';
+    new IntersectionObserver(function (es, obs) {
+      if (!es[0].isIntersecting) return;
+      obs.disconnect();
+      var step = items[0].getBoundingClientRect().height, end = step * (n - 1), dur = 2600, t0 = null, last = 0;
+      reel.style.filter = 'url(#vmb)';
+      function frame(ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4), y = e * end;
+        blurEl.setAttribute('stdDeviation', '0 ' + Math.min(Math.abs(y - last) * 0.5, 9).toFixed(2));
+        reel.style.transform = 'translateY(' + (-y) + 'px)';
+        last = y;
+        if (p < 1) requestAnimationFrame(frame); else reel.style.filter = '';
+      }
+      requestAnimationFrame(frame);
+    }, { threshold: 0.6 }).observe(reel.parentNode);
   }
 
   // Scroll progress line under the nav
