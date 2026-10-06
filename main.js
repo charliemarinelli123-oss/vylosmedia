@@ -40,7 +40,7 @@
 
   // Reveal on scroll: section heads and panels rise in from a soft blur, grouped items one after another
   if ('IntersectionObserver' in window && !reduceMotion) {
-    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
+    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .job, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
       .forEach(function (el) { el.classList.add('reveal'); });
     document.querySelectorAll('.bento, .steps, .tiles, .grid-3').forEach(function (group) {
       Array.prototype.forEach.call(group.children, function (el, i) {
@@ -62,50 +62,20 @@
   if (!reduceMotion) {
     var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    // Phone mockup: tilts toward the pointer on desktop, follows the scroll on phones
+    // Phone mockup: leans back slightly as you scroll on phones (no pointer effects)
     var phone = document.querySelector('.phone');
     function tilt(rx, ry) {
       phone.style.setProperty('--rx', rx.toFixed(2) + 'deg');
       phone.style.setProperty('--ry', ry.toFixed(2) + 'deg');
     }
-    if (phone) {
-      if (finePointer) {
-        var heroEl = document.querySelector('.hero');
-        heroEl.addEventListener('pointermove', function (e) {
-          var r = phone.getBoundingClientRect();
-          var dx = (e.clientX - (r.left + r.width / 2)) / innerWidth;
-          var dy = (e.clientY - (r.top + r.height / 2)) / innerHeight;
-          tilt(-dy * 10, dx * 14);
-        });
-        heroEl.addEventListener('pointerleave', function () { tilt(0, 0); });
-      } else {
-        window.addEventListener('scroll', function () {
-          var t = Math.min(window.scrollY / 500, 1);
-          tilt(t * 8, -t * 5);
-        }, { passive: true });
-      }
-    }
-  }
-
-  // Services card: tilts toward the pointer like the phone, or with the scroll on phones
-  var bigCard = document.querySelector('.card-lg');
-  if (bigCard && !reduceMotion) {
-    var setCard = function (rx, ry) { bigCard.style.setProperty('--rx', rx.toFixed(2) + 'deg'); bigCard.style.setProperty('--ry', ry.toFixed(2) + 'deg'); };
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      var svc = document.getElementById('services');
-      svc.addEventListener('pointermove', function (e) {
-        var r = bigCard.getBoundingClientRect();
-        setCard(-((e.clientY - (r.top + r.height / 2)) / innerHeight) * 8, ((e.clientX - (r.left + r.width / 2)) / innerWidth) * 10);
-      });
-      svc.addEventListener('pointerleave', function () { setCard(0, 0); });
-    } else {
+    if (phone && !finePointer) {
       window.addEventListener('scroll', function () {
-        var r = bigCard.getBoundingClientRect();
-        var t = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
-        setCard(t * 8, -t * 4);
+        var t = Math.min(window.scrollY / 500, 1);
+        tilt(t * 8, -t * 5);
       }, { passive: true });
     }
   }
+
 
   // "Scrolling right now": spin through a feed of words with motion blur, then settle
   var reel = document.querySelector('.reel-track');
@@ -308,12 +278,20 @@
   // Latest Instagram posts, from the Behold feed (refreshed by Behold, no keys on the site)
   var latest = document.getElementById('latest');
   if (latest && window.fetch) {
+    // Placeholder tiles hold the space while the feed loads; the section hides again if it fails
+    var igGrid = document.getElementById('ig-grid');
+    for (var sk = 0; sk < 3; sk++) { var ph = document.createElement('div'); ph.className = 'ig-post ig-skel'; ph.setAttribute('aria-hidden', 'true'); igGrid.appendChild(ph); }
+    latest.hidden = false;
+    latest.setAttribute('aria-busy', 'true');
+    function hideLatest() { latest.hidden = true; }
     fetch(latest.getAttribute('data-feed'))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (d) {
         var posts = (Array.isArray(d) ? d : d.posts || []).slice(0, 3);
-        if (!posts.length) return;
-        var grid = document.getElementById('ig-grid');
+        if (!posts.length) { hideLatest(); return; }
+        var grid = igGrid;
+        grid.textContent = '';
+        latest.removeAttribute('aria-busy');
         posts.forEach(function (p, i) {
           var size = p.sizes && (p.sizes.medium || p.sizes.large || p.sizes.small);
           var src = (size && size.mediaUrl) || (p.mediaType === 'VIDEO' ? p.thumbnailUrl : p.mediaUrl) || p.thumbnailUrl;
@@ -359,7 +337,176 @@
           latest.querySelectorAll('.reveal').forEach(function (el) { o.observe(el); });
         }
       })
-      .catch(function () { /* feed unavailable: the section stays hidden */ });
+      .catch(hideLatest);
+  }
+
+  // Light ribbons: fine strands of warm light that pinch to a bright point and fan out,
+  // drifting with time and with the scroll so they travel between sections
+  (function () {
+    var cv = document.createElement('canvas');
+    if (!cv.getContext) return;
+    cv.className = 'ribbons'; cv.setAttribute('aria-hidden', 'true');
+    document.body.insertBefore(cv, document.body.firstChild);
+    var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, N = 0, strands = [];
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    function size() {
+      var w = innerWidth, h = Math.max(innerHeight, document.documentElement.clientHeight);
+      if (w === W && Math.abs(h - H) < 120) return;
+      W = w; H = h; dpr = Math.min(window.devicePixelRatio || 1, W < 760 ? 2 : 1.5);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      var n = W < 760 ? 42 : 64;
+      if (n !== N) {
+        N = n; strands = []; seed = 7;
+        for (var i = 0; i < N; i++) strands.push({ o: (i / (N - 1)) * 2 - 1 + (rnd() - .5) * .07, sp: .25 + rnd() * .5, ph: rnd() * 6.28, c: rnd() < .22 ? 2 : (rnd() < .5 ? 1 : 0) });
+      }
+      if (reduceMotion) draw(0);
+    }
+    var dark = isDark();
+    var sy = window.scrollY, target = window.scrollY;
+    var palettes = {
+      dark: ['255, 226, 184', '214, 160, 104', '255, 246, 232'],
+      light: ['176, 122, 70', '140, 92, 50', '205, 160, 110']
+    };
+    function grad(rgb, fx, a) {
+      var g = ctx.createLinearGradient(0, 0, W, 0), f = Math.min(Math.max(fx / W, .12), .88);
+      g.addColorStop(0, 'rgba(' + rgb + ',0)');
+      g.addColorStop(Math.max(f - .22, .01), 'rgba(' + rgb + ',' + (a * .35) + ')');
+      g.addColorStop(f, 'rgba(' + rgb + ',' + a + ')');
+      g.addColorStop(Math.min(f + .3, .99), 'rgba(' + rgb + ',' + (a * .7) + ')');
+      g.addColorStop(1, 'rgba(' + rgb + ',' + (a * .12) + ')');
+      return g;
+    }
+    function draw(t) {
+      var mobile = W < 760;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      var fx = W * (mobile ? .5 + .12 * Math.sin(sy / 700) : .54 + .14 * Math.sin(sy / 950 - .1));
+      var fy = H * (mobile ? .84 : .7) + H * .07 * Math.sin(sy / 1200) + Math.sin(t * .21) * H * .012;
+      var pal = dark ? palettes.dark : palettes.light;
+      var gs = [grad(pal[0], fx, dark ? .55 : .75), grad(pal[1], fx, dark ? .45 : .6), grad(pal[2], fx, dark ? .7 : .6)];
+      ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
+      ctx.lineWidth = mobile ? .8 : 1;
+      var step = mobile ? 8 : 10, tilt = Math.sin(sy / 1400) * .25;
+      for (var i = 0; i < N; i++) {
+        var st = strands[i], ao = Math.abs(st.o);
+        ctx.strokeStyle = gs[st.c];
+        ctx.globalAlpha = (dark ? .22 : .28) + (1 - ao) * (dark ? .5 : .5);
+        ctx.beginPath();
+        for (var x = -20; x <= W + 20; x += step) {
+          var d = (x - fx) / W, ad = Math.abs(d);
+          var spread = d >= 0 ? H * (.006 + .5 * Math.pow(d, 1.25)) : H * (.006 + .22 * Math.pow(-d, 1.1));
+          var yc = fy - H * (.35 + tilt) * d - H * .55 * d * ad;
+          var wave = Math.sin(x * .0042 + t * st.sp + st.ph) * H * .022 * (.25 + ad * 2) + Math.sin(x * .0016 - t * .22 + st.ph * .5) * H * .05 * ad;
+          var y = yc + st.o * spread + wave;
+          if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        if (i % 5 === 2) {
+          var lw = ctx.lineWidth, ga = ctx.globalAlpha;
+          ctx.lineWidth = mobile ? 10 : 16; ctx.globalAlpha = dark ? .05 : .06;
+          ctx.stroke();
+          ctx.lineWidth = lw; ctx.globalAlpha = ga;
+        }
+      }
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    function themeChanged() { dark = isDark(); if (reduceMotion) draw(0); }
+    new MutationObserver(themeChanged).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', themeChanged);
+    window.addEventListener('resize', size);
+    size();
+    // Brightest over the hero, quieter behind the reading sections
+    function fade() {
+      var o = Math.max(.32, 1 - window.scrollY / (innerHeight * 1.1));
+      cv.style.setProperty('--ribbon-o', o.toFixed(3));
+    }
+    window.addEventListener('scroll', function () { target = window.scrollY; fade(); }, { passive: true });
+    fade();
+    if (reduceMotion) { draw(0); return; }
+    var running = true;
+    document.addEventListener('visibilitychange', function () { running = !document.hidden; if (running) requestAnimationFrame(loop); });
+    function loop(ts) {
+      if (!running) return;
+      sy += (target - sy) * .06;
+      draw(ts / 1000);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
+  // Flood: as the section pins, champagne spreads out from the mark and the line writes itself in
+  var flood = document.querySelector('.flood');
+  if (flood && !reduceMotion) {
+    var fl = flood.querySelector('.flood-line'), fstage = flood.querySelector('.flood-stage');
+    var fwords = [];
+    Array.prototype.slice.call(fl.childNodes).forEach(function (n) {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(function (w) { if (w) fwords.push(/^\s+$/.test(w) ? document.createTextNode(w) : w); });
+      else fwords.push(n);
+    });
+    fl.textContent = '';
+    var spans = [];
+    fwords.forEach(function (u) {
+      if (u.nodeType === 3) { fl.appendChild(u); return; }
+      var sp = document.createElement('span'); sp.className = 'fw';
+      if (typeof u === 'string') sp.textContent = u; else sp.appendChild(u);
+      fl.appendChild(sp); spans.push(sp);
+    });
+    fl.setAttribute('aria-label', fl.textContent);
+    flood.classList.add('flood-live');
+    var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+    var ease = function (v) { return v * v * (3 - 2 * v); };
+    var fTick = false;
+    function floodUpdate() {
+      fTick = false;
+      var r = flood.getBoundingClientRect(), vh = innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      var lead = vh * .35, p = clamp((lead - r.top) / (r.height - vh + lead));
+      var a = ease(clamp(p / .34)), b = clamp((p - .3) / .42);
+      var diag = Math.hypot(innerWidth, vh);
+      fstage.style.setProperty('--r', (a * diag * .62).toFixed(1) + 'px');
+      fstage.style.setProperty('--ms', (1 + a * .25 - b * .25).toFixed(3));
+      fstage.style.setProperty('--my', (ease(b) * Math.min(vh * .2, 150)).toFixed(1) + 'px');
+      fstage.style.setProperty('--eo', clamp((p - .28) / .1).toFixed(2));
+      var k = spans.length;
+      spans.forEach(function (sp, i) {
+        var o = clamp((b * (k + 2) - i) / 2.2);
+        sp.style.setProperty('--o', o.toFixed(3));
+      });
+    }
+    window.addEventListener('scroll', function () { if (!fTick) { fTick = true; requestAnimationFrame(floodUpdate); } }, { passive: true });
+    window.addEventListener('resize', floodUpdate);
+    floodUpdate();
+  }
+
+  // Live project card: each stage fills, ticks off, and the next one starts
+  var job = document.querySelector('.job');
+  if (job) {
+    var rows = job.querySelectorAll('.job-rows li');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(rows, function (li) { li.classList.add('ok'); });
+    } else {
+      var jIdx = 0, jTimer = null, jOn = false;
+      function jStep() {
+        if (!jOn) { jTimer = null; return; }
+        if (jIdx < rows.length) {
+          var li = rows[jIdx];
+          li.classList.add('run');
+          jTimer = setTimeout(function () { li.classList.remove('run'); li.classList.add('ok'); jIdx++; jTimer = setTimeout(jStep, 260); }, 1400);
+        } else {
+          jTimer = setTimeout(function () {
+            job.classList.add('reset');
+            Array.prototype.forEach.call(rows, function (li) { li.classList.remove('ok', 'run'); });
+            jIdx = 0;
+            jTimer = setTimeout(function () { job.classList.remove('reset'); jStep(); }, 900);
+          }, 2600);
+        }
+      }
+      new IntersectionObserver(function (es) {
+        jOn = es[0].isIntersecting;
+        if (jOn && !jTimer) jTimer = setTimeout(jStep, 400);
+      }, { threshold: .35 }).observe(job);
+    }
   }
 
   var year = document.getElementById('year');
