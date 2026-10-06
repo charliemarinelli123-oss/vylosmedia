@@ -509,6 +509,55 @@
     }
   }
 
+  // Smooth wheel scrolling: the page glides and eases to a stop instead of halting with the wheel.
+  // Mouse and trackpad only; touch keeps its native momentum, and reduced motion keeps native scrolling.
+  if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches && window.requestAnimationFrame) {
+    var cur = window.scrollY, tgt = cur, gliding = false, lastT = 0;
+    var maxY = function () { return document.documentElement.scrollHeight - innerHeight; };
+    var glide = function (t) {
+      var dt = lastT ? Math.min(t - lastT, 64) : 16; lastT = t;
+      cur += (tgt - cur) * (1 - Math.pow(1 - 0.085, dt / 16.67));
+      if (Math.abs(tgt - cur) < 0.4) { cur = tgt; gliding = false; lastT = 0; }
+      window.scrollTo({ top: cur, behavior: 'instant' });
+      if (gliding) requestAnimationFrame(glide);
+    };
+    var glideTo = function (y) {
+      tgt = Math.max(0, Math.min(y, maxY()));
+      if (!gliding) { gliding = true; cur = window.scrollY; requestAnimationFrame(glide); }
+    };
+    var scrollsItself = function (el) {
+      for (; el && el !== document.body; el = el.parentElement) {
+        if (/^(TEXTAREA|SELECT)$/.test(el.tagName)) return true;
+        var oy = getComputedStyle(el).overflowY;
+        if ((oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight) return true;
+      }
+      return false;
+    };
+    window.addEventListener('wheel', function (e) {
+      if (e.ctrlKey || e.defaultPrevented || Math.abs(e.deltaX) > Math.abs(e.deltaY) || scrollsItself(e.target)) return;
+      e.preventDefault();
+      var d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+      glideTo((gliding ? tgt : window.scrollY) + d);
+    }, { passive: false });
+    // Keyboard, scrollbar drags and anything else that scrolls the page take over from the glide
+    window.addEventListener('scroll', function () {
+      if (!gliding) { cur = tgt = window.scrollY; }
+    }, { passive: true });
+    ['keydown', 'mousedown'].forEach(function (ev) {
+      window.addEventListener(ev, function () { if (gliding) { gliding = false; lastT = 0; cur = tgt = window.scrollY; } });
+    });
+    // In-page links glide too
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || a.pathname !== location.pathname || a.host !== location.host) return;
+      var el = a.hash.length > 1 ? document.getElementById(decodeURIComponent(a.hash.slice(1))) : null;
+      if (!el && a.hash !== '#top') return;
+      e.preventDefault();
+      glideTo(el ? el.getBoundingClientRect().top + window.scrollY - 64 : 0);
+      history.pushState(null, '', a.hash);
+    });
+  }
+
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();
