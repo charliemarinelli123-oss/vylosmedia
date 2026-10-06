@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/cormorant-garamond-latin-500-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202610062410">
+  <link rel="stylesheet" href="/styles.css?v=202610062430">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -276,14 +276,16 @@
         <p class="note">Based in San Diego. We reply within 24 hours.</p>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual" role="img" aria-label="A Vylos Reel playing on a phone: city nights, boutiques and food, filmed and edited by Vylos">
         <div class="phone">
-          <div class="screen">
-            <div class="screen-top"><span>Featured</span><span class="dot"></span></div>
-            <p class="screen-caption" id="caption"><span>Your brand,</span> <span>seen by</span> <span>the world.</span></p>
+          <div class="screen has-reel">
+            <video class="screen-reel" muted loop playsinline preload="metadata" poster="/media/reel-poster.jpg" width="540" height="960">
+              <source src="/media/reel.mp4" type="video/mp4">
+            </video>
+            <div class="screen-top"><span>Reels</span><span class="dot"></span></div>
             <div class="screen-bottom">
-              <span class="avatar avatar-art"></span>
-              <span class="handle">yourbrand</span>
+              <img class="avatar" src="/icon.jpg" alt="" width="28" height="28">
+              <span class="handle" translate="no">vylosmedia</span>
               <span class="follow">Follow</span>
             </div>
           </div>
@@ -566,6 +568,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202610062410" defer></script>
+<script src="/main.js?v=202610062430" defer></script>
 </body>
 </html>

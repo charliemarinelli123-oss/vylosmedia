@@ -589,6 +589,25 @@
     });
   }
 
+  // Hero Reel on the phone: plays while on screen, poster only under reduced motion
+  var heroReel = document.querySelector('.screen-reel');
+  if (heroReel && !reduceMotion) {
+    var reelSeen = true;
+    var reelSync = function () {
+      if (reelSeen && !document.hidden) {
+        var p = heroReel.play();
+        if (p && p.catch) p.catch(function () {});
+      } else {
+        heroReel.pause();
+      }
+    };
+    document.addEventListener('visibilitychange', reelSync);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { reelSeen = entries[0].isIntersecting; reelSync(); }).observe(heroReel);
+    }
+    reelSync();
+  }
+
   // Film loops: each plays while on screen, stays on its poster under reduced motion
   Array.prototype.forEach.call(document.querySelectorAll('.film-frame'), function (frame) {
     var film = frame.querySelector('video');

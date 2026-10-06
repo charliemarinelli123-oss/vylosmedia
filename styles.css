@@ -976,6 +976,10 @@ body::before { background: var(--bg); }
 .define-word .hl { font-size: 1em; color: var(--text); }
 .define-pos { font: 500 13px/1 var(--font); color: var(--muted); letter-spacing: .02em; vertical-align: .9em; margin-left: 6px; font-style: italic; }
 .define-text { color: var(--muted); font-size: clamp(17px, 1.7vw, 20px); line-height: 1.55; max-width: 34em; margin-inline: auto; }
+.screen.has-reel { background: #14110e; }
+.screen-reel { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.screen.has-reel::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, .38) 0%, rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 74%, rgba(0, 0, 0, .5) 100%); }
+.screen.has-reel .avatar { object-fit: cover; }
 .film { padding-block: clamp(8px, 2vw, 24px) clamp(24px, 4vw, 48px); }
 .film-frame { margin: 0; }
 .film-frame video { display: block; width: 100%; height: auto; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: 50% 60%; border-radius: var(--radius); border: 1px solid var(--line); background: #1d1813; }
