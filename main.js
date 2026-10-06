@@ -307,9 +307,9 @@
     function size() {
       var w = innerWidth, h = Math.max(innerHeight, document.documentElement.clientHeight);
       if (w === W && Math.abs(h - H) < 120) return;
-      W = w; H = h; dpr = Math.min(window.devicePixelRatio || 1, W < 760 ? 2 : 1.5);
+      W = w; H = h; dpr = Math.min(window.devicePixelRatio || 1, W < 760 ? 1.5 : 1);
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-      var n = W < 760 ? 42 : 64;
+      var n = W < 760 ? 26 : 40;
       if (n !== N) {
         N = n; strands = []; seed = 7;
         for (var i = 0; i < N; i++) strands.push({ o: (i / (N - 1)) * 2 - 1 + (rnd() - .5) * .07, sp: .25 + rnd() * .5, ph: rnd() * 6.28, c: rnd() < .22 ? 2 : (rnd() < .5 ? 1 : 0) });
@@ -341,7 +341,7 @@
       var gs = [grad(pal[0], fx, dark ? .55 : .75), grad(pal[1], fx, dark ? .45 : .6), grad(pal[2], fx, dark ? .7 : .6)];
       ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
       ctx.lineWidth = mobile ? .8 : 1;
-      var step = mobile ? 8 : 10, tilt = Math.sin(sy / 1400) * .25;
+      var step = mobile ? 12 : 16, tilt = Math.sin(sy / 1400) * .25;
       for (var i = 0; i < N; i++) {
         var st = strands[i], ao = Math.abs(st.o);
         ctx.strokeStyle = gs[st.c];
@@ -356,7 +356,7 @@
           if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.stroke();
-        if (i % 5 === 2) {
+        if (i % 8 === 3) {
           var lw = ctx.lineWidth, ga = ctx.globalAlpha;
           ctx.lineWidth = mobile ? 10 : 16; ctx.globalAlpha = dark ? .05 : .06;
           ctx.stroke();
@@ -381,11 +381,18 @@
     if (reduceMotion) { draw(0); return; }
     var running = true;
     document.addEventListener('visibilitychange', function () { running = !document.hidden; if (running) requestAnimationFrame(loop); });
+    // About 30 frames a second over the hero; past it the strands hold still and
+    // only redraw while the scroll drift is settling
+    var last = 0;
     function loop(ts) {
       if (!running) return;
-      sy += (target - sy) * .06;
-      draw(ts / 1000);
       requestAnimationFrame(loop);
+      if (ts - last < 32) return;
+      last = ts;
+      var settling = Math.abs(target - sy) > .5;
+      sy += (target - sy) * .12;
+      if (window.scrollY > innerHeight * 1.2 && !settling) return;
+      draw(ts / 1000);
     }
     requestAnimationFrame(loop);
   })();
@@ -483,52 +490,47 @@
     });
   }
 
-  // Hero Reel on the phone: plays while on screen, poster only under reduced motion
-  var heroReel = document.querySelector('.screen-reel');
-  if (heroReel && !reduceMotion) {
-    var reelSeen = true;
-    var reelSync = function () {
-      if (reelSeen && !document.hidden) {
-        var p = heroReel.play();
+  // Videos stay paused and unloaded until most of the frame is in view, then pause
+  // again as soon as it leaves. Nothing downloads for a video nobody scrolls to.
+  function watchVideo(video, isHeld, onChange) {
+    var seen = false;
+    function sync() {
+      if (onChange) onChange();
+      if (seen && !isHeld() && !document.hidden) {
+        var p = video.play();
         if (p && p.catch) p.catch(function () {});
-      } else {
-        heroReel.pause();
+      } else if (!video.paused) {
+        video.pause();
       }
-    };
-    document.addEventListener('visibilitychange', reelSync);
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) { reelSeen = entries[0].isIntersecting; reelSync(); }).observe(heroReel);
     }
-    reelSync();
+    document.addEventListener('visibilitychange', sync);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        seen = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.6;
+        sync();
+      }, { threshold: [0, 0.6] }).observe(video);
+    } else {
+      seen = true;
+    }
+    sync();
+    return sync;
   }
 
-  // Film loops: each plays while on screen, stays on its poster under reduced motion
+  // Hero Reel on the phone: poster only under reduced motion
+  var heroReel = document.querySelector('.screen-reel');
+  if (heroReel && !reduceMotion) watchVideo(heroReel, function () { return false; });
+
+  // Film loops: a Pause/Play control each, poster only under reduced motion
   Array.prototype.forEach.call(document.querySelectorAll('.film-frame'), function (frame) {
     var film = frame.querySelector('video');
     var filmToggle = frame.querySelector('.film-toggle');
     if (!film || !filmToggle) return;
-    var filmHeld = reduceMotion, filmSeen = false;
-    function filmSync() {
+    var filmHeld = reduceMotion;
+    var sync = watchVideo(film, function () { return filmHeld; }, function () {
       filmToggle.textContent = filmHeld ? 'Play' : 'Pause';
       filmToggle.setAttribute('aria-pressed', filmHeld ? 'true' : 'false');
-      if (!filmHeld && filmSeen && !document.hidden) {
-        var p = film.play();
-        if (p && p.catch) p.catch(function () {});
-      } else {
-        film.pause();
-      }
-    }
-    filmToggle.addEventListener('click', function () { filmHeld = !filmHeld; filmSync(); });
-    document.addEventListener('visibilitychange', filmSync);
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        filmSeen = entries[0].isIntersecting;
-        filmSync();
-      }, { threshold: 0.25 }).observe(film);
-    } else {
-      filmSeen = true;
-    }
-    filmSync();
+    });
+    filmToggle.addEventListener('click', function () { filmHeld = !filmHeld; sync(); });
   });
 
   var year = document.getElementById('year');
