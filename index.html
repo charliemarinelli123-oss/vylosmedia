@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/cormorant-garamond-latin-500-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202610062400">
+  <link rel="stylesheet" href="/styles.css?v=202610062410">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -296,11 +296,11 @@
   <section class="film" aria-label="Our footage">
     <div class="wrap">
       <figure class="film-frame">
-        <video id="film" muted loop playsinline preload="metadata" poster="/media/coast-poster.jpg" width="1600" height="900" aria-label="Coastline at midday, filmed and color graded by Vylos">
-          <source src="/media/coast-960.mp4" type="video/mp4" media="(max-width: 760px)">
-          <source src="/media/coast.mp4" type="video/mp4">
+        <video muted loop playsinline preload="metadata" poster="/media/lagoon-poster.jpg" width="1600" height="900" aria-label="Palm-lined lagoon on the coast, filmed and color graded by Vylos">
+          <source src="/media/lagoon-960.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/media/lagoon.mp4" type="video/mp4">
         </video>
-        <figcaption><span>Filmed and graded by <span translate="no">Vylos</span>.</span> <button class="film-toggle" id="filmToggle" type="button" aria-controls="film" aria-pressed="false">Pause</button></figcaption>
+        <figcaption><span>Filmed and graded by <span translate="no">Vylos</span>.</span> <button class="film-toggle" type="button" aria-pressed="false">Pause</button></figcaption>
       </figure>
     </div>
   </section>
@@ -498,6 +498,19 @@
     </div>
   </section>
 
+  <!-- Film, second shot -->
+  <section class="film film-close" aria-label="More of our footage">
+    <div class="wrap">
+      <figure class="film-frame">
+        <video muted loop playsinline preload="metadata" poster="/media/ocean-poster.jpg" width="1600" height="900" aria-label="Open ocean under a bright sky, filmed and color graded by Vylos">
+          <source src="/media/ocean-960.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/media/ocean.mp4" type="video/mp4">
+        </video>
+        <figcaption><span>Filmed and graded by <span translate="no">Vylos</span>.</span> <button class="film-toggle" type="button" aria-pressed="false">Pause</button></figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- Contact -->
   <section class="band" id="contact">
     <div class="wrap"><div class="cta-card contact-grid">
@@ -553,6 +566,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202610062400" defer></script>
+<script src="/main.js?v=202610062410" defer></script>
 </body>
 </html>

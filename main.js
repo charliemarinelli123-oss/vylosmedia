@@ -589,10 +589,11 @@
     });
   }
 
-  // Film loop: plays while on screen, stays on its poster under reduced motion
-  var film = document.getElementById('film');
-  var filmToggle = document.getElementById('filmToggle');
-  if (film && filmToggle) {
+  // Film loops: each plays while on screen, stays on its poster under reduced motion
+  Array.prototype.forEach.call(document.querySelectorAll('.film-frame'), function (frame) {
+    var film = frame.querySelector('video');
+    var filmToggle = frame.querySelector('.film-toggle');
+    if (!film || !filmToggle) return;
     var filmHeld = reduceMotion, filmSeen = false;
     function filmSync() {
       filmToggle.textContent = filmHeld ? 'Play' : 'Pause';
@@ -615,7 +616,7 @@
       filmSeen = true;
     }
     filmSync();
-  }
+  });
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();

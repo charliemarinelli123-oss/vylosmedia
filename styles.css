@@ -978,10 +978,11 @@ body::before { background: var(--bg); }
 .define-text { color: var(--muted); font-size: clamp(17px, 1.7vw, 20px); line-height: 1.55; max-width: 34em; margin-inline: auto; }
 .film { padding-block: clamp(8px, 2vw, 24px) clamp(24px, 4vw, 48px); }
 .film-frame { margin: 0; }
-.film-frame video { display: block; width: 100%; height: auto; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: 50% 55%; border-radius: var(--radius); border: 1px solid var(--line); background: #1d1813; }
+.film-frame video { display: block; width: 100%; height: auto; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: 50% 60%; border-radius: var(--radius); border: 1px solid var(--line); background: #1d1813; }
 .film-frame figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 12px; font-size: 13px; color: var(--muted); }
 .film-toggle { font: inherit; color: var(--muted); background: none; border: 0; padding: 4px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line); }
 .film-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
+.film-close { padding-block: clamp(24px, 4vw, 48px); }
 @media (max-width: 760px) { .film-frame video { aspect-ratio: 16 / 9; } }
 
 /* ---------- Round 10: interface audit fixes ---------- */
