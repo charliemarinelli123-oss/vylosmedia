@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/cormorant-garamond-latin-500-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202610062215">
+  <link rel="stylesheet" href="/styles.css?v=202610062330">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -205,7 +205,7 @@
       "name": "Is the first Reel really free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. We make one Reel for your business at no cost so you can see the quality first. If you like it, we talk about what's next. If not, it's still yours to post."
+        "text": "Yes. We make one Reel for your business at no cost so you can see the quality first. If you like it, we talk about what’s next. If not, it’s still yours to post."
       }
     },
     {
@@ -229,7 +229,7 @@
       "name": "What areas do you cover?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We're based in San Diego and travel throughout San Diego County, Orange County and up to Los Angeles, and further for the right project. Editing-only projects work from anywhere."
+        "text": "We’re based in San Diego and travel throughout San Diego County, Orange County and up to Los Angeles, and further for the right project. Editing-only projects work from anywhere."
       }
     }
   ]
@@ -237,20 +237,22 @@
   </script>
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="#top" aria-label="Vylos Media home">
       <img src="icon.jpg" alt="" width="28" height="28">
-      <span>Vylos Media</span>
+      <span translate="no">Vylos Media</span>
     </a>
-    <nav class="nav-links" aria-label="Main">
+    <nav class="nav-links" id="site-nav" aria-label="Main">
       <a href="#services">Services</a>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="/about/">About</a>
     </nav>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
       <span class="tone" aria-hidden="true"></span>
     </button>
@@ -465,7 +467,7 @@
         </details>
         <details>
           <summary>Is the first Reel really free?</summary>
-          <p>Yes. We make one Reel for your business at no cost so you can see the quality first. If you like it, we talk about what's next. If not, it's still yours to post.</p>
+          <p>Yes. We make one Reel for your business at no cost so you can see the quality first. If you like it, we talk about what’s next. If not, it’s still yours to post.</p>
         </details>
         <details>
           <summary>How much does it cost after that?</summary>
@@ -477,7 +479,7 @@
         </details>
         <details>
           <summary>What areas do you cover?</summary>
-          <p>We're based in San Diego and travel throughout San Diego County, Orange County and up to Los Angeles, and further for the right project. Editing-only projects work from anywhere.</p>
+          <p>We’re based in San Diego and travel throughout San Diego County, Orange County and up to Los Angeles, and further for the right project. Editing-only projects work from anywhere.</p>
         </details>
       </div>
     </div>
@@ -488,8 +490,8 @@
     <div class="wrap"><div class="cta-card contact-grid">
       <div class="contact-copy">
         <p class="pill"><i></i>Get started</p>
-        <h2>Let's make your <span class="hl">first Reel.</span><span class="mark" aria-hidden="true"></span></h2>
-        <p class="sub">Tell us a little about you and your goals. We'll reply <strong class="hl-soft">within 24 hours</strong> with an idea for your free Reel.</p>
+        <h2>Let’s make your <span class="hl">first Reel.</span><span class="mark" aria-hidden="true"></span></h2>
+        <p class="sub">Tell us a little about you and your goals. We’ll reply <strong class="hl-soft">within 24 hours</strong> with an idea for your free Reel.</p>
         <dl class="channels">
           <div><dt>Email</dt><dd><span id="email">charlie@vylosmedia.com</span> <button class="copy" type="button" data-copy="charlie@vylosmedia.com">Copy</button></dd></div>
           <div><dt>Instagram</dt><dd><a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">@vylosmedia</a></dd></div>
@@ -502,8 +504,8 @@
           <label for="f-biz">Business or brand<input id="f-biz" name="business" autocomplete="organization" required></label>
         </div>
         <div class="row">
-          <label for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
-          <label for="f-ig"><span>Instagram <span class="opt">(optional)</span></span><input id="f-ig" name="instagram" placeholder="@"></label>
+          <label for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" spellcheck="false" autocapitalize="off" required></label>
+          <label for="f-ig"><span>Instagram <span class="opt">(optional)</span></span><input id="f-ig" name="instagram" placeholder="@yourbrand…" autocomplete="off" spellcheck="false" autocapitalize="off"></label>
         </div>
         <label for="f-need">What are you looking for?
           <select id="f-need" name="need">
@@ -514,8 +516,8 @@
           </select>
         </label>
         <label for="f-msg"><span>Tell us about your business <span class="opt">(optional)</span></span><textarea id="f-msg" name="message" rows="4"></textarea></label>
-        <button class="btn btn-dark btn-block" type="submit">Send</button>
-        <p class="form-status" id="formStatus" role="status" hidden></p>
+        <button class="btn btn-dark btn-block" type="submit">Send message</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
       </form>
     </div></div>
   </section>
@@ -523,7 +525,7 @@
 
 <footer class="footer">
   <div class="wrap footer-inner">
-    <div class="brand"><img src="icon.jpg" alt="" width="24" height="24"><span>Vylos Media</span></div>
+    <div class="brand"><img src="icon.jpg" alt="" width="24" height="24"><span translate="no">Vylos Media</span></div>
     <p>Based in San Diego</p>
     <div class="footer-links">
       <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">Instagram</a>
@@ -538,6 +540,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202610062215" defer></script>
+<script src="/main.js?v=202610062330" defer></script>
 </body>
 </html>

@@ -21,25 +21,27 @@
   <link rel="icon" href="/icon.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="/icon.jpg">
   <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202610062215">
+  <link rel="stylesheet" href="/styles.css?v=202610062330">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "AboutPage", "url": "https://vylosmedia.com/about/", "name": "About Vylos Media", "about": {"@id": "https://vylosmedia.com/#business"}}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Vylos Media", "item": "https://vylosmedia.com/"}, {"@type": "ListItem", "position": 2, "name": "About", "item": "https://vylosmedia.com/about/"}]}</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
     <a class="brand" href="/" aria-label="Vylos Media home">
       <img src="/icon.jpg" alt="" width="28" height="28">
-      <span>Vylos Media</span>
+      <span translate="no">Vylos Media</span>
     </a>
-    <nav class="nav-links" aria-label="Main">
+    <nav class="nav-links" id="site-nav" aria-label="Main">
       <a href="/#services">Services</a>
       <a href="/#how">How it works</a>
       <a href="/#pricing">Pricing</a>
       <a href="/#faq">FAQ</a>
       <a href="/about/" aria-current="page">About</a>
     </nav>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
       <span class="tone" aria-hidden="true"></span>
     </button>
@@ -47,14 +49,14 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <!-- About -->
   <section id="about" class="about-page">
     <div class="wrap about">
       <div class="about-lead">
         <p class="eyebrow">About</p>
         <h1>Every frame, <span class="hl">perfected.</span></h1>
-        <p class="about-intro">I'm Charlie Marinelli, the founder of Vylos Media. I started it to make video that people actually stop for. I take on any project, small or large, from a single clip to a full campaign, and I'm with you from the first conversation to the final grade, so what you get is exactly what we set out to make.</p>
+        <p class="about-intro">I’m Charlie Marinelli, the founder of Vylos Media. I started it to make video that people actually stop for. I take on any project, small or large, from a single clip to a full campaign, and I’m with you from the first conversation to the final grade, so what you get is exactly what we set out to make.</p>
         <ul class="principles">
           <li><span class="idx">01</span><strong>Direction</strong><span>Bring me your vision, or let me shape one. Either way, we plan it together before anything is filmed.</span></li>
           <li><span class="idx">02</span><strong>Craft</strong><span>I film, edit and color grade every project myself. Nothing is templated.</span></li>
@@ -75,8 +77,8 @@
   <section class="band about-cta">
     <div class="wrap">
       <div class="section-head">
-        <h2>Let's make your <span class="hl">first Reel.</span><span class="mark" aria-hidden="true"></span></h2>
-        <p class="sub">Tell us about your business and we'll reply within 24 hours with an idea for your free Reel.</p>
+        <h2>Let’s make your <span class="hl">first Reel.</span><span class="mark" aria-hidden="true"></span></h2>
+        <p class="sub">Tell us about your business and we’ll reply within 24 hours with an idea for your free Reel.</p>
       </div>
       <div class="cta-row center">
         <a class="btn btn-dark" href="/#contact">Get your first Reel free</a>
@@ -88,7 +90,7 @@
 
 <footer class="footer">
   <div class="wrap footer-inner">
-    <div class="brand"><img src="/icon.jpg" alt="" width="24" height="24"><span>Vylos Media</span></div>
+    <div class="brand"><img src="/icon.jpg" alt="" width="24" height="24"><span translate="no">Vylos Media</span></div>
     <p>Based in San Diego</p>
     <div class="footer-links">
       <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">Instagram</a>
@@ -103,6 +105,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="/#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202610062215" defer></script>
+<script src="/main.js?v=202610062330" defer></script>
 </body>
 </html>
