@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/cormorant-garamond-latin-500-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202610010035">
+  <link rel="stylesheet" href="/styles.css?v=202610062130">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -197,7 +197,7 @@
       "name": "Who do you work with?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Anyone who wants video that works: entrepreneurs, online coaches, creators and influencers, music artists, luxury brands, startups and local businesses. Every project is planned around your goals, not a template."
+        "text": "Anyone who wants video that works: entrepreneurs, online coaches, creators and influencers, music artists, luxury brands, startups and local businesses. Every project is planned around your goals from the very first conversation."
       }
     },
     {
@@ -252,10 +252,9 @@
       <a href="/about/">About</a>
     </nav>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
-      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
-      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 019.8 3.5a8.5 8.5 0 1010.7 10.7z"/></svg>
+      <span class="tone" aria-hidden="true"></span>
     </button>
-    <a class="btn btn-dark btn-sm btn-glow" href="#contact">Get a free Reel</a>
+    <a class="btn btn-dark btn-sm" href="#contact">Get a free Reel</a>
   </div>
 </header>
 
@@ -265,10 +264,11 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
+        <p class="pill"><i></i>Now booking new projects</p>
         <h1>Video crafted entirely <span class="hl">around you.</span></h1>
         <p class="lede">For entrepreneurs, creators, artists and brands. Every detail is taken care of, from the first idea to the final frame, so all that&#8217;s left is to share it with the world.</p>
         <div class="cta-row">
-          <a class="btn btn-dark btn-glow" href="#contact">Get your first Reel free</a>
+          <a class="btn btn-dark" href="#contact">Get your first Reel free</a>
           <a class="link-arrow" href="#services">See what we do</a>
         </div>
         <p class="note">Based in San Diego. We reply within 24 hours.</p>
@@ -286,12 +286,6 @@
             </div>
           </div>
         </div>
-        <div class="chip c1"><span class="ico">
-          <svg viewBox="0 0 24 24"><path d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7zm0 11a4 4 0 110-8 4 4 0 010 8z"/></svg></span>Seen by the right people</div>
-        <div class="chip c2"><span class="ico">
-          <svg viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 011 1v17l-7-4-7 4V4a1 1 0 011-1z"/></svg></span>Saved and shared</div>
-        <div class="chip c3"><span class="ico">
-          <svg viewBox="0 0 24 24"><path d="M4 17l6-6 4 4 6-7v4h2V4h-8v2h4.6L14 12.2l-4-4-7.4 7.4z"/></svg></span>Effortless, start to finish</div>
       </div>
     </div>
   </section>
@@ -305,10 +299,10 @@
   <!-- Why video -->
   <section class="band" id="why">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head split">
         <p class="eyebrow">Why video</p>
         <h2><span class="sr-only">Your next client is scrolling right now.</span><span aria-hidden="true">Your next client is <span class="reel"><span class="reel-track"><span>watching.</span><span>searching.</span><span>swiping.</span><span>deciding.</span><span>watching.</span><span>searching.</span><span>swiping.</span><span>deciding.</span><span class="hl">scrolling right now.</span></span></span></span></h2>
-        <p class="sub">Attention is earned in a single frame. We make sure it&#8217;s yours.</p>
+        <p class="side">Attention is earned in a single frame. We make sure it&#8217;s yours.</p>
       </div>
       <div class="tiles three">
         <article class="tile reveal">
@@ -330,12 +324,25 @@
     </div>
   </section>
 
+  <!-- The Vylos way: the screen floods with champagne and one line writes itself in -->
+  <section class="flood" aria-label="The Vylos way">
+    <div class="flood-stage">
+      <div class="flood-fill" aria-hidden="true"></div>
+      <div class="flood-copy">
+        <p class="flood-eyebrow">The Vylos way</p>
+        <p class="flood-line">You bring the vision. We take care of <span class="hl">everything else.</span></p>
+      </div>
+      <span class="flood-mark" aria-hidden="true"><i></i></span>
+    </div>
+  </section>
+
   <!-- Services -->
   <section id="services">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head split">
         <p class="eyebrow">Services</p>
         <h2>Filmed, edited and <span class="hl">color graded</span> for you.<span class="mark" aria-hidden="true"></span></h2>
+        <p class="side">One team from the first idea to the final frame. Nothing to coordinate, nothing to chase.</p>
       </div>
       <div class="bento">
         <article class="card card-lg reveal">
@@ -374,25 +381,40 @@
   <!-- How it works -->
   <section class="band" id="how">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head split">
         <p class="eyebrow">How it works</p>
         <h2>Seamless from the <span class="hl">first message.</span></h2>
+        <p class="side">Clear at every step. You always know what comes next, without ever having to ask.</p>
       </div>
+      <div class="how-grid">
       <ol class="steps">
         <li class="reveal"><span class="num">1</span><h3>Tell us about you</h3><p>Share your vision, or simply where you&#8217;d like to go. We&#8217;ll take it from there.</p></li>
         <li class="reveal"><span class="num">2</span><h3>Get your free Reel</h3><p>Your <strong class="hl-soft">first Reel is on us</strong>, so you can experience the work before anything else.</p></li>
         <li class="reveal"><span class="num">3</span><h3>A plan made for you</h3><p>A custom plan and quote, shaped around your goals.</p></li>
         <li class="reveal"><span class="num">4</span><h3>Share it with the world</h3><p>Finished and ready for wherever it&#8217;s going next.</p></li>
       </ol>
+      <div class="job" aria-hidden="true">
+        <div class="job-top"><span class="job-title">Your project</span><span class="pill pill-sm"><i></i>In motion</span></div>
+        <ol class="job-rows">
+          <li><span class="ck"></span><span class="jl">Idea shaped with you</span><span class="bar"><i></i></span></li>
+          <li><span class="ck"></span><span class="jl">Filmed on location</span><span class="bar"><i></i></span></li>
+          <li><span class="ck"></span><span class="jl">Edited to the beat</span><span class="bar"><i></i></span></li>
+          <li><span class="ck"></span><span class="jl">Color graded by hand</span><span class="bar"><i></i></span></li>
+          <li><span class="ck"></span><span class="jl">Ready to share</span><span class="bar"><i></i></span></li>
+        </ol>
+        <p class="job-foot">Handled for you, start to finish</p>
+      </div>
+      </div>
     </div>
   </section>
 
   <!-- Instagram -->
   <section id="latest" class="latest" data-feed="https://feeds.behold.so/8zb5Au4tAp2fkbW3E5YZ" hidden>
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head split">
         <p class="eyebrow">Latest work</p>
         <h2>Fresh from <span class="hl">@vylosmedia.</span></h2>
+        <p class="side">New work, straight from the feed.</p>
       </div>
       <div class="ig-grid" id="ig-grid"></div>
       <p class="ig-more"><a class="link-arrow" href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">Follow along on Instagram</a></p>
@@ -431,7 +453,7 @@
       <div class="faq">
         <details>
           <summary>Who do you work with?</summary>
-          <p>Anyone who wants video that works: entrepreneurs, online coaches, creators and influencers, music artists, luxury brands, startups and local businesses. Every project is planned around your goals, not a template.</p>
+          <p>Anyone who wants video that works: entrepreneurs, online coaches, creators and influencers, music artists, luxury brands, startups and local businesses. Every project is planned around your goals from the very first conversation.</p>
         </details>
         <details>
           <summary>Is the first Reel really free?</summary>
@@ -455,9 +477,9 @@
 
   <!-- Contact -->
   <section class="band" id="contact">
-    <div class="wrap contact-grid">
+    <div class="wrap"><div class="cta-card contact-grid">
       <div class="contact-copy">
-        <p class="eyebrow">Get started</p>
+        <p class="pill"><i></i>Get started</p>
         <h2>Let's make your <span class="hl">first Reel.</span><span class="mark" aria-hidden="true"></span></h2>
         <p class="sub">Tell us a little about you and your goals. We'll reply <strong class="hl-soft">within 24 hours</strong> with an idea for your free Reel.</p>
         <dl class="channels">
@@ -487,7 +509,7 @@
         <button class="btn btn-dark btn-block" type="submit">Send</button>
         <p class="form-status" id="formStatus" role="status" hidden></p>
       </form>
-    </div>
+    </div></div>
   </section>
 </main>
 
@@ -499,6 +521,8 @@
       <a href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">Instagram</a>
       <a href="/about/">About</a>
       <a href="#contact">Contact</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
     </div>
     <p class="copyright">© <span id="year">2026</span> Vylos Media</p>
   </div>
@@ -506,6 +530,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202610010035" defer></script>
+<script src="/main.js?v=202610062130" defer></script>
 </body>
 </html>
