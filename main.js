@@ -13,11 +13,19 @@
   function syncToggle() {
     if (toggle) toggle.setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
   }
+  // Browser chrome colour follows the chosen theme, not only the system one
+  function syncThemeColor() {
+    if (!root.dataset.theme) return;
+    var c = root.dataset.theme === 'dark' ? '#0f0d0b' : '#f4efe8';
+    document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
+  }
+  syncThemeColor();
   if (toggle) {
     toggle.addEventListener('click', function () {
       var next = isDark() ? 'light' : 'dark';
       function apply() {
         root.dataset.theme = next;
+        syncThemeColor();
         try { localStorage.setItem('theme', next); } catch (e) {}
         syncToggle();
       }
@@ -30,6 +38,21 @@
     });
     if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', syncToggle);
     syncToggle();
+  }
+
+  // Phone menu
+  var menuBtn = document.getElementById('menuToggle'), siteNav = document.getElementById('site-nav');
+  if (menuBtn && siteNav) {
+    var setMenu = function (open) {
+      siteNav.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.textContent = open ? 'Close' : 'Menu';
+    };
+    menuBtn.addEventListener('click', function () { setMenu(!siteNav.classList.contains('open')); });
+    siteNav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && siteNav.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
+    });
   }
 
   // Nav border once the page scrolls
@@ -179,8 +202,16 @@
       var name = String(data.get('name') || '').trim();
       var business = String(data.get('business') || '').trim();
       var email = String(data.get('email') || '').trim();
-      if (!name || !business || !/^\S+@\S+\.\S+$/.test(email)) {
-        show('Please add your name, business and a valid email.', true);
+      var bad = [];
+      [['f-name', !name], ['f-biz', !business], ['f-email', !/^\S+@\S+\.\S+$/.test(email)]].forEach(function (c) {
+        var el = document.getElementById(c[0]);
+        el.setAttribute('aria-invalid', c[1] ? 'true' : 'false');
+        if (c[1]) bad.push(el);
+      });
+      if (bad.length) {
+        show('Please add your name, business and a valid email, then send again.', true);
+        bad[0].focus({ preventScroll: true });
+        bad[0].scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
         return;
       }
       data.set('_subject', 'New inquiry: ' + business);
@@ -196,7 +227,7 @@
         .catch(function () {
           show("That didn't go through. Please try again, or email charlie@vylosmedia.com.", true);
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Send';
+          submitBtn.textContent = 'Send message';
         });
     });
   }
@@ -557,6 +588,35 @@
       history.pushState(null, '', a.hash);
     });
   }
+
+  // Film loops: each plays while on screen, stays on its poster under reduced motion
+  Array.prototype.forEach.call(document.querySelectorAll('.film-frame'), function (frame) {
+    var film = frame.querySelector('video');
+    var filmToggle = frame.querySelector('.film-toggle');
+    if (!film || !filmToggle) return;
+    var filmHeld = reduceMotion, filmSeen = false;
+    function filmSync() {
+      filmToggle.textContent = filmHeld ? 'Play' : 'Pause';
+      filmToggle.setAttribute('aria-pressed', filmHeld ? 'true' : 'false');
+      if (!filmHeld && filmSeen && !document.hidden) {
+        var p = film.play();
+        if (p && p.catch) p.catch(function () {});
+      } else {
+        film.pause();
+      }
+    }
+    filmToggle.addEventListener('click', function () { filmHeld = !filmHeld; filmSync(); });
+    document.addEventListener('visibilitychange', filmSync);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        filmSeen = entries[0].isIntersecting;
+        filmSync();
+      }, { threshold: 0.25 }).observe(film);
+    } else {
+      filmSeen = true;
+    }
+    filmSync();
+  });
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
