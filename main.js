@@ -589,6 +589,34 @@
     });
   }
 
+  // Film loop: plays while on screen, stays on its poster under reduced motion
+  var film = document.getElementById('film');
+  var filmToggle = document.getElementById('filmToggle');
+  if (film && filmToggle) {
+    var filmHeld = reduceMotion, filmSeen = false;
+    function filmSync() {
+      filmToggle.textContent = filmHeld ? 'Play' : 'Pause';
+      filmToggle.setAttribute('aria-pressed', filmHeld ? 'true' : 'false');
+      if (!filmHeld && filmSeen && !document.hidden) {
+        var p = film.play();
+        if (p && p.catch) p.catch(function () {});
+      } else {
+        film.pause();
+      }
+    }
+    filmToggle.addEventListener('click', function () { filmHeld = !filmHeld; filmSync(); });
+    document.addEventListener('visibilitychange', filmSync);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        filmSeen = entries[0].isIntersecting;
+        filmSync();
+      }, { threshold: 0.25 }).observe(film);
+    } else {
+      filmSeen = true;
+    }
+    filmSync();
+  }
+
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();

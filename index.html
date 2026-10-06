@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/cormorant-garamond-latin-500-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202610062330">
+  <link rel="stylesheet" href="/styles.css?v=202610062400">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -292,6 +292,19 @@
     </div>
   </section>
 
+  <!-- Film -->
+  <section class="film" aria-label="Our footage">
+    <div class="wrap">
+      <figure class="film-frame">
+        <video id="film" muted loop playsinline preload="metadata" poster="/media/coast-poster.jpg" width="1600" height="900" aria-label="Coastline at midday, filmed and color graded by Vylos">
+          <source src="/media/coast-960.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/media/coast.mp4" type="video/mp4">
+        </video>
+        <figcaption><span>Filmed and graded by <span translate="no">Vylos</span>.</span> <button class="film-toggle" id="filmToggle" type="button" aria-controls="film" aria-pressed="false">Pause</button></figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- Built for -->
   <section class="builtfor" aria-label="Who we work with">
     <p class="builtfor-label">Made for</p>
@@ -540,6 +553,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202610062330" defer></script>
+<script src="/main.js?v=202610062400" defer></script>
 </body>
 </html>
