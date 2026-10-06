@@ -61,74 +61,7 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Reveal on scroll: section heads and panels rise in from a soft blur, grouped items one after another
-  if ('IntersectionObserver' in window && !reduceMotion) {
-    document.querySelectorAll('main section:not(.hero) .section-head, .factors, .job, .cities, .faq, .about-lead, .viewfinder, .contact-copy, .form, .city-grid .fit-list, .for, .nearby')
-      .forEach(function (el) { el.classList.add('reveal'); });
-    document.querySelectorAll('.bento, .steps, .tiles, .grid-3').forEach(function (group) {
-      Array.prototype.forEach.call(group.children, function (el, i) {
-        el.classList.add('reveal'); el.style.setProperty('--d', (i * 0.07) + 's');
-      });
-    });
-    root.classList.add('js');
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target;
-        el.classList.add('in'); io.unobserve(el);
-        setTimeout(function () { el.classList.add('done'); }, 1200 + (parseFloat(el.style.getPropertyValue('--d')) || 0) * 1000);
-      });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-  }
-
-  if (!reduceMotion) {
-    var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-    // Phone mockup: leans back slightly as you scroll on phones (no pointer effects)
-    var phone = document.querySelector('.phone');
-    function tilt(rx, ry) {
-      phone.style.setProperty('--rx', rx.toFixed(2) + 'deg');
-      phone.style.setProperty('--ry', ry.toFixed(2) + 'deg');
-    }
-    if (phone && !finePointer) {
-      window.addEventListener('scroll', function () {
-        var t = Math.min(window.scrollY / 500, 1);
-        tilt(t * 8, -t * 5);
-      }, { passive: true });
-    }
-  }
-
-
-  // "Scrolling right now": spin through a feed of words with motion blur, then settle
-  var reel = document.querySelector('.reel-track');
-  if (reel && !reduceMotion && 'IntersectionObserver' in window) {
-    var ns = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(ns, 'svg');
-    svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.setAttribute('aria-hidden', 'true');
-    svg.style.position = 'absolute';
-    svg.innerHTML = '<filter id="vmb" x="0" y="-50%" width="100%" height="200%"><feGaussianBlur stdDeviation="0 0"/></filter>';
-    document.body.appendChild(svg);
-    var blurEl = svg.querySelector('feGaussianBlur');
-    var items = reel.children, n = items.length;
-    reel.style.transform = 'translateY(0)';
-    reel.style.transition = 'none';
-    new IntersectionObserver(function (es, obs) {
-      if (!es[0].isIntersecting) return;
-      obs.disconnect();
-      var step = items[0].getBoundingClientRect().height, end = step * (n - 1), dur = 2600, t0 = null, last = 0;
-      reel.style.filter = 'url(#vmb)';
-      function frame(ts) {
-        if (t0 === null) t0 = ts;
-        var p = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4), y = e * end;
-        blurEl.setAttribute('stdDeviation', '0 ' + Math.min(Math.abs(y - last) * 0.5, 9).toFixed(2));
-        reel.style.transform = 'translateY(' + (-y) + 'px)';
-        last = y;
-        if (p < 1) requestAnimationFrame(frame); else reel.style.filter = '';
-      }
-      requestAnimationFrame(frame);
-    }, { threshold: 0.6 }).observe(reel.parentNode);
-  }
+  root.classList.add('js');
 
   // Scroll progress line under the nav
   var bar = document.createElement('span');
@@ -261,14 +194,6 @@
     }, 1000 / 24);
   }
 
-  // "Made for" band: duplicate the list so the loop is seamless
-  var track = document.querySelector('.marquee-track');
-  if (track) {
-    Array.prototype.slice.call(track.children).forEach(function (el) {
-      var c = el.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c);
-    });
-  }
-
   // Hero headline: words rise into place from behind a mask, one after another
   var h1 = document.querySelector('.hero h1');
   if (h1 && !reduceMotion) {
@@ -357,7 +282,6 @@
         latest.hidden = false;
         if (!reduceMotion && 'IntersectionObserver' in window) {
           var head = latest.querySelector('.section-head');
-          head.classList.add('reveal');
           var o = new IntersectionObserver(function (es) {
             es.forEach(function (e) {
               if (!e.isIntersecting) return;
@@ -508,36 +432,6 @@
     window.addEventListener('scroll', function () { if (!fTick) { fTick = true; requestAnimationFrame(floodUpdate); } }, { passive: true });
     window.addEventListener('resize', floodUpdate);
     floodUpdate();
-  }
-
-  // Live project card: each stage fills, ticks off, and the next one starts
-  var job = document.querySelector('.job');
-  if (job) {
-    var rows = job.querySelectorAll('.job-rows li');
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      Array.prototype.forEach.call(rows, function (li) { li.classList.add('ok'); });
-    } else {
-      var jIdx = 0, jTimer = null, jOn = false;
-      function jStep() {
-        if (!jOn) { jTimer = null; return; }
-        if (jIdx < rows.length) {
-          var li = rows[jIdx];
-          li.classList.add('run');
-          jTimer = setTimeout(function () { li.classList.remove('run'); li.classList.add('ok'); jIdx++; jTimer = setTimeout(jStep, 260); }, 1400);
-        } else {
-          jTimer = setTimeout(function () {
-            job.classList.add('reset');
-            Array.prototype.forEach.call(rows, function (li) { li.classList.remove('ok', 'run'); });
-            jIdx = 0;
-            jTimer = setTimeout(function () { job.classList.remove('reset'); jStep(); }, 900);
-          }, 2600);
-        }
-      }
-      new IntersectionObserver(function (es) {
-        jOn = es[0].isIntersecting;
-        if (jOn && !jTimer) jTimer = setTimeout(jStep, 400);
-      }, { threshold: .35 }).observe(job);
-    }
   }
 
   // Smooth wheel scrolling: the page glides and eases to a stop instead of halting with the wheel.
