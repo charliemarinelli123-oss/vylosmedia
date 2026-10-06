@@ -1033,12 +1033,10 @@ h3 { font-family: var(--font); font-weight: 600; letter-spacing: -0.01em; }
 .facts dt { text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 600; }
 .section-head .side, .section-head .sub { max-width: 34em; }
 
-/* The coast film runs edge to edge: the footage is the one thing to remember */
+/* Coast films sit inside the page at their native 16:9, small enough to stay sharp */
 .film:not(.film-close) { padding-block: clamp(12px, 3vw, 36px) clamp(40px, 6vw, 80px); }
-.film:not(.film-close) .wrap { max-width: none; padding-inline: 0; }
-.film:not(.film-close) .film-frame video { aspect-ratio: 2.39 / 1; border-radius: 0; border: 0; border-block: 1px solid var(--line); }
-.film:not(.film-close) .film-frame figcaption { max-width: var(--wrap); margin-inline: auto; padding-inline: 22px; }
-@media (max-width: 760px) { .film:not(.film-close) .film-frame video { aspect-ratio: 4 / 3; } }
+.film .film-frame { max-width: 880px; margin-inline: auto; }
+.film .film-frame video { aspect-ratio: 16 / 9; object-position: 50% 50%; }
 
 /* Why rows: the three outcomes read as ruled lines, title then sentence */
 .tiles .tile { grid-template-columns: minmax(0, 18em) minmax(0, 1fr); gap: 8px 32px; padding: 30px 4px; }
