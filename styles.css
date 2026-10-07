@@ -420,7 +420,7 @@ html { scroll-behavior: smooth; }
 ::selection { background: color-mix(in srgb, var(--link) 26%, transparent); }
 
 /* Hero intro: copy rises in from a soft blur, one line after another */
-@keyframes rise { from { opacity: 0; transform: translateY(16px); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes rise { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
 .hero-copy > *, .city-hero .wrap > * { animation: rise 1s var(--ease) both; }
 .hero-copy > :nth-child(2), .city-hero .wrap > :nth-child(2) { animation-delay: .08s; }
 .hero-copy > :nth-child(3), .city-hero .wrap > :nth-child(3) { animation-delay: .16s; }
@@ -535,7 +535,8 @@ html.theming, html.theming *, html.theming *::before, html.theming *::after {
 .tl-head { position: absolute; top: 8px; bottom: 8px; left: 14px; width: 2px; border-radius: 2px; background: #fbf8f3;
   box-shadow: 0 0 12px rgba(255, 235, 205, .6); animation: playhead 9s cubic-bezier(.45, 0, .55, 1) infinite; }
 .tl-head::before { content: ""; position: absolute; top: -2px; left: -5px; width: 12px; height: 10px; border-radius: 3px 3px 6px 6px; background: #fbf8f3; }
-@keyframes playhead { 0% { left: 14px; } 100% { left: calc(100% - 16px); } }
+@keyframes playhead { from { transform: none; } to { transform: translate3d(100cqw, 0, 0); } }
+.timeline { container-type: inline-size; }
 
 /* Phone mockup: a slow, softly drifting warm gradient, no photo */
 .phone { background: #1a1612; }
@@ -787,12 +788,12 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 100; pointer-even
 
 .flood-live { height: 240vh; }
 .flood-live .flood-stage { position: sticky; top: 0; height: 100vh; height: 100svh; padding: 0 22px; grid-template-rows: none; }
-.flood-live .flood-fill { clip-path: circle(var(--r, 0px) at 50% var(--cy, 50%)); }
+.flood-live .flood-fill { inset: auto; left: 50%; top: 50%; border-radius: 50%; transform: scale(0); will-change: transform; }
 .flood-live .flood-copy { position: absolute; left: 22px; right: 22px; top: 50%; margin-inline: auto; transform: translateY(-62%); }
-.flood-live .flood-eyebrow { opacity: var(--eo, 0); transition: opacity .4s ease; }
+.flood-live .flood-eyebrow { opacity: 0; transition: opacity .4s ease; }
 .flood-live .flood-mark { position: absolute; left: 50%; top: 50%; margin: -32px 0 0 -32px;
-  transform: translateY(var(--my, 0px)) scale(var(--ms, 1)); }
-.flood-live .flood-line .fw { display: inline-block; opacity: var(--o, 0); filter: blur(calc((1 - var(--o, 0)) * 8px)); transform: translateY(calc((1 - var(--o, 0)) * .35em)); }
+  will-change: transform; }
+.flood-live .flood-line .fw { display: inline-block; opacity: 0; will-change: transform, opacity; }
 
 /* How it works: steps beside a live project card */
 .how-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
