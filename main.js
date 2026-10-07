@@ -524,7 +524,7 @@
     var maxY = function () { return document.documentElement.scrollHeight - innerHeight; };
     var glide = function (t) {
       var dt = lastT ? Math.min(t - lastT, 64) : 16; lastT = t;
-      cur += (tgt - cur) * (1 - Math.pow(1 - 0.085, dt / 16.67));
+      cur += (tgt - cur) * (1 - Math.pow(1 - 0.18, dt / 16.67));
       if (Math.abs(tgt - cur) < 0.4) { cur = tgt; gliding = false; lastT = 0; }
       window.scrollTo({ top: cur, behavior: 'instant' });
       if (gliding) requestAnimationFrame(glide);
