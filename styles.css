@@ -1055,3 +1055,7 @@ h3 { font-family: var(--font); font-weight: 600; letter-spacing: -0.01em; }
 .principles li { grid-template-columns: 8em minmax(0, 1fr); gap: 16px; }
 .principles strong { font-weight: 600; }
 @media (max-width: 560px) { .principles li { grid-template-columns: 1fr; gap: 4px; } .principles span:last-child { grid-column: auto; } }
+
+/* Flood mark: the bare Vylos logo in black, no tile */
+.flood-mark { background: none; border-radius: 0; }
+.flood-mark i { width: 46px; height: 46px; background: #000; }
