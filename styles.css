@@ -12,7 +12,7 @@
   --glass-hi: rgba(255, 255, 255, .9);
   --shadow: rgba(60, 40, 20, .16);
   --text: #1f1c19;
-  --muted: #7a726a;
+  --muted: #6b635b;
   --line: rgba(60, 40, 20, .12);
   --btn: #2a241e;
   --btn-text: #fbf8f3;
@@ -824,7 +824,7 @@ body::after { content: ""; position: fixed; inset: 0; z-index: 100; pointer-even
 .job-foot { padding-top: 12px; border-top: 1px solid var(--line); }
 
 /* Closing card: the contact section sits on a bright champagne panel with its own fixed palette */
-.cta-card { --surface: #f5e6cc; --surface-2: #f0dcbc; --text: #241c15; --muted: #5e4c3b; --link: #7a5532; --line: rgba(36, 28, 21, .14); --accent: #5e3f24; --glow: rgba(255, 245, 225, .6);
+.cta-card { --surface: #f5e6cc; --surface-2: #f0dcbc; --text: #241c15; --muted: #4f3f30; --link: #7a5532; --line: rgba(36, 28, 21, .14); --accent: #5e3f24; --glow: rgba(255, 245, 225, .6);
   --input: rgba(255, 251, 244, .62); --glass: rgba(255, 251, 244, .38); --glass-strong: rgba(255, 251, 244, .5); --glass-border: rgba(255, 255, 255, .55); --glass-hi: rgba(255, 255, 255, .6);
   --btn: #241c15; --btn-text: #fbf6ee; --btn-hover: #3a2e23; --focus-ring: rgba(122, 85, 50, .25); --danger: #9d2018;
   color: var(--text); border-radius: 30px; padding: clamp(28px, 5vw, 60px);
@@ -1059,3 +1059,11 @@ h3 { font-family: var(--font); font-weight: 600; letter-spacing: -0.01em; }
 /* Flood mark: the bare Vylos logo in black, no tile */
 .flood-mark { background: none; border-radius: 0; }
 .flood-mark i { width: 46px; height: 46px; background: #000; }
+
+/* ---------- Round 11: accessibility pass (WCAG 2.1 AA) ---------- */
+/* Links inside running text are underlined so they don't rely on color alone */
+.legal p a, .legal li a, .about-sign a { text-decoration: underline; text-underline-offset: 3px; }
+/* Pause motion: under the hero phone and in the footer of every page */
+.hero-toggle { margin-top: 14px; font-size: 13px; }
+.footer-links .motion-toggle { font: inherit; color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; }
+.footer-links .motion-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
