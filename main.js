@@ -2,6 +2,16 @@
 (function () {
   var root = document.documentElement;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Pause motion: one switch for the hero Reel, the film loops and the light ribbons.
+  // Remembered in this browser so it stays paused on every page.
+  var motionHeld = false;
+  try { motionHeld = localStorage.getItem('motion') === 'paused'; } catch (e) {}
+  var motionListeners = [];
+  function setMotionHeld(v) {
+    motionHeld = v;
+    try { if (v) localStorage.setItem('motion', 'paused'); else localStorage.removeItem('motion'); } catch (e) {}
+    motionListeners.forEach(function (fn) { fn(); });
+  }
 
   // Light / dark toggle. Follows the system until the visitor picks one.
   var toggle = document.getElementById('themeToggle');
@@ -451,7 +461,10 @@
     new MutationObserver(themeChanged).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', themeChanged);
     window.addEventListener('resize', function () { var n = dims(); send('size', n); send('set', { state: { vh: innerHeight } }); });
-    document.addEventListener('visibilitychange', function () { send('set', { state: { held: document.hidden } }); });
+    function holdRibbons() { send('set', { state: { held: document.hidden || motionHeld } }); }
+    document.addEventListener('visibilitychange', holdRibbons);
+    motionListeners.push(holdRibbons);
+    if (motionHeld) holdRibbons();
     // Brightest over the hero, quieter behind the reading sections
     function fade() {
       var o = Math.max(.32, 1 - window.scrollY / (innerHeight * 1.1));
@@ -594,20 +607,42 @@
 
   // Hero Reel on the phone: poster only under reduced motion
   var heroReel = document.querySelector('.screen-reel');
-  if (heroReel && !reduceMotion) watchVideo(heroReel, function () { return false; });
+  if (heroReel && !reduceMotion) motionListeners.push(watchVideo(heroReel, function () { return motionHeld; }));
 
   // Film loops: a Pause/Play control each, poster only under reduced motion
   Array.prototype.forEach.call(document.querySelectorAll('.film-frame'), function (frame) {
     var film = frame.querySelector('video');
     var filmToggle = frame.querySelector('.film-toggle');
     if (!film || !filmToggle) return;
-    var filmHeld = reduceMotion;
+    var filmHeld = reduceMotion || motionHeld;
     var sync = watchVideo(film, function () { return filmHeld; }, function () {
       filmToggle.textContent = filmHeld ? 'Play' : 'Pause';
       filmToggle.setAttribute('aria-pressed', filmHeld ? 'true' : 'false');
     });
     filmToggle.addEventListener('click', function () { filmHeld = !filmHeld; sync(); });
+    motionListeners.push(function () { filmHeld = reduceMotion || motionHeld; sync(); });
   });
+
+  // Pause motion buttons: the one under the hero phone, plus one added to every footer
+  var footerLinks = document.querySelector('.footer-links');
+  if (footerLinks && !reduceMotion) {
+    var fb = document.createElement('button');
+    fb.type = 'button'; fb.className = 'motion-toggle';
+    footerLinks.appendChild(fb);
+  }
+  var motionToggles = document.querySelectorAll('.motion-toggle');
+  function labelMotion() {
+    Array.prototype.forEach.call(motionToggles, function (b) {
+      b.textContent = motionHeld ? 'Play motion' : 'Pause motion';
+      b.setAttribute('aria-pressed', motionHeld ? 'true' : 'false');
+    });
+  }
+  Array.prototype.forEach.call(motionToggles, function (b) {
+    if (reduceMotion) { b.hidden = true; return; }
+    b.addEventListener('click', function () { setMotionHeld(!motionHeld); });
+  });
+  motionListeners.push(labelMotion);
+  labelMotion();
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
