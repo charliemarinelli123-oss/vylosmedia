@@ -3,13 +3,13 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Pause motion: one switch for the hero Reel, the film loops and the light ribbons.
-  // Remembered in this browser so it stays paused on every page.
+  // Remembered for this visit only, so every new visit starts with motion on.
   var motionHeld = false;
-  try { motionHeld = localStorage.getItem('motion') === 'paused'; } catch (e) {}
+  try { localStorage.removeItem('motion'); motionHeld = sessionStorage.getItem('motion') === 'paused'; } catch (e) {}
   var motionListeners = [];
   function setMotionHeld(v) {
     motionHeld = v;
-    try { if (v) localStorage.setItem('motion', 'paused'); else localStorage.removeItem('motion'); } catch (e) {}
+    try { if (v) sessionStorage.setItem('motion', 'paused'); else sessionStorage.removeItem('motion'); } catch (e) {}
     motionListeners.forEach(function (fn) { fn(); });
   }
 
