@@ -164,7 +164,6 @@
         .then(function (res) {
           if (!res.ok) throw new Error('bad status');
           form.reset();
-          try { sessionStorage.setItem('leadName', name.split(/\s+/)[0]); } catch (err) {}
           window.location.href = '/thanks/';
         })
         .catch(function () {
@@ -650,15 +649,6 @@
   });
   motionListeners.push(labelMotion);
   labelMotion();
-
-  // Thank-you page: greet by first name if the form just sent it
-  var thanksTitle = document.getElementById('thanksTitle');
-  if (thanksTitle) {
-    try {
-      var first = sessionStorage.getItem('leadName');
-      if (first) thanksTitle.textContent = 'Thanks, ' + first + '. We got your message.';
-    } catch (err) {}
-  }
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();

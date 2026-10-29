@@ -1072,7 +1072,7 @@ h3 { font-family: var(--font); font-weight: 600; letter-spacing: -0.01em; }
 .thanks .lead { font-size: 18px; margin-bottom: 8px; }
 .thanks ol { padding-left: 1.2em; margin: 10px 0 0; }
 .thanks li + li { margin-top: 6px; }
-.thanks .cta-row { margin-top: 36px; }
+.thanks .cta-row { margin-top: 36px; justify-content: flex-start; }
 
 /* Hero without the phone: one column of copy */
 .hero-grid { grid-template-columns: 1fr; }
