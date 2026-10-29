@@ -164,8 +164,8 @@
         .then(function (res) {
           if (!res.ok) throw new Error('bad status');
           form.reset();
-          show("Thanks, " + name + ". We got your message and will reply within 24 hours.", false);
-          submitBtn.textContent = 'Sent';
+          try { sessionStorage.setItem('leadName', name.split(/\s+/)[0]); } catch (err) {}
+          window.location.href = '/thanks/';
         })
         .catch(function () {
           show("That didn't go through. Please try again, or email charlie@vylosmedia.com.", true);
@@ -243,13 +243,20 @@
 
   // Latest Instagram posts, from the Behold feed (refreshed by Behold, no keys on the site)
   var latest = document.getElementById('latest');
+  // "See what we do" points at the Instagram posts; if the feed can't show, it points at Services
+  function useFallbackLinks() {
+    Array.prototype.forEach.call(document.querySelectorAll('a[data-fallback]'), function (a) {
+      a.setAttribute('href', a.getAttribute('data-fallback'));
+    });
+  }
+  if (!latest || !window.fetch) useFallbackLinks();
   if (latest && window.fetch) {
     // Placeholder tiles hold the space while the feed loads; the section hides again if it fails
     var igGrid = document.getElementById('ig-grid');
     for (var sk = 0; sk < 3; sk++) { var ph = document.createElement('div'); ph.className = 'ig-post ig-skel'; ph.setAttribute('aria-hidden', 'true'); igGrid.appendChild(ph); }
     latest.hidden = false;
     latest.setAttribute('aria-busy', 'true');
-    function hideLatest() { latest.hidden = true; }
+    function hideLatest() { latest.hidden = true; useFallbackLinks(); }
     fetch(latest.getAttribute('data-feed'))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (d) {
@@ -643,6 +650,15 @@
   });
   motionListeners.push(labelMotion);
   labelMotion();
+
+  // Thank-you page: greet by first name if the form just sent it
+  var thanksTitle = document.getElementById('thanksTitle');
+  if (thanksTitle) {
+    try {
+      var first = sessionStorage.getItem('leadName');
+      if (first) thanksTitle.textContent = 'Thanks, ' + first + '. We got your message.';
+    } catch (err) {}
+  }
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
