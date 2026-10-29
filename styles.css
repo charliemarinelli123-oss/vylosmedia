@@ -1156,3 +1156,21 @@ body::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-even
 .viewfinder::before { display: none; }
 .card-lg { background: linear-gradient(160deg, #262628 0%, #18181a 60%, #121213 100%) !important; }
 .card-lg .ticks li::before { border-color: #cfc8bc; }
+
+/* ---------- Round 11: concise homepage, Pricing and FAQ pages, bottom fade ---------- */
+/* A soft black fade along the bottom of the screen while scrolling */
+html::after { content: ""; position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: 40; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .10)); }
+:root[data-theme="dark"]::after { background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .55)); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"])::after { background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .55)); } }
+.dock { z-index: 60; }
+
+/* How it works holds the service card and the steps */
+#how .bento { margin-bottom: clamp(28px, 4vw, 44px); }
+#how .card-lg { margin-bottom: 0; }
+
+/* Standalone Pricing and FAQ pages */
+.page-section { padding-top: clamp(56px, 8vw, 100px); }
+.page-section h1 { font-size: clamp(34px, 4.4vw, 52px); line-height: 1.06; letter-spacing: -0.03em; }
+.faq-more { text-align: center; color: var(--muted); margin-top: 36px; }
+.faq-more a { text-decoration: underline; text-underline-offset: 3px; }
