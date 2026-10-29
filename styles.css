@@ -1067,3 +1067,13 @@ h3 { font-family: var(--font); font-weight: 600; letter-spacing: -0.01em; }
 .hero-toggle { margin-top: 14px; font-size: 13px; }
 .footer-links .motion-toggle { font: inherit; color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; }
 .footer-links .motion-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
+
+/* Thank-you page after the contact form */
+.thanks .lead { font-size: 18px; margin-bottom: 8px; }
+.thanks ol { padding-left: 1.2em; margin: 10px 0 0; }
+.thanks li + li { margin-top: 6px; }
+.thanks .cta-row { margin-top: 36px; }
+
+/* Hero without the phone: one column of copy */
+.hero-grid { grid-template-columns: 1fr; }
+.hero-copy { max-width: 820px; }
