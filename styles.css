@@ -1067,3 +1067,92 @@ h3 { font-family: var(--font); font-weight: 600; letter-spacing: -0.01em; }
 .hero-toggle { margin-top: 14px; font-size: 13px; }
 .footer-links .motion-toggle { font: inherit; color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; }
 .footer-links .motion-toggle:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; border-radius: 2px; }
+
+/* Thank-you page after the contact form */
+.thanks .lead { font-size: 18px; margin-bottom: 8px; }
+.thanks ol { padding-left: 1.2em; margin: 10px 0 0; }
+.thanks li + li { margin-top: 6px; }
+.thanks .cta-row { margin-top: 36px; justify-content: flex-start; }
+
+/* Hero without the phone: one column of copy */
+.hero-grid { grid-template-columns: 1fr; }
+.hero-copy { max-width: 820px; }
+
+/* ---------- Round 10: neutral stone and graphite palette, still gradient backdrop ----------
+   Less yellow and brown: warm greys with a quiet champagne-grey accent.
+   The page sits on one fixed, slow-falling gradient. Nothing in the backdrop moves. */
+:root {
+  --bg: #f3f2ef; --text: #18181a; --muted: #5d5b57; --line: rgba(24, 24, 26, .12);
+  --link: #5b5449; --accent: #2a2826; --focus-ring: rgba(91, 84, 73, .22);
+  --btn: #18181a; --btn-text: #f7f6f3; --btn-hover: #333235;
+  --inv-bg: #18181a; --inv-text: #f7f6f3; --inv-muted: #b9b6b0;
+  --surface: #f9f8f6; --surface-2: #ecebe7; --input: #fbfaf8; --nav-bg: rgba(243, 242, 239, .86);
+  --band: transparent; --glow: transparent; --mark: #18181a;
+  --champagne: #e6e2db; --espresso: #18181a;
+  --backdrop: linear-gradient(180deg, #f8f7f4 0%, #f1efeb 38%, #e8e6e1 100%);
+  --sheen: radial-gradient(120% 60% at 50% -10%, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0) 70%);
+}
+:root[data-theme="dark"] {
+  --bg: #0e0e0f; --text: #efeeeb; --muted: #a3a19c; --line: rgba(255, 255, 255, .10);
+  --link: #cfc8bc; --accent: #e9e6e0; --focus-ring: rgba(207, 200, 188, .25);
+  --btn: #efeeeb; --btn-text: #121213; --btn-hover: #d6d4cf;
+  --inv-bg: #1a1a1c; --inv-text: #efeeeb; --inv-muted: #a3a19c;
+  --surface: #161618; --surface-2: #1c1c1f; --input: #121214; --nav-bg: rgba(14, 14, 15, .86);
+  --mark: #efeeeb; --champagne: #e6e2db; --espresso: #121213;
+  --backdrop: linear-gradient(180deg, #1a1a1c 0%, #111112 40%, #0b0b0c 100%);
+  --sheen: radial-gradient(120% 60% at 50% -10%, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 70%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e0e0f; --text: #efeeeb; --muted: #a3a19c; --line: rgba(255, 255, 255, .10);
+    --link: #cfc8bc; --accent: #e9e6e0; --focus-ring: rgba(207, 200, 188, .25);
+    --btn: #efeeeb; --btn-text: #121213; --btn-hover: #d6d4cf;
+    --inv-bg: #1a1a1c; --inv-text: #efeeeb; --inv-muted: #a3a19c;
+    --surface: #161618; --surface-2: #1c1c1f; --input: #121214; --nav-bg: rgba(14, 14, 15, .86);
+    --mark: #efeeeb; --champagne: #e6e2db; --espresso: #121213;
+    --backdrop: linear-gradient(180deg, #1a1a1c 0%, #111112 40%, #0b0b0c 100%);
+    --sheen: radial-gradient(120% 60% at 50% -10%, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 70%);
+  }
+}
+body { background: var(--bg); }
+body::before { content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none; background: var(--sheen), var(--backdrop); }
+.ribbons { display: none; }
+
+/* Pause motion stops every looping animation */
+.motion-held *, .motion-held *::before, .motion-held *::after { animation-play-state: paused !important; }
+
+/* Flood band: a still platinum gradient, no scroll pinning */
+.flood-fill { background: linear-gradient(160deg, #eeece8 0%, #dcd9d3 55%, #c9c5be 100%); }
+.flood-fill::after { display: none; }
+.flood-line, .flood-line .hl { color: #18181a; }
+.flood-eyebrow { color: rgba(24, 24, 26, .6); }
+.flood-mark { background: #18181a; box-shadow: none; }
+.flood-mark i { background: #eeece8; }
+
+/* Contact card: stone gradient in light, graphite gradient in dark */
+.cta-card { --surface: #f9f8f6; --surface-2: #ecebe7; --text: #18181a; --muted: #55534f; --link: #4f493f; --line: rgba(24, 24, 26, .14);
+  --accent: #2a2826; --input: #fbfaf8; --btn: #18181a; --btn-text: #f7f6f3; --btn-hover: #333235; --focus-ring: rgba(79, 73, 63, .25);
+  background: linear-gradient(140deg, #ecebe7 0%, #dedbd5 60%, #d3cfc8 100%); box-shadow: none; }
+:root[data-theme="dark"] .cta-card { --surface: #19191b; --surface-2: #202023; --text: #efeeeb; --muted: #a3a19c; --link: #cfc8bc;
+  --line: rgba(255, 255, 255, .11); --accent: #e9e6e0; --input: #121214; --btn: #efeeeb; --btn-text: #121213; --btn-hover: #d6d4cf;
+  --focus-ring: rgba(207, 200, 188, .25); --danger: #ff8a80;
+  background: linear-gradient(140deg, #1f1f22 0%, #161618 55%, #111112 100%); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .cta-card { --surface: #19191b; --surface-2: #202023; --text: #efeeeb; --muted: #a3a19c; --link: #cfc8bc;
+    --line: rgba(255, 255, 255, .11); --accent: #e9e6e0; --input: #121214; --btn: #efeeeb; --btn-text: #121213; --btn-hover: #d6d4cf;
+    --focus-ring: rgba(207, 200, 188, .25); --danger: #ff8a80;
+    background: linear-gradient(140deg, #1f1f22 0%, #161618 55%, #111112 100%); }
+}
+.cta-card .form { box-shadow: none; }
+
+/* Edit timeline card: platinum clips instead of bronze */
+.tl-track span { background: linear-gradient(180deg, #d9d6d0, #b3afa8); }
+.tl-track:nth-child(3) span { background: linear-gradient(180deg, #c7c3bc, #9d9992); }
+.tl-audio span { background: repeating-linear-gradient(90deg, rgba(220, 216, 209, .55) 0 2px, transparent 2px 5px) !important; }
+.tl-head { box-shadow: none; }
+
+/* About viewfinder: still graphite gradient */
+.viewfinder { background: linear-gradient(170deg, #1c1c1e 0%, #34332f 55%, #6e6a63 100%); box-shadow: none; }
+.viewfinder::before { display: none; }
+.card-lg { background: linear-gradient(160deg, #262628 0%, #18181a 60%, #121213 100%) !important; }
+.card-lg .ticks li::before { border-color: #cfc8bc; }
