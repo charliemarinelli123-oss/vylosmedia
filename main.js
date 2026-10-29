@@ -2,11 +2,12 @@
 (function () {
   var root = document.documentElement;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Pause motion: one switch for the hero Reel, the film loops and the light ribbons.
+  // Pause motion: one switch for the looping animations on the page.
   // Remembered for this visit only, so every new visit starts with motion on.
   var motionHeld = false;
   try { localStorage.removeItem('motion'); motionHeld = sessionStorage.getItem('motion') === 'paused'; } catch (e) {}
-  var motionListeners = [];
+  var motionListeners = [function () { root.classList.toggle('motion-held', motionHeld); }];
+  root.classList.toggle('motion-held', motionHeld);
   function setMotionHeld(v) {
     motionHeld = v;
     try { if (v) sessionStorage.setItem('motion', 'paused'); else sessionStorage.removeItem('motion'); } catch (e) {}
@@ -26,7 +27,7 @@
   // Browser chrome colour follows the chosen theme, not only the system one
   function syncThemeColor() {
     if (!root.dataset.theme) return;
-    var c = root.dataset.theme === 'dark' ? '#0f0d0b' : '#f4efe8';
+    var c = root.dataset.theme === 'dark' ? '#0e0e0f' : '#f3f2ef';
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
   }
   syncThemeColor();
@@ -309,231 +310,6 @@
         }
       })
       .catch(hideLatest);
-  }
-
-  // Light ribbons: fine strands of warm light that pinch to a bright point and fan out,
-  // drifting with time and with the scroll so they travel between sections.
-  // The drawing engine is self-contained so it can run on a worker thread (OffscreenCanvas),
-  // keeping the main thread free for scrolling. Motion is driven by frame timestamps, so it
-  // runs at whatever the display refreshes at: 60, 120 or more.
-  var ribbonEngine = function (cv, budgetMs) {
-    var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, N = 0, strands = [];
-    var dark = false, reduce = false, sy = 0, ty = 0, vh = 0, lastTs = 0, held = false;
-    var maxN = 40, calib = [], locked = false;
-    var palettes = {
-      dark: ['255, 226, 184', '214, 160, 104', '255, 246, 232'],
-      light: ['176, 122, 70', '140, 92, 50', '205, 160, 110']
-    };
-    var now = function () { return (typeof performance !== 'undefined' ? performance : Date).now(); };
-    function build(n) {
-      var seed = 7, rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-      N = n; strands = [];
-      for (var i = 0; i < N; i++) strands.push({ o: (i / (N - 1)) * 2 - 1 + (rnd() - .5) * .07, sp: .25 + rnd() * .5, ph: rnd() * 6.28, c: rnd() < .22 ? 2 : (rnd() < .5 ? 1 : 0) });
-    }
-    function grad(rgb, fx, a) {
-      var g = ctx.createLinearGradient(0, 0, W, 0), f = Math.min(Math.max(fx / W, .12), .88);
-      g.addColorStop(0, 'rgba(' + rgb + ',0)');
-      g.addColorStop(Math.max(f - .22, .01), 'rgba(' + rgb + ',' + (a * .35) + ')');
-      g.addColorStop(f, 'rgba(' + rgb + ',' + a + ')');
-      g.addColorStop(Math.min(f + .3, .99), 'rgba(' + rgb + ',' + (a * .7) + ')');
-      g.addColorStop(1, 'rgba(' + rgb + ',' + (a * .12) + ')');
-      return g;
-    }
-    function draw(t) {
-      if (!W || !strands.length) return;
-      var mobile = W < 760;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, H);
-      var fx = W * (mobile ? .5 + .12 * Math.sin(sy / 700) : .54 + .14 * Math.sin(sy / 950 - .1));
-      var fy = H * (mobile ? .84 : .7) + H * .07 * Math.sin(sy / 1200) + Math.sin(t * .21) * H * .012;
-      var pal = dark ? palettes.dark : palettes.light;
-      var gs = [grad(pal[0], fx, dark ? .55 : .75), grad(pal[1], fx, dark ? .45 : .6), grad(pal[2], fx, dark ? .7 : .6)];
-      ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
-      ctx.lineWidth = mobile ? .8 : 1;
-      var step = mobile ? 12 : 16, tilt = Math.sin(sy / 1400) * .25;
-      for (var i = 0; i < N; i++) {
-        var st = strands[i], ao = Math.abs(st.o);
-        ctx.strokeStyle = gs[st.c];
-        ctx.globalAlpha = (dark ? .22 : .28) + (1 - ao) * .5;
-        ctx.beginPath();
-        for (var x = -20; x <= W + 20; x += step) {
-          var d = (x - fx) / W, ad = Math.abs(d);
-          var spread = d >= 0 ? H * (.006 + .5 * Math.pow(d, 1.25)) : H * (.006 + .22 * Math.pow(-d, 1.1));
-          var yc = fy - H * (.35 + tilt) * d - H * .55 * d * ad;
-          var wave = Math.sin(x * .0042 + t * st.sp + st.ph) * H * .022 * (.25 + ad * 2) + Math.sin(x * .0016 - t * .22 + st.ph * .5) * H * .05 * ad;
-          var y = yc + st.o * spread + wave;
-          if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        if (i % 8 === 3) {
-          ctx.lineWidth = mobile ? 10 : 16; ctx.globalAlpha = dark ? .05 : .06;
-          ctx.stroke();
-          ctx.lineWidth = mobile ? .8 : 1;
-        }
-      }
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = 'source-over';
-    }
-    return {
-      size: function (w, h, ratio) {
-        if (w === W && Math.abs(h - H) < 120) return;
-        W = w; H = h; dpr = ratio;
-        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-        maxN = W < 760 ? 26 : 40;
-        if (!locked || N > maxN) build(maxN);
-        if (reduce) draw(0);
-      },
-      set: function (o) {
-        if ('dark' in o) dark = o.dark;
-        if ('reduce' in o) reduce = o.reduce;
-        if ('y' in o) { ty = o.y; if (!lastTs) sy = ty; }
-        if ('vh' in o) vh = o.vh;
-        if ('held' in o) { held = o.held; lastTs = 0; }
-        if (reduce) draw(0);
-      },
-      frame: function (ts) {
-        if (reduce || held) return;
-        var dt = lastTs ? Math.min(ts - lastTs, 64) : 16.67; lastTs = ts;
-        var settling = Math.abs(ty - sy) > .5;
-        sy += (ty - sy) * (1 - Math.pow(1 - .12, dt / 16.67));
-        // Past the hero the strands hold still and only redraw while the scroll drift settles
-        if (ty > vh * 1.2 && !settling) return;
-        var t0 = now();
-        draw(ts / 1000);
-        // For the first second, measure what a frame costs on this device and thin the
-        // strands until it fits the budget, then lock so nothing pops later
-        if (!locked) {
-          calib.push(now() - t0);
-          if (calib.length >= 30) {
-            calib.sort(function (a, b) { return a - b; });
-            var med = calib[calib.length >> 1];
-            if (med > budgetMs && N > 14) { build(Math.max(14, Math.floor(N * budgetMs / med))); calib = []; }
-            else locked = true;
-          }
-        }
-      }
-    };
-  };
-
-  (function () {
-    var cv = document.createElement('canvas');
-    if (!cv.getContext) return;
-    cv.className = 'ribbons'; cv.setAttribute('aria-hidden', 'true');
-    document.body.insertBefore(cv, document.body.firstChild);
-    var dims = function () {
-      var w = innerWidth;
-      return { w: w, h: Math.max(innerHeight, document.documentElement.clientHeight), dpr: Math.min(window.devicePixelRatio || 1, w < 760 ? 1.5 : 1) };
-    };
-    var state = function () { return { dark: isDark(), reduce: reduceMotion, y: window.scrollY, vh: innerHeight }; };
-    var send, d = dims();
-
-    var worker = null;
-    if (cv.transferControlToOffscreen && window.Worker && window.Blob && !reduceMotion) {
-      try {
-        var src = 'var make = ' + ribbonEngine.toString() + ';\n' +
-          'var r, raf = self.requestAnimationFrame ? self.requestAnimationFrame.bind(self) : null, running = true;\n' +
-          'function loop(ts) { if (!running) return; r.frame(ts); raf(loop); }\n' +
-          'self.onmessage = function (e) { var m = e.data;\n' +
-          '  if (m.type === "init") { r = make(m.canvas, 6); r.set(m.state); r.size(m.w, m.h, m.dpr); if (raf) raf(loop); else self.postMessage("need-ticks"); }\n' +
-          '  else if (m.type === "size") r.size(m.w, m.h, m.dpr);\n' +
-          '  else if (m.type === "set") { r.set(m.state); if ("held" in m.state && raf) { var was = running; running = !m.state.held; if (running && !was) raf(loop); } }\n' +
-          '  else if (m.type === "tick") r.frame(m.t);\n' +
-          '};';
-        var url = URL.createObjectURL(new Blob([src], { type: 'text/javascript' }));
-        worker = new Worker(url);
-        var off = cv.transferControlToOffscreen();
-        worker.postMessage({ type: 'init', canvas: off, w: d.w, h: d.h, dpr: d.dpr, state: state() }, [off]);
-        // Browsers without requestAnimationFrame in workers get frame ticks from the page instead
-        worker.onmessage = function (e) {
-          if (e.data !== 'need-ticks') return;
-          (function tick(ts) { if (!document.hidden) worker.postMessage({ type: 'tick', t: ts }); requestAnimationFrame(tick); })(performance.now());
-        };
-        send = function (type, payload) { payload.type = type; worker.postMessage(payload); };
-      } catch (err) { worker = null; }
-    }
-
-    if (!worker) {
-      // Same engine on the page itself, with a tighter per-frame budget
-      if (cv.width === 0 && !cv.getContext('2d')) return;
-      var eng = ribbonEngine(cv, 4);
-      eng.set(state()); eng.size(d.w, d.h, d.dpr);
-      send = function (type, payload) {
-        if (type === 'size') eng.size(payload.w, payload.h, payload.dpr); else eng.set(payload.state);
-      };
-      if (!reduceMotion) (function loop(ts) { if (!document.hidden) eng.frame(ts); requestAnimationFrame(loop); })(performance.now());
-    }
-
-    function themeChanged() { send('set', { state: { dark: isDark() } }); }
-    new MutationObserver(themeChanged).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-    if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', themeChanged);
-    window.addEventListener('resize', function () { var n = dims(); send('size', n); send('set', { state: { vh: innerHeight } }); });
-    function holdRibbons() { send('set', { state: { held: document.hidden || motionHeld } }); }
-    document.addEventListener('visibilitychange', holdRibbons);
-    motionListeners.push(holdRibbons);
-    if (motionHeld) holdRibbons();
-    // Brightest over the hero, quieter behind the reading sections
-    function fade() {
-      var o = Math.max(.32, 1 - window.scrollY / (innerHeight * 1.1));
-      cv.style.opacity = o.toFixed(3);
-    }
-    var lastY = -1;
-    window.addEventListener('scroll', function () {
-      var y = window.scrollY; if (y === lastY) return; lastY = y;
-      send('set', { state: { y: y } }); fade();
-    }, { passive: true });
-    fade();
-  })();
-
-  // Flood: as the section pins, champagne spreads out from the mark and the line writes itself in
-  var flood = document.querySelector('.flood');
-  if (flood && !reduceMotion) {
-    var fl = flood.querySelector('.flood-line'), fstage = flood.querySelector('.flood-stage');
-    var fwords = [];
-    Array.prototype.slice.call(fl.childNodes).forEach(function (n) {
-      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(function (w) { if (w) fwords.push(/^\s+$/.test(w) ? document.createTextNode(w) : w); });
-      else fwords.push(n);
-    });
-    fl.textContent = '';
-    var spans = [];
-    fwords.forEach(function (u) {
-      if (u.nodeType === 3) { fl.appendChild(u); return; }
-      var sp = document.createElement('span'); sp.className = 'fw';
-      if (typeof u === 'string') sp.textContent = u; else sp.appendChild(u);
-      fl.appendChild(sp); spans.push(sp);
-    });
-    fl.setAttribute('aria-label', fl.textContent);
-    flood.classList.add('flood-live');
-    var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
-    var ease = function (v) { return v * v * (3 - 2 * v); };
-    var fTick = false, fill = flood.querySelector('.flood-fill'), mark = flood.querySelector('.flood-mark');
-    var eyebrow = flood.querySelector('.flood-eyebrow'), fR = 0;
-    // Everything here moves with transform and opacity only, so the compositor does the work
-    // and nothing is repainted or laid out while scrolling. The fill is a circle sized once
-    // and scaled up, rather than a clip-path that repaints every frame.
-    function floodSize() {
-      fR = Math.ceil(Math.hypot(innerWidth, innerHeight) * .62);
-      fill.style.width = fill.style.height = (fR * 2) + 'px';
-      fill.style.margin = (-fR) + 'px 0 0 ' + (-fR) + 'px';
-    }
-    function floodUpdate() {
-      fTick = false;
-      var r = flood.getBoundingClientRect(), vh = innerHeight;
-      if (r.bottom < 0 || r.top > vh) return;
-      var lead = vh * .35, p = clamp((lead - r.top) / (r.height - vh + lead));
-      var a = ease(clamp(p / .34)), b = clamp((p - .3) / .42);
-      fill.style.transform = 'scale(' + a.toFixed(4) + ')';
-      mark.style.transform = 'translate3d(0,' + (ease(b) * Math.min(vh * .2, 150)).toFixed(1) + 'px,0) scale(' + (1 + a * .25 - b * .25).toFixed(3) + ')';
-      if (eyebrow) eyebrow.style.opacity = clamp((p - .28) / .1).toFixed(2);
-      var k = spans.length;
-      spans.forEach(function (sp, i) {
-        var o = clamp((b * (k + 2) - i) / 2.2);
-        sp.style.opacity = o.toFixed(3);
-        sp.style.transform = 'translate3d(0,' + ((1 - o) * .35).toFixed(3) + 'em,0)';
-      });
-    }
-    window.addEventListener('scroll', function () { if (!fTick) { fTick = true; requestAnimationFrame(floodUpdate); } }, { passive: true });
-    window.addEventListener('resize', function () { floodSize(); floodUpdate(); });
-    floodSize(); floodUpdate();
   }
 
   // Smooth wheel scrolling: the page glides and eases to a stop instead of halting with the wheel.
