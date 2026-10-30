@@ -1184,3 +1184,7 @@ html::after { content: ""; position: fixed; left: 0; right: 0; bottom: 0; height
 
 /* "Your next client" rows: no hover animation */
 .tiles .tile, .tiles .tile:hover { transition: none; translate: none; box-shadow: none; border-top-color: var(--line); }
+
+/* Footer: brand, copyright, then Contact, About, Privacy, Terms on one line */
+.footer .copyright { grid-column: auto; margin: 0; }
+@media (max-width: 640px) { .footer .copyright { grid-column: 1 / -1; } }
