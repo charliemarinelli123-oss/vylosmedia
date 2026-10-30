@@ -405,27 +405,6 @@
     motionListeners.push(function () { filmHeld = reduceMotion || motionHeld; sync(); });
   });
 
-  // Pause motion buttons: the one under the hero phone, plus one added to every footer
-  var footerLinks = document.querySelector('.footer-links');
-  if (footerLinks && !reduceMotion) {
-    var fb = document.createElement('button');
-    fb.type = 'button'; fb.className = 'motion-toggle';
-    footerLinks.appendChild(fb);
-  }
-  var motionToggles = document.querySelectorAll('.motion-toggle');
-  function labelMotion() {
-    Array.prototype.forEach.call(motionToggles, function (b) {
-      b.textContent = motionHeld ? 'Play motion' : 'Pause motion';
-      b.setAttribute('aria-pressed', motionHeld ? 'true' : 'false');
-    });
-  }
-  Array.prototype.forEach.call(motionToggles, function (b) {
-    if (reduceMotion) { b.hidden = true; return; }
-    b.addEventListener('click', function () { setMotionHeld(!motionHeld); });
-  });
-  motionListeners.push(labelMotion);
-  labelMotion();
-
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();
