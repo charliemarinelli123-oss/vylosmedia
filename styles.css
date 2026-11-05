@@ -1299,3 +1299,26 @@ body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-event
 :root:not([data-theme="dark"]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, rgba(255, 255, 255, .28) 8deg, rgba(255, 255, 255, .5) 14deg, rgba(255, 255, 255, .22) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255, 255, 255, .6) 0%, rgba(0, 0, 0, 0) 40%); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%); } }
 @media (max-width: 560px) { .field-meta span:first-child { display: none; } .field-meta { justify-content: flex-end; } }
+
+/* ---------- Round 12: dark only, frosted nav, quieter hero type, bronze button ---------- */
+/* Frosted glass nav: a floating bar that blurs the page behind it */
+.nav { top: 10px; margin: 10px auto 0; width: min(1120px, calc(100% - 24px)); border-radius: 14px;
+  background: rgba(14, 21, 34, .48); border: 1px solid rgba(200, 212, 232, .12);
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+.nav.scrolled { border-color: rgba(200, 212, 232, .16); }
+.nav .wrap.nav-inner, .nav-inner { padding-inline: 18px; }
+@media (max-width: 760px) {
+  .nav { top: 8px; margin-top: 8px; width: calc(100% - 16px); border-radius: 12px; }
+  .nav-links.open { background: #0d1421; border: 1px solid rgba(200, 212, 232, .12); border-top: 0; border-radius: 0 0 12px 12px; padding-inline: 18px;
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+}
+
+/* Hero: smaller headline and description */
+.hero h1 { font-size: clamp(38px, 5vw, 64px); }
+.hero .lede { font-size: clamp(16px, 1.45vw, 18px); line-height: 1.55; max-width: 34em; }
+
+/* Main button: a rich dark bronze gradient with champagne type */
+.btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #7a5e33 0%, #614a27 50%, #4b391d 100%);
+  color: #f4ead3; border: 1px solid rgba(214, 190, 140, .32); }
+.btn-dark:hover { background: linear-gradient(160deg, #85683a 0%, #6b522c 50%, #534022 100%); }
+.theme-toggle { display: none; }

@@ -5,7 +5,7 @@
   // Pause motion: one switch for the looping animations on the page.
   // Remembered for this visit only, so every new visit starts with motion on.
   var motionHeld = false;
-  try { localStorage.removeItem('motion'); motionHeld = sessionStorage.getItem('motion') === 'paused'; } catch (e) {}
+  try { localStorage.removeItem('motion'); localStorage.removeItem('theme'); motionHeld = sessionStorage.getItem('motion') === 'paused'; } catch (e) {}
   var motionListeners = [function () { root.classList.toggle('motion-held', motionHeld); }];
   root.classList.toggle('motion-held', motionHeld);
   function setMotionHeld(v) {
@@ -27,7 +27,7 @@
   // Browser chrome colour follows the chosen theme, not only the system one
   function syncThemeColor() {
     if (!root.dataset.theme) return;
-    var c = root.dataset.theme === 'dark' ? '#0e0e0f' : '#f3f2ef';
+    var c = '#0b1019';
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
   }
   syncThemeColor();
