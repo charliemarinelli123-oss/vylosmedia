@@ -1322,3 +1322,17 @@ body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-event
   color: #f4ead3; border: 1px solid rgba(214, 190, 140, .32); }
 .btn-dark:hover { background: linear-gradient(160deg, #85683a 0%, #6b522c 50%, #534022 100%); }
 .theme-toggle { display: none; }
+
+/* Headlines in Archivo Expanded: a wide, clean grotesk with an automotive feel */
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 300 600; font-stretch: 62% 125%; font-display: swap; src: url("/fonts/archivo-latin-wdth-wght.woff2") format("woff2"); }
+h1, h2, .tiles .tile h3, .define-word, .flood-line { font-family: "Archivo", var(--font); font-stretch: 125%; font-weight: 400; font-style: normal; letter-spacing: -0.035em; }
+h1 { line-height: 1.04; }
+h2 { font-size: clamp(26px, 3.4vw, 44px); line-height: 1.08; }
+.hero h1 { font-size: clamp(32px, 4.3vw, 56px); }
+.page-section h1 { font-size: clamp(30px, 3.8vw, 46px); }
+.tiles .tile h3 { font-size: clamp(19px, 1.9vw, 24px); letter-spacing: -0.025em; }
+
+/* Main button: lighter, muted champagne-taupe, not brown */
+.btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #807562 0%, #6f6656 50%, #5f574a 100%);
+  color: #f6f0e2; border: 1px solid rgba(232, 222, 200, .26); }
+.btn-dark:hover { background: linear-gradient(160deg, #8a7f6b 0%, #786e5d 50%, #675e50 100%); }
