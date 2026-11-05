@@ -1274,3 +1274,28 @@ body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-event
   --danger: #ff8a80; background: var(--card-bg); } }
 .link-arrow, .footer-links a { color: var(--link); }
 
+
+/* ---------- Round 12: film and digital details ---------- */
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+:root { --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+
+/* Hero: one column, a mono slate line above a two-tone headline */
+.hero-grid { grid-template-columns: 1fr; }
+.hero .h1, .hero h1 { max-width: 13em; }
+.hero .dim { color: var(--muted); }
+.slate { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 26px; }
+.slate span { color: var(--link); margin: 0 .5em; }
+@media (max-width: 760px) { .hero-grid { text-align: left; } .hero .cta-row { justify-content: flex-start; } }
+
+/* Character field: drawn once on a canvas, never animated */
+.field { position: relative; height: clamp(150px, 22vw, 250px); border-block: 1px solid var(--line); overflow: hidden; }
+.field-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.field-meta { position: relative; height: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 14px;
+  font: 400 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+.field-meta span { background: var(--bg); padding: 4px 6px; }
+
+/* Light mode: the light shaft is softer */
+:root:not([data-theme="dark"]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, rgba(255, 255, 255, .28) 8deg, rgba(255, 255, 255, .5) 14deg, rgba(255, 255, 255, .22) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255, 255, 255, .6) 0%, rgba(0, 0, 0, 0) 40%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%); } }
+@media (max-width: 560px) { .field-meta span:first-child { display: none; } .field-meta { justify-content: flex-end; } }

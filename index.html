@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202611050100">
+  <link rel="stylesheet" href="/styles.css?v=202611050200">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -220,16 +220,23 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <h1>Video crafted entirely around you.</h1>
+        <p class="slate">Short-form <span>/</span> Long-form <span>/</span> San Diego</p>
+        <h1><span class="dim">Video crafted</span> entirely around you.</h1>
         <p class="lede">Short-form and long-form video made with intent, for entrepreneurs, creators, artists and brands. Every frame considered and every detail handled, from the first idea to the final frame, so all that&#8217;s left is to share it with the world.</p>
         <div class="cta-row">
           <a class="btn btn-dark" href="#contact">Get your first Reel free</a>
           <a class="link-arrow" href="#latest" data-fallback="#contact">See what we do</a>
         </div>
-        <p class="note">Based in San Diego. We reply within 48 hours.</p>
+        <p class="note">We reply within 48 hours.</p>
       </div>
     </div>
   </section>
+
+  <!-- Character field: a still, frame-like texture between the hero and the page -->
+  <div class="field" aria-hidden="true">
+    <canvas class="field-canvas"></canvas>
+    <div class="wrap field-meta"><span>Vylos Media</span><span>4K / 24P / 10-bit</span></div>
+  </div>
 
   <!-- Why video -->
   <section class="band" id="why">
@@ -319,6 +326,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Get your first Reel free</a></div>
 
-<script src="/main.js?v=202611050100" defer></script>
+<script src="/main.js?v=202611050200" defer></script>
 </body>
 </html>
