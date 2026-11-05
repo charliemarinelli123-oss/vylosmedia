@@ -1188,3 +1188,89 @@ html::after { content: ""; position: fixed; left: 0; right: 0; bottom: 0; height
 /* Footer: brand, copyright, then Contact, About, Privacy, Terms on one line */
 .footer .copyright { grid-column: auto; margin: 0; }
 @media (max-width: 640px) { .footer .copyright { grid-column: 1 / -1; } }
+
+/* ---------- Round 12: three-color cinematic palette (Midnight, slate and champagne) ----------
+   One deep base, one grey for supporting text and lines, one metal used only for buttons and links.
+   The backdrop is a still graded gradient with a soft key light, a vignette and fine film grain. Nothing moves. */
+:root {
+  --bg: #edeff2; --text: #0f1724; --muted: #4c5766; --line: rgba(15,23,36,.12);
+  --link: #735b2c; --accent: #735b2c; --focus-ring: color-mix(in srgb, #735b2c 35%, transparent);
+  --btn: #0f1724; --btn-text: #e9dcbd; --btn-hover: #1d2a3f;
+  --inv-bg: #e4e8ee; --inv-text: #0f1724; --inv-muted: #4c5766;
+  --surface: #f5f6f8; --surface-2: #e4e8ee; --input: #f8f9fa; --nav-bg: color-mix(in srgb, #edeff2 86%, transparent);
+  --mark: #0f1724; --espresso: #edeff2;
+  --backdrop: linear-gradient(180deg, #f5f6f8 0%, #e9ecf0 45%, #dbe0e7 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(255,255,255,.85) 55%, transparent) 8deg, rgba(255,255,255,.85) 14deg, color-mix(in srgb, rgba(255,255,255,.85) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255,255,255,.85) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .07) 100%);
+  --grain-op: .05;
+  --card-bg: linear-gradient(140deg, #e6e9ee 0%, #dbe0e7 60%, #d0d7e0 100%);
+}
+:root[data-theme="dark"] {
+  --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  }
+}
+body::before { background: var(--sheen), var(--vignette), var(--backdrop); }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--grain-op);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.cta-card { --bg: #edeff2; --text: #0f1724; --muted: #4c5766; --line: rgba(15,23,36,.12);
+  --link: #735b2c; --accent: #735b2c; --focus-ring: color-mix(in srgb, #735b2c 35%, transparent);
+  --btn: #0f1724; --btn-text: #e9dcbd; --btn-hover: #1d2a3f;
+  --inv-bg: #e4e8ee; --inv-text: #0f1724; --inv-muted: #4c5766;
+  --surface: #f5f6f8; --surface-2: #e4e8ee; --input: #f8f9fa; --nav-bg: color-mix(in srgb, #edeff2 86%, transparent);
+  --mark: #0f1724; --espresso: #edeff2;
+  --backdrop: linear-gradient(180deg, #f5f6f8 0%, #e9ecf0 45%, #dbe0e7 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(255,255,255,.85) 55%, transparent) 8deg, rgba(255,255,255,.85) 14deg, color-mix(in srgb, rgba(255,255,255,.85) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255,255,255,.85) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .07) 100%);
+  --grain-op: .05;
+  --card-bg: linear-gradient(140deg, #e6e9ee 0%, #dbe0e7 60%, #d0d7e0 100%);
+  background: var(--card-bg); border: 1px solid var(--line); box-shadow: none; }
+:root[data-theme="dark"] .cta-card { --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --danger: #ff8a80; background: var(--card-bg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta-card { --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --danger: #ff8a80; background: var(--card-bg); } }
+.link-arrow, .footer-links a { color: var(--link); }
+
