@@ -5,7 +5,7 @@
   // Pause motion: one switch for the looping animations on the page.
   // Remembered for this visit only, so every new visit starts with motion on.
   var motionHeld = false;
-  try { localStorage.removeItem('motion'); motionHeld = sessionStorage.getItem('motion') === 'paused'; } catch (e) {}
+  try { localStorage.removeItem('motion'); localStorage.removeItem('theme'); motionHeld = sessionStorage.getItem('motion') === 'paused'; } catch (e) {}
   var motionListeners = [function () { root.classList.toggle('motion-held', motionHeld); }];
   root.classList.toggle('motion-held', motionHeld);
   function setMotionHeld(v) {
@@ -27,7 +27,7 @@
   // Browser chrome colour follows the chosen theme, not only the system one
   function syncThemeColor() {
     if (!root.dataset.theme) return;
-    var c = root.dataset.theme === 'dark' ? '#0e0e0f' : '#f3f2ef';
+    var c = '#0b1019';
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
   }
   syncThemeColor();
@@ -404,6 +404,46 @@
     filmToggle.addEventListener('click', function () { filmHeld = !filmHeld; sync(); });
     motionListeners.push(function () { filmHeld = reduceMotion || motionHeld; sync(); });
   });
+
+
+  // Character field under the hero: a still texture of mono glyphs, like a magnified frame.
+  // Drawn once (and again on resize or theme change). Nothing animates.
+  var field = document.querySelector('.field-canvas');
+  if (field && field.getContext) {
+    var ramp = [' ', ' ', '.', '\u00b7', ':', '+', '\u00d7', '\u25ab', '\u25aa'];
+    var seed = function (x, y) { var n = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453; return n - Math.floor(n); };
+    var drawField = function () {
+      var box = field.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      field.width = Math.round(box.width * dpr); field.height = Math.round(box.height * dpr);
+      var ctx = field.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, box.width, box.height);
+      var css = getComputedStyle(document.documentElement);
+      var dim = css.getPropertyValue('--muted').trim() || '#888', warm = css.getPropertyValue('--link').trim() || '#ccc';
+      var cw = 11, ch = 16, cols = Math.ceil(box.width / cw), rows = Math.ceil(box.height / ch);
+      ctx.font = '11px "IBM Plex Mono", ui-monospace, monospace'; ctx.textBaseline = 'top';
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var u = c / cols, v = r / rows;
+          // a soft diagonal light shaft, a horizon line and grain
+          var shaft = Math.exp(-Math.pow((u - 0.62) + (v - 0.5) * 0.55, 2) / 0.012);
+          var horizon = Math.exp(-Math.pow(v - 0.58, 2) / 0.02) * (0.35 + 0.65 * Math.abs(Math.sin(u * 9.0 + 1.3)) * 0.6);
+          var edge = Math.min(u, 1 - u) * 4; edge = edge > 1 ? 1 : edge;
+          var val = (shaft * 0.9 + horizon * 0.55) * edge + (seed(c, r) - 0.5) * 0.35;
+          if (val < 0.12) continue;
+          var i = Math.min(ramp.length - 1, Math.floor(val * ramp.length));
+          ctx.globalAlpha = Math.min(0.85, 0.18 + val * 0.6);
+          ctx.fillStyle = (val > 0.72 && seed(r, c) > 0.55) ? warm : dim;
+          ctx.fillText(ramp[i], c * cw, r * ch);
+        }
+      }
+      ctx.globalAlpha = 1;
+    };
+    var fieldTimer;
+    var redraw = function () { clearTimeout(fieldTimer); fieldTimer = setTimeout(drawField, 120); };
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(drawField);
+    window.addEventListener('resize', redraw);
+    new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
 
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();

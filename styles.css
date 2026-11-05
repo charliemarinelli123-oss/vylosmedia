@@ -1188,3 +1188,151 @@ html::after { content: ""; position: fixed; left: 0; right: 0; bottom: 0; height
 /* Footer: brand, copyright, then Contact, About, Privacy, Terms on one line */
 .footer .copyright { grid-column: auto; margin: 0; }
 @media (max-width: 640px) { .footer .copyright { grid-column: 1 / -1; } }
+
+/* ---------- Round 12: three-color cinematic palette (Midnight, slate and champagne) ----------
+   One deep base, one grey for supporting text and lines, one metal used only for buttons and links.
+   The backdrop is a still graded gradient with a soft key light, a vignette and fine film grain. Nothing moves. */
+:root {
+  --bg: #edeff2; --text: #0f1724; --muted: #4c5766; --line: rgba(15,23,36,.12);
+  --link: #735b2c; --accent: #735b2c; --focus-ring: color-mix(in srgb, #735b2c 35%, transparent);
+  --btn: #0f1724; --btn-text: #e9dcbd; --btn-hover: #1d2a3f;
+  --inv-bg: #e4e8ee; --inv-text: #0f1724; --inv-muted: #4c5766;
+  --surface: #f5f6f8; --surface-2: #e4e8ee; --input: #f8f9fa; --nav-bg: color-mix(in srgb, #edeff2 86%, transparent);
+  --mark: #0f1724; --espresso: #edeff2;
+  --backdrop: linear-gradient(180deg, #f5f6f8 0%, #e9ecf0 45%, #dbe0e7 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(255,255,255,.85) 55%, transparent) 8deg, rgba(255,255,255,.85) 14deg, color-mix(in srgb, rgba(255,255,255,.85) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255,255,255,.85) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .07) 100%);
+  --grain-op: .05;
+  --card-bg: linear-gradient(140deg, #e6e9ee 0%, #dbe0e7 60%, #d0d7e0 100%);
+}
+:root[data-theme="dark"] {
+  --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  }
+}
+body::before { background: var(--sheen), var(--vignette), var(--backdrop); }
+body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--grain-op);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.cta-card { --bg: #edeff2; --text: #0f1724; --muted: #4c5766; --line: rgba(15,23,36,.12);
+  --link: #735b2c; --accent: #735b2c; --focus-ring: color-mix(in srgb, #735b2c 35%, transparent);
+  --btn: #0f1724; --btn-text: #e9dcbd; --btn-hover: #1d2a3f;
+  --inv-bg: #e4e8ee; --inv-text: #0f1724; --inv-muted: #4c5766;
+  --surface: #f5f6f8; --surface-2: #e4e8ee; --input: #f8f9fa; --nav-bg: color-mix(in srgb, #edeff2 86%, transparent);
+  --mark: #0f1724; --espresso: #edeff2;
+  --backdrop: linear-gradient(180deg, #f5f6f8 0%, #e9ecf0 45%, #dbe0e7 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(255,255,255,.85) 55%, transparent) 8deg, rgba(255,255,255,.85) 14deg, color-mix(in srgb, rgba(255,255,255,.85) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255,255,255,.85) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .07) 100%);
+  --grain-op: .05;
+  --card-bg: linear-gradient(140deg, #e6e9ee 0%, #dbe0e7 60%, #d0d7e0 100%);
+  background: var(--card-bg); border: 1px solid var(--line); box-shadow: none; }
+:root[data-theme="dark"] .cta-card { --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --danger: #ff8a80; background: var(--card-bg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta-card { --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
+  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
+  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
+  --mark: #e9ebee; --espresso: #0b1019;
+  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
+  --grain-op: .07;
+  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --danger: #ff8a80; background: var(--card-bg); } }
+.link-arrow, .footer-links a { color: var(--link); }
+
+
+/* ---------- Round 12: film and digital details ---------- */
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
+:root { --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+
+/* Hero: one column, a mono slate line above a two-tone headline */
+.hero-grid { grid-template-columns: 1fr; }
+.hero .h1, .hero h1 { max-width: 13em; }
+.hero .dim { color: var(--muted); }
+.slate { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 26px; }
+.slate span { color: var(--link); margin: 0 .5em; }
+@media (max-width: 760px) { .hero-grid { text-align: left; } .hero .cta-row { justify-content: flex-start; } }
+
+/* Character field: drawn once on a canvas, never animated */
+.field { position: relative; height: clamp(150px, 22vw, 250px); border-block: 1px solid var(--line); overflow: hidden; }
+.field-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.field-meta { position: relative; height: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 14px;
+  font: 400 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+.field-meta span { background: var(--bg); padding: 4px 6px; }
+
+/* Light mode: the light shaft is softer */
+:root:not([data-theme="dark"]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, rgba(255, 255, 255, .28) 8deg, rgba(255, 255, 255, .5) 14deg, rgba(255, 255, 255, .22) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255, 255, 255, .6) 0%, rgba(0, 0, 0, 0) 40%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%); } }
+@media (max-width: 560px) { .field-meta span:first-child { display: none; } .field-meta { justify-content: flex-end; } }
+
+/* ---------- Round 12: dark only, frosted nav, quieter hero type, bronze button ---------- */
+/* Frosted glass nav: a floating bar that blurs the page behind it */
+.nav { top: 10px; margin: 10px auto 0; width: min(1120px, calc(100% - 24px)); border-radius: 14px;
+  background: rgba(14, 21, 34, .48); border: 1px solid rgba(200, 212, 232, .12);
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
+.nav.scrolled { border-color: rgba(200, 212, 232, .16); }
+.nav .wrap.nav-inner, .nav-inner { padding-inline: 18px; }
+@media (max-width: 760px) {
+  .nav { top: 8px; margin-top: 8px; width: calc(100% - 16px); border-radius: 12px; }
+  .nav-links.open { background: #0d1421; border: 1px solid rgba(200, 212, 232, .12); border-top: 0; border-radius: 0 0 12px 12px; padding-inline: 18px;
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+}
+
+/* Hero: smaller headline and description */
+.hero h1 { font-size: clamp(38px, 5vw, 64px); }
+.hero .lede { font-size: clamp(16px, 1.45vw, 18px); line-height: 1.55; max-width: 34em; }
+
+/* Main button: a rich dark bronze gradient with champagne type */
+.btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #7a5e33 0%, #614a27 50%, #4b391d 100%);
+  color: #f4ead3; border: 1px solid rgba(214, 190, 140, .32); }
+.btn-dark:hover { background: linear-gradient(160deg, #85683a 0%, #6b522c 50%, #534022 100%); }
+.theme-toggle { display: none; }
+
+/* Headlines in Archivo Expanded: a wide, clean grotesk with an automotive feel */
+@font-face { font-family: "Archivo"; font-style: normal; font-weight: 300 600; font-stretch: 62% 125%; font-display: swap; src: url("/fonts/archivo-latin-wdth-wght.woff2") format("woff2"); }
+h1, h2, .tiles .tile h3, .define-word, .flood-line { font-family: "Archivo", var(--font); font-stretch: 125%; font-weight: 400; font-style: normal; letter-spacing: -0.035em; }
+h1 { line-height: 1.04; }
+h2 { font-size: clamp(26px, 3.4vw, 44px); line-height: 1.08; }
+.hero h1 { font-size: clamp(32px, 4.3vw, 56px); }
+.page-section h1 { font-size: clamp(30px, 3.8vw, 46px); }
+.tiles .tile h3 { font-size: clamp(19px, 1.9vw, 24px); letter-spacing: -0.025em; }
+
+/* Main button: lighter, muted champagne-taupe, not brown */
+.btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #807562 0%, #6f6656 50%, #5f574a 100%);
+  color: #f6f0e2; border: 1px solid rgba(232, 222, 200, .26); }
+.btn-dark:hover { background: linear-gradient(160deg, #8a7f6b 0%, #786e5d 50%, #675e50 100%); }
