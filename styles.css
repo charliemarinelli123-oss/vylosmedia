@@ -1206,31 +1206,31 @@ html::after { content: ""; position: fixed; left: 0; right: 0; bottom: 0; height
   --card-bg: linear-gradient(140deg, #e6e9ee 0%, #dbe0e7 60%, #d0d7e0 100%);
 }
 :root[data-theme="dark"] {
-  --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --bg: #0e1116; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(195,203,215,.11);
   --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
-  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
-  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
-  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
-  --mark: #e9ebee; --espresso: #0b1019;
-  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
-  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --btn: #c9b07a; --btn-text: #0e1116; --btn-hover: #d8c393;
+  --inv-bg: #1c222d; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #141922; --surface-2: #1c222d; --input: #0f1319; --nav-bg: color-mix(in srgb, #0e1116 86%, transparent);
+  --mark: #e9ebee; --espresso: #0e1116;
+  --backdrop: linear-gradient(180deg, #1d2433 0%, #12161f 45%, #090b0e 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(180,192,212,.08) 55%, transparent) 8deg, rgba(180,192,212,.08) 14deg, color-mix(in srgb, rgba(180,192,212,.08) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(180,192,212,.08) 0%, rgba(0, 0, 0, 0) 40%);
   --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
   --grain-op: .07;
-  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --card-bg: linear-gradient(140deg, #1f2533 0%, #161b25 60%, #0f131a 100%);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-  --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+  --bg: #0e1116; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(195,203,215,.11);
   --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
-  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
-  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
-  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
-  --mark: #e9ebee; --espresso: #0b1019;
-  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
-  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --btn: #c9b07a; --btn-text: #0e1116; --btn-hover: #d8c393;
+  --inv-bg: #1c222d; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #141922; --surface-2: #1c222d; --input: #0f1319; --nav-bg: color-mix(in srgb, #0e1116 86%, transparent);
+  --mark: #e9ebee; --espresso: #0e1116;
+  --backdrop: linear-gradient(180deg, #1d2433 0%, #12161f 45%, #090b0e 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(180,192,212,.08) 55%, transparent) 8deg, rgba(180,192,212,.08) 14deg, color-mix(in srgb, rgba(180,192,212,.08) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(180,192,212,.08) 0%, rgba(0, 0, 0, 0) 40%);
   --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
   --grain-op: .07;
-  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --card-bg: linear-gradient(140deg, #1f2533 0%, #161b25 60%, #0f131a 100%);
   }
 }
 body::before { background: var(--sheen), var(--vignette), var(--backdrop); }
@@ -1248,29 +1248,29 @@ body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-event
   --grain-op: .05;
   --card-bg: linear-gradient(140deg, #e6e9ee 0%, #dbe0e7 60%, #d0d7e0 100%);
   background: var(--card-bg); border: 1px solid var(--line); box-shadow: none; }
-:root[data-theme="dark"] .cta-card { --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+:root[data-theme="dark"] .cta-card { --bg: #0e1116; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(195,203,215,.11);
   --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
-  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
-  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
-  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
-  --mark: #e9ebee; --espresso: #0b1019;
-  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
-  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --btn: #c9b07a; --btn-text: #0e1116; --btn-hover: #d8c393;
+  --inv-bg: #1c222d; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #141922; --surface-2: #1c222d; --input: #0f1319; --nav-bg: color-mix(in srgb, #0e1116 86%, transparent);
+  --mark: #e9ebee; --espresso: #0e1116;
+  --backdrop: linear-gradient(180deg, #1d2433 0%, #12161f 45%, #090b0e 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(180,192,212,.08) 55%, transparent) 8deg, rgba(180,192,212,.08) 14deg, color-mix(in srgb, rgba(180,192,212,.08) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(180,192,212,.08) 0%, rgba(0, 0, 0, 0) 40%);
   --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
   --grain-op: .07;
-  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --card-bg: linear-gradient(140deg, #1f2533 0%, #161b25 60%, #0f131a 100%);
   --danger: #ff8a80; background: var(--card-bg); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta-card { --bg: #0b1019; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(190,205,225,.11);
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta-card { --bg: #0e1116; --text: #e9ebee; --muted: #9aa3ae; --line: rgba(195,203,215,.11);
   --link: #d0bb8a; --accent: #d0bb8a; --focus-ring: color-mix(in srgb, #d0bb8a 35%, transparent);
-  --btn: #c9b07a; --btn-text: #0b1019; --btn-hover: #d8c393;
-  --inv-bg: #162033; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
-  --surface: #101826; --surface-2: #162033; --input: #0c121c; --nav-bg: color-mix(in srgb, #0b1019 86%, transparent);
-  --mark: #e9ebee; --espresso: #0b1019;
-  --backdrop: linear-gradient(180deg, #16223a 0%, #0e1523 45%, #070a10 100%);
-  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%);
+  --btn: #c9b07a; --btn-text: #0e1116; --btn-hover: #d8c393;
+  --inv-bg: #1c222d; --inv-text: #e9ebee; --inv-muted: #9aa3ae;
+  --surface: #141922; --surface-2: #1c222d; --input: #0f1319; --nav-bg: color-mix(in srgb, #0e1116 86%, transparent);
+  --mark: #e9ebee; --espresso: #0e1116;
+  --backdrop: linear-gradient(180deg, #1d2433 0%, #12161f 45%, #090b0e 100%);
+  --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(180,192,212,.08) 55%, transparent) 8deg, rgba(180,192,212,.08) 14deg, color-mix(in srgb, rgba(180,192,212,.08) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(180,192,212,.08) 0%, rgba(0, 0, 0, 0) 40%);
   --vignette: radial-gradient(130% 95% at 50% 35%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .38) 100%);
   --grain-op: .07;
-  --card-bg: linear-gradient(140deg, #18233a 0%, #111a2a 60%, #0c121d 100%);
+  --card-bg: linear-gradient(140deg, #1f2533 0%, #161b25 60%, #0f131a 100%);
   --danger: #ff8a80; background: var(--card-bg); } }
 .link-arrow, .footer-links a { color: var(--link); }
 
@@ -1297,19 +1297,19 @@ body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-event
 
 /* Light mode: the light shaft is softer */
 :root:not([data-theme="dark"]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, rgba(255, 255, 255, .28) 8deg, rgba(255, 255, 255, .5) 14deg, rgba(255, 255, 255, .22) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(255, 255, 255, .6) 0%, rgba(0, 0, 0, 0) 40%); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(170,192,230,.09) 55%, transparent) 8deg, rgba(170,192,230,.09) 14deg, color-mix(in srgb, rgba(170,192,230,.09) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(170,192,230,.09) 0%, rgba(0, 0, 0, 0) 40%); } }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --sheen: conic-gradient(from 198deg at 88% -12%, rgba(0, 0, 0, 0) 2deg, color-mix(in srgb, rgba(180,192,212,.08) 55%, transparent) 8deg, rgba(180,192,212,.08) 14deg, color-mix(in srgb, rgba(180,192,212,.08) 45%, transparent) 22deg, rgba(0, 0, 0, 0) 34deg, rgba(0, 0, 0, 0) 360deg), linear-gradient(115deg, rgba(180,192,212,.08) 0%, rgba(0, 0, 0, 0) 40%); } }
 @media (max-width: 560px) { .field-meta span:first-child { display: none; } .field-meta { justify-content: flex-end; } }
 
 /* ---------- Round 12: dark only, frosted nav, quieter hero type, bronze button ---------- */
 /* Frosted glass nav: a floating bar that blurs the page behind it */
 .nav { top: 10px; margin: 10px auto 0; width: min(1120px, calc(100% - 24px)); border-radius: 14px;
-  background: rgba(14, 21, 34, .48); border: 1px solid rgba(200, 212, 232, .12);
+  background: rgba(17, 21, 28, .48); border: 1px solid rgba(205, 212, 224, .12);
   -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%); }
-.nav.scrolled { border-color: rgba(200, 212, 232, .16); }
+.nav.scrolled { border-color: rgba(205, 212, 224, .16); }
 .nav .wrap.nav-inner, .nav-inner { padding-inline: 18px; }
 @media (max-width: 760px) {
   .nav { top: 8px; margin-top: 8px; width: calc(100% - 16px); border-radius: 12px; }
-  .nav-links.open { background: #0d1421; border: 1px solid rgba(200, 212, 232, .12); border-top: 0; border-radius: 0 0 12px 12px; padding-inline: 18px;
+  .nav-links.open { background: #11151d; border: 1px solid rgba(205, 212, 224, .12); border-top: 0; border-radius: 0 0 12px 12px; padding-inline: 18px;
     -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
 }
 
@@ -1336,7 +1336,3 @@ h2 { font-size: clamp(26px, 3.4vw, 44px); line-height: 1.08; }
 .btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #807562 0%, #6f6656 50%, #5f574a 100%);
   color: #f6f0e2; border: 1px solid rgba(232, 222, 200, .26); }
 .btn-dark:hover { background: linear-gradient(160deg, #8a7f6b 0%, #786e5d 50%, #675e50 100%); }
-
-/* One quiet proof line under the hero buttons */
-.stat { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text); opacity: .78; margin: 30px 0 0; }
-.stat + .note { margin-top: 12px; }

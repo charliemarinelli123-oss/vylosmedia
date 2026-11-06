@@ -27,7 +27,7 @@
   // Browser chrome colour follows the chosen theme, not only the system one
   function syncThemeColor() {
     if (!root.dataset.theme) return;
-    var c = '#0b1019';
+    var c = '#0e1116';
     document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.setAttribute('content', c); });
   }
   syncThemeColor();
