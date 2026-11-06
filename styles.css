@@ -1336,3 +1336,7 @@ h2 { font-size: clamp(26px, 3.4vw, 44px); line-height: 1.08; }
 .btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #807562 0%, #6f6656 50%, #5f574a 100%);
   color: #f6f0e2; border: 1px solid rgba(232, 222, 200, .26); }
 .btn-dark:hover { background: linear-gradient(160deg, #8a7f6b 0%, #786e5d 50%, #675e50 100%); }
+
+/* One quiet proof line under the hero buttons */
+.stat { font: 500 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--text); opacity: .78; margin: 30px 0 0; }
+.stat + .note { margin-top: 12px; }
