@@ -1349,11 +1349,11 @@ h2 { font-size: clamp(30px, 3.8vw, 52px); line-height: 1.04; }
 .page-section h1 { font-size: clamp(34px, 4.2vw, 56px); }
 .tiles .tile h3 { font-size: clamp(21px, 2vw, 27px); font-weight: 400; letter-spacing: -0.02em; }
 
-/* Hero: grainy silk texture, generated for Vylos. Still image, no motion. */
+/* Hero: smooth graded texture with film grain, generated for Vylos. Still image, no motion. */
 .hero-texture { position: relative; min-height: min(88vh, 900px); display: flex; align-items: center; border-bottom: 1px solid var(--line);
-  background: #0a0c11 url("/media/texture-silk.jpg") center / cover no-repeat; }
+  background: #0a0c11 url("/media/texture-film.jpg") center / cover no-repeat; }
 .hero-texture .wrap { position: relative; z-index: 1; width: 100%; }
-@media (max-width: 760px) { .hero-texture { background-image: url("/media/texture-silk-phone.jpg"); background-position: 70% center; } }
+@media (max-width: 760px) { .hero-texture { background-image: linear-gradient(180deg, rgba(10, 12, 17, .5), rgba(10, 12, 17, .15) 70%), url("/media/texture-film-phone.jpg"); background-position: center, 70% center; background-size: cover, cover; } }
 
 /* Big vertical wordmark with a small spec line beside it */
 .hero-mark { position: absolute; right: clamp(16px, 4vw, 64px); bottom: 6vh; display: flex; align-items: flex-end; gap: clamp(12px, 1.4vw, 20px);
