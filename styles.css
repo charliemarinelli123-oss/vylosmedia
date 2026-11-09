@@ -1393,3 +1393,19 @@ h2 { font-size: clamp(26px, 3vw, 42px); line-height: 1.12; }
 .hero-word { font-weight: 400; letter-spacing: .06em; }
 .hero-word { font-size: clamp(72px, 9vw, 136px); }
 @media (max-width: 760px) { .slate { font-size: 10px; letter-spacing: .2em; } .hero-word { font-size: 52px; } }
+
+/* ---------- Round 15: pure film grain ----------
+   No light shaft, no glow, no hero image. A deep, contrasty gradient under very fine
+   grain. The grain tile is 512px shown at 256px so it stays crisp on retina screens. */
+:root, :root[data-theme="dark"] {
+  --sheen: none;
+  --backdrop: radial-gradient(90% 60% at 50% 18%, #161c27 0%, rgba(22, 28, 39, 0) 70%), linear-gradient(180deg, #10141c 0%, #090b10 50%, #040506 100%);
+  --vignette: radial-gradient(125% 90% at 50% 35%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .6) 100%);
+  --grain-op: .16;
+}
+:root:not([data-theme="dark"]) { --sheen: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme]) { --sheen: none; } }
+body::before { background: var(--vignette), var(--backdrop); }
+body::after { background-image: url("/media/grain.png"); background-size: 256px 256px; background-repeat: repeat; }
+.hero-texture { background: transparent; }
+@media (max-width: 760px) { .hero-texture { background: transparent; } }
