@@ -92,8 +92,7 @@
   var caption = document.getElementById('caption');
   var lines = [
     ['Your brand,', 'seen by', 'the world.'],
-    ['New customers', 'start with', 'a scroll.'],
-    ['Your first Reel', 'is on us.']
+    ['New customers', 'start with', 'a scroll.']
   ];
   if (caption && !reduceMotion) {
     var i = 0;
