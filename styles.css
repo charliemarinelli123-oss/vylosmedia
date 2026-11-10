@@ -1398,3 +1398,14 @@ body::before { background: var(--vignette), var(--backdrop); }
 body::after { background-image: url("/media/grain.png"); background-size: 256px 256px; background-repeat: repeat; }
 .hero-texture { background: transparent; }
 @media (max-width: 760px) { .hero-texture { background: transparent; } }
+
+/* ---------- Round 16: cream light accent ----------
+   A broad, soft cream diffusion from the upper right, like light bleeding into film.
+   No rays. Sits under the grain. */
+:root, :root[data-theme="dark"] {
+  --backdrop:
+    radial-gradient(75% 60% at 92% 4%, rgba(222, 204, 168, .30) 0%, rgba(214, 196, 160, .12) 38%, rgba(214, 196, 160, 0) 72%),
+    radial-gradient(45% 35% at 82% 10%, rgba(236, 222, 192, .16) 0%, rgba(236, 222, 192, 0) 70%),
+    radial-gradient(90% 60% at 50% 18%, #161c27 0%, rgba(22, 28, 39, 0) 70%),
+    linear-gradient(180deg, #10141c 0%, #090b10 50%, #040506 100%);
+}
