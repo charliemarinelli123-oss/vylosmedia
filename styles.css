@@ -1409,3 +1409,5 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
     radial-gradient(90% 60% at 50% 18%, #161c27 0%, rgba(22, 28, 39, 0) 70%),
     linear-gradient(180deg, #10141c 0%, #090b10 50%, #040506 100%);
 }
+/* Vertical wordmark removed (Charlie 2026-11-10) */
+@media (max-width: 760px) { .hero-texture { padding-bottom: 0; align-items: center; } }
