@@ -1677,3 +1677,10 @@ body::before { background: var(--vignette), var(--backdrop); }
     radial-gradient(70% 60% at 50% 50%, #20252e 0%, #191d25 35%, rgba(25, 29, 37, 0) 80%),
     linear-gradient(180deg, #13161d 0%, #101319 50%, #0b0d11 100%);
 }
+
+/* ---------- Instagram rail in 16:9 landscape (Charlie 2026-11-11) ---------- */
+.ig-rail .ig-post, .ig-rail .ig-skel { aspect-ratio: 16 / 9; }
+.ig-rail .ig-post img, .ig-rail .ig-post video { object-fit: cover; object-position: 50% 50%; }
+.ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 18px) / 3); }
+@media (max-width: 900px) { .ig-rail .ig-grid { grid-auto-columns: calc((100% - 14px) / 1.6); } }
+@media (max-width: 760px) { .ig-rail .ig-grid { grid-auto-columns: 88%; } }

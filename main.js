@@ -333,7 +333,7 @@
           a.setAttribute('aria-label', 'Open on Instagram' + (cap ? ': ' + cap.slice(0, 80) : ''));
           var img = document.createElement('img');
           img.src = src; img.alt = cap ? cap.slice(0, 120) : 'Instagram post by Vylos Media';
-          img.loading = 'lazy'; img.decoding = 'async'; img.width = 480; img.height = 600;
+          img.loading = 'lazy'; img.decoding = 'async'; img.width = 640; img.height = 360;
           a.appendChild(img);
           // Reels get a muted preview that plays only while the tile is on screen
           if (p.mediaType === 'VIDEO' && p.mediaUrl && !reduceMotion) {
