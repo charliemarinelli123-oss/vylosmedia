@@ -1508,10 +1508,10 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 /* Hero photo: dark Porsche detail on the right, fading into the backdrop */
 .hero.hero-texture { position: relative; }
 .hero.hero-texture::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: url("/media/hero.jpg?v=3") 104% 58% / auto 72% no-repeat;
+  background: url("/media/hero.jpg?v=4") 100% 56% / auto 78% no-repeat;
   mix-blend-mode: lighten; }
 @media (max-width: 760px) {
-  .hero.hero-texture::before { background: url("/media/hero.jpg?v=3") 70% 0% / auto 62% no-repeat; opacity: .38; }
+  .hero.hero-texture::before { background: url("/media/hero.jpg?v=4") 70% 0% / auto 62% no-repeat; opacity: .38; }
 }
 
 /* Nav sits on the page at the top (no bar), and only turns into a soft frosted bar once you scroll */
