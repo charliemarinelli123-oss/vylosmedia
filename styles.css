@@ -1642,3 +1642,13 @@ html.pt-in::before { visibility: visible; animation: pt-in .42s cubic-bezier(.22
 /* "deserves." carries a soft filmic glow; its word mask is opened up so the glow is not clipped */
 .hero h1 .champ { text-shadow: 0 0 .28em rgba(208, 187, 138, .42), 0 0 .9em rgba(208, 187, 138, .18); }
 .hero h1 .w:has(.champ) { padding: .5em .6em; margin: -.5em -.6em; }
+
+/* ---------- Round 19 (2026-11-11): centered light ----------
+   No corner glare. The backdrop is a little lighter and brightest in the middle,
+   easing out to a soft vignette at the edges. */
+:root, :root[data-theme="dark"] {
+  --backdrop:
+    radial-gradient(70% 60% at 50% 50%, #1e2533 0%, #171c27 35%, rgba(23, 28, 39, 0) 80%),
+    linear-gradient(180deg, #12161f 0%, #0f131a 50%, #0b0d12 100%);
+  --vignette: radial-gradient(120% 100% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, .45) 100%);
+}
