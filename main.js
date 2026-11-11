@@ -599,3 +599,14 @@
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 })();
+
+/* Champagne glow behind the menu bar: full at the top, gone after ~320px of scroll */
+(function () {
+  var g = document.createElement('div');
+  g.className = 'topglow'; g.setAttribute('aria-hidden', 'true');
+  document.body.insertBefore(g, document.body.firstChild);
+  var t = false;
+  function set() { t = false; var o = 1 - window.scrollY / 320; g.style.opacity = o > 0 ? o.toFixed(3) : '0'; }
+  window.addEventListener('scroll', function () { if (!t) { t = true; requestAnimationFrame(set); } }, { passive: true });
+  set();
+})();
