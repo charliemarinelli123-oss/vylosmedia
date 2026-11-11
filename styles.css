@@ -1411,3 +1411,9 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 }
 /* Vertical wordmark removed (Charlie 2026-11-10) */
 @media (max-width: 760px) { .hero-texture { padding-bottom: 0; align-items: center; } }
+
+/* Who we work with: side line on one row, centered with the heading */
+@media (min-width: 900px) {
+  #clients .section-head.split { grid-template-columns: auto auto; justify-content: space-between; align-items: center; }
+  #clients .section-head.split .side { white-space: nowrap; max-width: none; padding-bottom: 0; }
+}
