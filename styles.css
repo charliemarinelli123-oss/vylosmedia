@@ -1479,7 +1479,7 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 
 /* Instagram poster carousel: one row, arrows on each side, eased glide */
 .ig-rail { position: relative; }
-.ig-rail .ig-grid { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 18px) / 4); column-gap: 18px;
+.ig-rail .ig-grid { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 18px) / 3.4); column-gap: 18px;
   overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; outline: none; }
 .ig-rail .ig-grid::-webkit-scrollbar { display: none; }
 .ig-rail .ig-grid.gliding { scroll-snap-type: none; }
@@ -1498,9 +1498,9 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 .ig-arrow:disabled { opacity: 0; pointer-events: none; }
 .ig-arrow:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 @media (max-width: 1160px) { .ig-arrow.prev { left: 8px; } .ig-arrow.next { right: 8px; } }
-@media (max-width: 900px) { .ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 14px) / 2.6); column-gap: 14px; } }
+@media (max-width: 900px) { .ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 14px) / 2.2); column-gap: 14px; } }
 @media (max-width: 760px) {
-  .ig-rail .ig-grid { grid-auto-columns: 62%; column-gap: 12px; scroll-padding-left: 0; }
+  .ig-rail .ig-grid { grid-auto-columns: 72%; column-gap: 12px; scroll-padding-left: 0; }
   .ig-arrow { width: 40px; height: 40px; margin-top: -20px; }
 }
 @media (prefers-reduced-motion: reduce) { .ig-arrow { transition: none; } }
@@ -1539,3 +1539,25 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 
 /* Hero: "deserves." in champagne italic */
 .hero h1 .champ { color: var(--accent); font-style: italic; margin-left: -.08em; }
+h2 .champ { color: var(--accent); font-style: italic; }
+
+/* Who we work with: the line is the heading now, the label sits beside it */
+#clients .section-head.split h2 { max-width: 15em; }
+@media (min-width: 900px) { #clients .section-head.split .side { top: 0; align-self: end; padding-bottom: .5em; } }
+
+/* Services strip under the heading: one hairline box, four cells */
+.svc-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 4px;
+  background: rgba(255, 255, 255, .015); margin: 0 0 clamp(40px, 5vw, 64px); }
+.svc-strip > div { padding: clamp(24px, 2.4vw, 34px) clamp(20px, 2.4vw, 34px); }
+.svc-strip > div + div { border-left: 1px solid var(--line); }
+.svc-strip h3 { font-family: var(--serif); font-size: clamp(16px, 1.3vw, 18px); white-space: nowrap; font-weight: 500; line-height: 1.25; }
+.svc-strip p { color: var(--muted); font-size: 15px; line-height: 1.6; margin-top: 10px; }
+@media (max-width: 900px) {
+  .svc-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .svc-strip > div:nth-child(3) { border-left: 0; }
+  .svc-strip > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 520px) {
+  .svc-strip { grid-template-columns: 1fr; }
+  .svc-strip > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
