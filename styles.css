@@ -1435,3 +1435,39 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 /* Scroll line stays on the straight part of the nav's bottom edge, clear of the rounded corners */
 .nav .progress { left: 16px; right: 16px; width: auto; bottom: -1px; height: 1px; border-radius: 1px; transform: none; clip-path: inset(0 calc((1 - var(--p, 0)) * 100%) 0 0); background: linear-gradient(90deg, rgba(0,0,0,0), var(--link) 25%, var(--link)); }
 @media (max-width: 760px) { .nav .progress { left: 14px; right: 14px; } }
+
+/* ---------- Round 18: compact phone layout (2026-11-11) ---------- */
+@media (max-width: 760px) {
+  body { font-size: 15px; line-height: 1.5; }
+  .nav .brand { font-size: 15px; gap: 8px; }
+  .nav .brand img { width: 22px; height: 22px; }
+  .hero { padding-top: 36px; }
+  .slate { margin-bottom: 18px; }
+  h1 { font-size: 29px; line-height: 1.08; }
+  .lede { font-size: 15px; line-height: 1.55; margin-top: 16px; }
+  .cta-row { margin-top: 22px; }
+  .note { font-size: 13px; margin-top: 16px; }
+  .band, #clients, #contact { padding-top: 56px; padding-bottom: 56px; }
+  h2 { font-size: 23px; }
+  .tiles .tile { padding: 22px 2px; }
+  .tiles .tile h3 { font-size: 16px; margin-bottom: 6px; }
+  .tiles .tile p { font-size: 15px; line-height: 1.5; }
+  .cta-card { padding: 20px; }
+  .form { padding: 16px; }
+  .form label { font-size: 14px; }
+  .form input, .form select, .form textarea { font-size: 16px; padding: 10px 12px; }
+  .footer { padding-top: 28px; font-size: 12px; }
+}
+@media (max-width: 760px) {
+  .nav .wrap.nav-inner, .nav-inner { height: 50px; padding-inline: 14px; }
+  .menu-toggle { font-size: 13px; padding: 8px 12px; }
+  .hero-texture { min-height: 0; padding-top: 72px; padding-bottom: 72px; }
+  .btn { font-size: 14px; padding: 11px 18px; }
+  .cta-row .link-arrow { font-size: 14px; }
+}
+@media (max-width: 760px) {
+  .cta-card .sub { font-size: 15px; }
+  .channels dt { font-size: 12px; }
+  .channels dd { font-size: 15px; }
+  .channels > div { margin-bottom: 12px; }
+}
