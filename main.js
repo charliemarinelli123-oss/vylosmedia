@@ -252,14 +252,56 @@
   if (latest && window.fetch) {
     // Placeholder tiles hold the space while the feed loads; the section hides again if it fails
     var igGrid = document.getElementById('ig-grid');
-    for (var sk = 0; sk < 3; sk++) { var ph = document.createElement('div'); ph.className = 'ig-post ig-skel'; ph.setAttribute('aria-hidden', 'true'); igGrid.appendChild(ph); }
+    for (var sk = 0; sk < 5; sk++) { var ph = document.createElement('div'); ph.className = 'ig-post ig-skel'; ph.setAttribute('aria-hidden', 'true'); igGrid.appendChild(ph); }
     latest.hidden = false;
     latest.setAttribute('aria-busy', 'true');
     function hideLatest() { latest.hidden = true; useFallbackLinks(); }
+    // Poster carousel: arrows glide one view at a time with an eased scroll
+    function initRail() {
+      var track = igGrid, prev = latest.querySelector('.ig-arrow.prev'), next = latest.querySelector('.ig-arrow.next');
+      if (!prev || !next) return;
+      var anim = null;
+      function maxX() { return track.scrollWidth - track.clientWidth; }
+      function update() {
+        prev.disabled = track.scrollLeft <= 4;
+        next.disabled = track.scrollLeft >= maxX() - 4;
+        latest.querySelector('.ig-rail').classList.toggle('at-end', next.disabled);
+        latest.querySelector('.ig-rail').classList.toggle('at-start', prev.disabled);
+      }
+      function step(dir) {
+        var item = track.querySelector('.ig-post');
+        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        var w = item ? item.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+        var per = Math.max(1, Math.floor((track.clientWidth + gap) / w));
+        var from = track.scrollLeft, to = Math.max(0, Math.min(maxX(), Math.round((from + dir * per * w) / w) * w));
+        if (reduceMotion) { track.scrollLeft = to; update(); return; }
+        if (anim) cancelAnimationFrame(anim);
+        track.classList.add('gliding');
+        var t0 = null, dur = 900;
+        function ease(t) { return 1 - Math.pow(1 - t, 4); }
+        function frame(t) {
+          if (t0 === null) t0 = t;
+          var k = Math.min(1, (t - t0) / dur);
+          track.scrollLeft = from + (to - from) * ease(k);
+          if (k < 1) anim = requestAnimationFrame(frame);
+          else { anim = null; track.classList.remove('gliding'); update(); }
+        }
+        anim = requestAnimationFrame(frame);
+      }
+      prev.addEventListener('click', function () { step(-1); });
+      next.addEventListener('click', function () { step(1); });
+      track.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+      });
+      track.addEventListener('scroll', function () { if (!anim) update(); }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
     fetch(latest.getAttribute('data-feed'))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (d) {
-        var posts = (Array.isArray(d) ? d : d.posts || []).slice(0, 3);
+        var posts = (Array.isArray(d) ? d : d.posts || []).slice(0, 12);
         if (!posts.length) { hideLatest(); return; }
         var grid = igGrid;
         grid.textContent = '';
@@ -297,6 +339,10 @@
             stack.innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 3h12a2 2 0 012 2v12h-2V5H7zM3 7h12a2 2 0 012 2v10a2 2 0 01-2 2H3a2 2 0 01-2-2V9a2 2 0 012-2z"/></svg>';
             a.appendChild(stack);
           }
+          var title = document.createElement('span');
+          title.className = 'ig-title'; title.setAttribute('aria-hidden', 'true');
+          title.textContent = (cap.split('\n')[0].replace(/[#@]\S+/g, '').trim() || 'Recent work').slice(0, 60);
+          a.appendChild(title);
           var view = document.createElement('span');
           view.className = 'ig-view'; view.setAttribute('aria-hidden', 'true'); view.textContent = 'View on Instagram';
           a.appendChild(view);
@@ -304,6 +350,7 @@
           grid.appendChild(a);
         });
         latest.hidden = false;
+        initRail();
         if (!reduceMotion && 'IntersectionObserver' in window) {
           var vio = new IntersectionObserver(function (es) {
             es.forEach(function (e) {
