@@ -1471,3 +1471,14 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
   .channels dd { font-size: 15px; }
   .channels > div { margin-bottom: 12px; }
 }
+
+/* Round 19: visual concept. Carved VYLOS MEDIA wall behind the hero, light shaft behind contact */
+.hero-texture { background: linear-gradient(90deg, rgba(9,12,18,.72), rgba(9,12,18,.25) 60%, rgba(9,12,18,0)), url("/media/wall-vylos.jpg") center bottom / cover no-repeat; }
+#contact.band { position: relative; background: linear-gradient(180deg, rgba(9,12,18,.25), rgba(9,12,18,0) 40%, rgba(9,12,18,.35)), url("/media/light-shaft.jpg") center / cover no-repeat; }
+@media (max-width: 760px) {
+  .hero-texture { background: linear-gradient(180deg, rgba(9,12,18,.55), rgba(9,12,18,.2) 45%, rgba(9,12,18,0)), url("/media/wall-vylos-phone.jpg") center bottom / cover no-repeat; min-height: 100svh; align-items: flex-start; padding-top: 96px; }
+  #contact.band { background: linear-gradient(180deg, rgba(9,12,18,.3), rgba(9,12,18,0) 40%, rgba(9,12,18,.4)), url("/media/light-shaft-phone.jpg") center / cover no-repeat; }
+}
+#contact .cta-card { background: rgba(14, 17, 22, .28); }
+#contact.band { padding-top: 120px; padding-bottom: 120px; }
+@media (max-width: 760px) { #contact.band { padding-top: 72px; padding-bottom: 72px; } }
