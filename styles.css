@@ -1515,7 +1515,7 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 }
 
 /* Jet: desktop sits left of the centered lede, plane ending just before "resorts and fine dining" */
-.hero.hero-texture::after { content: ""; position: absolute; left: 0; width: calc(50% - 396px); top: calc(50% - 76px); height: calc(clamp(760px, 56vw, 1200px) * 596 / 1800);
+.hero.hero-texture::after { content: ""; position: absolute; left: 0; width: calc(50% - 455px); top: calc(50% - 60px); height: calc(clamp(760px, 56vw, 1200px) * 596 / 1800);
   background: url("/media/hero-jet.jpg?v=2") right center / clamp(760px, 56vw, 1200px) auto no-repeat; mix-blend-mode: lighten; opacity: .8; pointer-events: none; z-index: -1; }
 @media (max-width: 760px) {
   .hero.hero-texture::after { content: ""; position: absolute; inset: 0; left: 0; top: 0; width: auto; height: auto; z-index: -1; pointer-events: none;
@@ -1534,5 +1534,5 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 /* Hero copy centered on the page */
 .hero.hero-texture .hero-grid { display: flex; justify-content: center; }
 .hero.hero-texture .hero-copy { max-width: 760px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
-.hero.hero-texture .hero-copy .lede { margin-inline: auto; }
+.hero.hero-texture .hero-copy .lede { margin-inline: auto; max-width: 780px; text-wrap: balance; }
 .hero.hero-texture .cta-row { justify-content: center; }
