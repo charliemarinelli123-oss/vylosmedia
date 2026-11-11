@@ -1536,3 +1536,6 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 .hero.hero-texture .hero-copy { max-width: 760px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
 .hero.hero-texture .hero-copy .lede { margin-inline: auto; max-width: 780px; text-wrap: balance; }
 .hero.hero-texture .cta-row { justify-content: center; }
+
+/* Hero: "deserves." in champagne italic */
+.hero h1 .champ { color: var(--accent); font-style: italic; margin-left: -.08em; }
