@@ -1661,3 +1661,11 @@ body::before { background: var(--topglow), var(--vignette), var(--backdrop); }
 /* A little more room between the mark and the wordmark */
 .brand { gap: 14px; }
 @media (max-width: 760px) { .nav .brand { gap: 11px; } }
+
+/* ---------- Round 20 (2026-11-11): finer, quieter grain; top glow fades on scroll ---------- */
+:root, :root[data-theme="dark"] { --grain-op: .09; }
+body::after { background-image: url("/media/grain-fine.png?v=1"); background-size: 256px 256px; }
+/* The top glow now lives on its own layer so it can fade as you scroll */
+body::before { background: var(--vignette), var(--backdrop); }
+.topglow { position: fixed; inset: 0 0 auto 0; height: 220px; z-index: -2; pointer-events: none;
+  background: radial-gradient(75% 110px at 50% 0%, rgba(214, 192, 142, .2) 0%, rgba(214, 192, 142, .07) 55%, rgba(214, 192, 142, 0) 100%); will-change: opacity; }
