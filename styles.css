@@ -1417,3 +1417,18 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
   #clients .section-head.split { grid-template-columns: auto auto; justify-content: space-between; align-items: center; }
   #clients .section-head.split .side { white-space: nowrap; max-width: none; padding-bottom: 0; }
 }
+
+/* ---------- Round 17 (2026-11-11) ---------- */
+/* Lighter wordmark in the nav */
+.nav .brand span, .nav .brand { font-weight: 400; }
+/* Cinema-quality line sits a little lower beside the heading */
+@media (min-width: 900px) { #clients .section-head.split .side { position: relative; top: 10px; } }
+/* Second, dimmer cream light from the bottom left */
+:root, :root[data-theme="dark"] {
+  --backdrop:
+    radial-gradient(75% 60% at 92% 4%, rgba(222, 204, 168, .30) 0%, rgba(214, 196, 160, .12) 38%, rgba(214, 196, 160, 0) 72%),
+    radial-gradient(45% 35% at 82% 10%, rgba(236, 222, 192, .16) 0%, rgba(236, 222, 192, 0) 70%),
+    radial-gradient(70% 55% at 6% 98%, rgba(214, 196, 160, .16) 0%, rgba(214, 196, 160, .06) 40%, rgba(214, 196, 160, 0) 72%),
+    radial-gradient(90% 60% at 50% 18%, #161c27 0%, rgba(22, 28, 39, 0) 70%),
+    linear-gradient(180deg, #10141c 0%, #090b10 50%, #040506 100%);
+}
