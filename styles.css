@@ -1669,3 +1669,5 @@ body::after { background-image: url("/media/grain-fine.png?v=1"); background-siz
 body::before { background: var(--vignette), var(--backdrop); }
 .topglow { position: fixed; inset: 0 0 auto 0; height: 220px; z-index: -2; pointer-events: none;
   background: radial-gradient(75% 110px at 50% 0%, rgba(214, 192, 142, .2) 0%, rgba(214, 192, 142, .07) 55%, rgba(214, 192, 142, 0) 100%); will-change: opacity; }
+/* Top glow removed (Charlie 2026-11-11) */
+.topglow { display: none; }
