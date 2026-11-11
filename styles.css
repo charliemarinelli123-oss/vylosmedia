@@ -1652,3 +1652,9 @@ html.pt-in::before { visibility: visible; animation: pt-in .42s cubic-bezier(.22
     linear-gradient(180deg, #12161f 0%, #0f131a 50%, #0b0d12 100%);
   --vignette: radial-gradient(120% 100% at 50% 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, .45) 100%);
 }
+/* Soft champagne glow along the top, under the menu bar (Charlie 2026-11-11) */
+:root, :root[data-theme="dark"] {
+  --topglow:
+    radial-gradient(75% 110px at 50% 0%, rgba(214, 192, 142, .2) 0%, rgba(214, 192, 142, .07) 55%, rgba(208, 187, 138, 0) 100%);
+}
+body::before { background: var(--topglow), var(--vignette), var(--backdrop); }
