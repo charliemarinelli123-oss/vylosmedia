@@ -1432,3 +1432,6 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
     radial-gradient(90% 60% at 50% 18%, #161c27 0%, rgba(22, 28, 39, 0) 70%),
     linear-gradient(180deg, #10141c 0%, #090b10 50%, #040506 100%);
 }
+/* Scroll line stays on the straight part of the nav's bottom edge, clear of the rounded corners */
+.nav .progress { left: 16px; right: 16px; width: auto; bottom: -1px; height: 1px; border-radius: 1px; transform: none; clip-path: inset(0 calc((1 - var(--p, 0)) * 100%) 0 0); background: linear-gradient(90deg, rgba(0,0,0,0), var(--link) 25%, var(--link)); }
+@media (max-width: 760px) { .nav .progress { left: 14px; right: 14px; } }
