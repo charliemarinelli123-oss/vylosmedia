@@ -294,9 +294,24 @@
         if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
         if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
       });
-      track.addEventListener('scroll', function () { if (!anim) update(); }, { passive: true });
-      window.addEventListener('resize', update);
+      // Film-band feel: posters ease back (a touch smaller and dimmer) as they move toward either edge
+      var bandTick = false;
+      function band() {
+        bandTick = false;
+        var r = track.getBoundingClientRect(), cx = r.left + r.width / 2, half = r.width / 2;
+        Array.prototype.forEach.call(track.querySelectorAll('.ig-post'), function (t) {
+          var b = t.getBoundingClientRect();
+          var d = Math.min(1, Math.abs(b.left + b.width / 2 - cx) / (half + b.width * 0.25));
+          var e = d * d;
+          t.style.transform = 'scale(' + (1 - 0.08 * e).toFixed(4) + ')';
+          t.style.opacity = (1 - 0.55 * e).toFixed(3);
+        });
+      }
+      function queueBand() { if (!reduceMotion && !bandTick) { bandTick = true; requestAnimationFrame(band); } }
+      track.addEventListener('scroll', function () { if (!anim) update(); queueBand(); }, { passive: true });
+      window.addEventListener('resize', function () { update(); queueBand(); });
       update();
+      queueBand();
     }
     fetch(latest.getAttribute('data-feed'))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -537,6 +552,96 @@
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(drawField);
     window.addEventListener('resize', redraw);
     new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+
+
+  // ---------- Motion (2026-11-11) ----------
+  // Smooth scroll on desktop (mouse / trackpad); phones keep their native scroll
+  if (window.Lenis && !reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+    try {
+      window.vylosLenis = new Lenis({
+        duration: 1.15,
+        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        anchors: { offset: -72 },
+        autoRaf: true,
+        prevent: function (n) { return n && n.closest && !!n.closest('textarea, select'); }
+      });
+    } catch (e) {}
+  }
+
+  // Section headings: split into words, then each line rises in when the heading enters the view
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var heads = Array.prototype.slice.call(document.querySelectorAll('main h2'));
+    heads.forEach(function (h) {
+      var words = [];
+      function walk(node, wrap) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (c) {
+          if (c.nodeType === 3) {
+            c.textContent.split(/(\s+)/).forEach(function (t) {
+              if (!t) return;
+              if (/^\s+$/.test(t)) { words.push(document.createTextNode(t)); return; }
+              var w = document.createElement('span'), wi = document.createElement('span');
+              w.className = 'w'; wi.className = 'wi';
+              wi.appendChild(wrap(document.createTextNode(t)));
+              w.appendChild(wi); words.push(w);
+            });
+          } else if (c.nodeType === 1) {
+            walk(c, function (inner) { var cl = c.cloneNode(false); cl.appendChild(inner); return wrap(cl); });
+          }
+        });
+      }
+      walk(h, function (x) { return x; });
+      h.textContent = '';
+      words.forEach(function (w) { h.appendChild(w); });
+      h.classList.add('split-io');
+    });
+    var headIO = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var h = e.target, line = -1, lastTop = null;
+        Array.prototype.forEach.call(h.querySelectorAll('.w'), function (w) {
+          var top = w.offsetTop;
+          if (lastTop === null || Math.abs(top - lastTop) > 4) { line++; lastTop = top; }
+          w.firstChild.style.setProperty('--ld', (line * 0.11) + 's');
+        });
+        h.classList.add('in');
+        headIO.unobserve(h);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+    heads.forEach(function (h) { headIO.observe(h); });
+  }
+
+  // Hero photos drift slower than the page
+  var texHero = document.querySelector('.hero.hero-texture');
+  if (texHero && !reduceMotion) {
+    var pxTick = false;
+    var drift = function () {
+      pxTick = false;
+      var y = Math.min(window.scrollY, texHero.offsetHeight);
+      texHero.style.setProperty('--car-y', (y * 0.22).toFixed(1) + 'px');
+      texHero.style.setProperty('--jet-y', (y * 0.12).toFixed(1) + 'px');
+    };
+    window.addEventListener('scroll', function () { if (!pxTick) { pxTick = true; requestAnimationFrame(drift); } }, { passive: true });
+    drift();
+  }
+
+  // Page transition: a quick dip through dark film on the way out; the next page fades back in
+  if (root.classList.contains('pt-in')) setTimeout(function () { root.classList.remove('pt-in'); }, 700);
+  if (!reduceMotion) {
+    document.addEventListener('click', function (ev) {
+      if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      var a = ev.target.closest && ev.target.closest('a[href]');
+      if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+      var url;
+      try { url = new URL(a.href, location.href); } catch (e) { return; }
+      if (url.origin !== location.origin) return;
+      if (url.pathname === location.pathname && url.search === location.search) return; // same page, maybe a #section
+      ev.preventDefault();
+      try { sessionStorage.setItem('pt', '1'); } catch (e) {}
+      root.classList.add('pt-out');
+      setTimeout(function () { location.href = url.href; }, 210);
+    });
+    window.addEventListener('pageshow', function (e) { if (e.persisted) root.classList.remove('pt-out', 'pt-in'); });
   }
 
   var year = document.getElementById('year');
