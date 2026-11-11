@@ -1518,3 +1518,12 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
     linear-gradient(180deg, rgba(9, 11, 16, .4) 0%, rgba(9, 11, 16, .78) 55%, #090b10 100%),
     url("/media/hero.jpg") 80% 50% / cover no-repeat; }
 }
+
+/* Nav sits on the page at the top (no bar), and only turns into a soft frosted bar once you scroll */
+.nav { transition: background-color .5s ease, border-color .5s ease, -webkit-backdrop-filter .5s ease, backdrop-filter .5s ease; }
+.nav:not(.scrolled) { background: transparent; border-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.nav:not(.scrolled) .progress { opacity: 0; }
+.nav.scrolled { background: rgba(9, 11, 16, .55); }
+/* Hero runs up behind the nav so the menu sits on the photo */
+.hero.hero-texture { margin-top: -68px; padding-top: calc(68px + 72px); }
+@media (max-width: 760px) { .hero.hero-texture { margin-top: -60px; padding-top: calc(60px + 56px); } }
