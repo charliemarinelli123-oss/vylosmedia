@@ -1471,3 +1471,54 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
   .channels dd { font-size: 15px; }
   .channels > div { margin-bottom: 12px; }
 }
+
+/* Round 19: muted Reel previews in the Instagram section */
+.ig-post video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.ig-post.playing video { opacity: 1; }
+.ig-post.playing .ig-badge { opacity: 0; }
+
+/* Instagram poster carousel: one row, arrows on each side, eased glide */
+.ig-rail { position: relative; }
+.ig-rail .ig-grid { display: grid; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 18px) / 4); column-gap: 18px;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; outline: none; }
+.ig-rail .ig-grid::-webkit-scrollbar { display: none; }
+.ig-rail .ig-grid.gliding { scroll-snap-type: none; }
+.ig-rail .ig-post { aspect-ratio: 2 / 3; border-radius: 4px; scroll-snap-align: start; transform: none; background: #0b0d12; border: 1px solid rgba(255, 255, 255, .06); }
+.ig-rail .ig-post::after { opacity: 1; background: linear-gradient(180deg, rgba(0,0,0,0) 62%, rgba(4, 5, 8, .82)); }
+.ig-rail .ig-view { display: none; }
+.ig-title { position: absolute; left: 14px; right: 14px; bottom: 14px; z-index: 1; color: #efeeeb; font-size: 13px; font-weight: 400; line-height: 1.35;
+  letter-spacing: .01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ig-rail .ig-skel { aspect-ratio: 2 / 3; border-radius: 4px; }
+.ig-arrow { position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px; border-radius: 50%; display: grid; place-items: center;
+  background: rgba(9, 11, 16, .72); border: 1px solid rgba(239, 238, 235, .18); color: #efeeeb; cursor: pointer;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: opacity .4s ease; }
+.ig-arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.ig-arrow.prev { left: -22px; }
+.ig-arrow.next { right: -22px; }
+.ig-arrow:disabled { opacity: 0; pointer-events: none; }
+.ig-arrow:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+@media (max-width: 1160px) { .ig-arrow.prev { left: 8px; } .ig-arrow.next { right: 8px; } }
+@media (max-width: 900px) { .ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 14px) / 2.6); column-gap: 14px; } }
+@media (max-width: 760px) {
+  .ig-rail .ig-grid { grid-auto-columns: 62%; column-gap: 12px; scroll-padding-left: 0; }
+  .ig-arrow { width: 40px; height: 40px; margin-top: -20px; }
+}
+@media (prefers-reduced-motion: reduce) { .ig-arrow { transition: none; } }
+
+/* Hero photo: dark Porsche detail on the right, fading into the backdrop */
+.hero.hero-texture { position: relative; }
+.hero.hero-texture::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("/media/hero.jpg?v=3") 104% 58% / auto 72% no-repeat;
+  mix-blend-mode: lighten; }
+@media (max-width: 760px) {
+  .hero.hero-texture::before { background: url("/media/hero.jpg?v=3") 70% 0% / auto 62% no-repeat; opacity: .38; }
+}
+
+/* Nav sits on the page at the top (no bar), and only turns into a soft frosted bar once you scroll */
+.nav { transition: background-color .5s ease, border-color .5s ease, -webkit-backdrop-filter .5s ease, backdrop-filter .5s ease; }
+.nav:not(.scrolled) { background: transparent; border-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.nav:not(.scrolled) .progress { opacity: 0; }
+.nav.scrolled { background: rgba(9, 11, 16, .55); }
+/* Hero runs up behind the nav so the menu sits on the photo */
+.hero.hero-texture { margin-top: -68px; padding-top: calc(68px + 72px); }
+@media (max-width: 760px) { .hero.hero-texture { margin-top: -60px; padding-top: calc(60px + 56px); } }

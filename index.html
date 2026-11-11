@@ -25,7 +25,8 @@
   <link rel="preconnect" href="https://feeds.behold.so" crossorigin>
   <link rel="preload" href="/fonts/montserrat-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/cinzel-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=202611110400">
+  <link rel="stylesheet" href="/styles.css?v=202611111600">
+  <link rel="preload" as="image" href="/media/hero.jpg?v=3">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -269,7 +270,11 @@
       <div class="section-head split">
         <h2>Fresh from @vylosmedia.</h2>
       </div>
-      <div class="ig-grid" id="ig-grid"></div>
+      <div class="ig-rail">
+        <button class="ig-arrow prev" type="button" aria-label="Previous posts" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="ig-grid" id="ig-grid" tabindex="0" aria-label="Instagram posts, scroll sideways"></div>
+        <button class="ig-arrow next" type="button" aria-label="Next posts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
       <p class="ig-more"><a class="link-arrow" href="https://instagram.com/vylosmedia" target="_blank" rel="noopener">Follow along on Instagram</a></p>
     </div>
   </section>
@@ -327,6 +332,6 @@
 
 <div class="dock" id="dock"><a class="btn btn-dark btn-block" href="#contact">Start a project</a></div>
 
-<script src="/main.js?v=202611110400" defer></script>
+<script src="/main.js?v=202611111600" defer></script>
 </body>
 </html>
