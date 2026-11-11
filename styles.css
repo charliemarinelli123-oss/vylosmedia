@@ -1671,3 +1671,9 @@ body::before { background: var(--vignette), var(--backdrop); }
   background: radial-gradient(75% 110px at 50% 0%, rgba(214, 192, 142, .2) 0%, rgba(214, 192, 142, .07) 55%, rgba(214, 192, 142, 0) 100%); will-change: opacity; }
 /* Top glow removed (Charlie 2026-11-11) */
 .topglow { display: none; }
+/* Less saturated blue in the centered backdrop (Charlie 2026-11-11) */
+:root, :root[data-theme="dark"] {
+  --backdrop:
+    radial-gradient(70% 60% at 50% 50%, #20252e 0%, #191d25 35%, rgba(25, 29, 37, 0) 80%),
+    linear-gradient(180deg, #13161d 0%, #101319 50%, #0b0d11 100%);
+}
