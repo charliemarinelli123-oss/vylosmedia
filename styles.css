@@ -1658,3 +1658,6 @@ html.pt-in::before { visibility: visible; animation: pt-in .42s cubic-bezier(.22
     radial-gradient(75% 110px at 50% 0%, rgba(214, 192, 142, .2) 0%, rgba(214, 192, 142, .07) 55%, rgba(208, 187, 138, 0) 100%);
 }
 body::before { background: var(--topglow), var(--vignette), var(--backdrop); }
+/* A little more room between the mark and the wordmark */
+.brand { gap: 14px; }
+@media (max-width: 760px) { .nav .brand { gap: 11px; } }
