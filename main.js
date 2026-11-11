@@ -352,11 +352,11 @@
         latest.hidden = false;
         initRail();
         if (!reduceMotion && 'IntersectionObserver' in window) {
-          // Only one Reel plays at a time: the one under the cursor on desktop,
-          // or the one nearest the middle of the carousel on phones. The rest stay still.
+          // Nothing plays on load. A Reel previews only while hovered (desktop)
+          // or after a tap (phone: first tap plays it, a second tap opens Instagram). One at a time.
           var tiles = Array.prototype.slice.call(grid.querySelectorAll('.ig-post'));
           var touch = window.matchMedia('(hover: none)').matches;
-          var current = null, inView = false, hovered = null, pick = 0;
+          var current = null, inView = false, hovered = null;
           function playOnly(tile) {
             tiles.forEach(function (t) {
               if (t === tile) return;
@@ -371,22 +371,19 @@
             var pr = v.play();
             if (pr && pr.then) pr.then(function () { if (current === tile) tile.classList.add('playing'); }).catch(function () {});
           }
-          function centerTile() {
-            var r = grid.getBoundingClientRect(), mid = r.left + r.width / 2, best = null, bd = Infinity;
-            tiles.forEach(function (t) {
-              var b = t.getBoundingClientRect(), d = Math.abs(b.left + b.width / 2 - mid);
-              if (d < bd) { bd = d; best = t; }
-            });
-            return best;
-          }
           function choose() {
-            pick = 0;
-            var next = !inView ? null : (touch ? centerTile() : hovered);
+            var next = !inView ? null : (touch ? tapped : hovered);
             if (next !== current) playOnly(next);
           }
-          new IntersectionObserver(function (es) { inView = es[0].isIntersecting; choose(); }, { threshold: 0.4 }).observe(grid);
+          var tapped = null;
+          new IntersectionObserver(function (es) { inView = es[0].isIntersecting; if (!inView) tapped = null; choose(); }, { threshold: 0.4 }).observe(grid);
           if (touch) {
-            grid.addEventListener('scroll', function () { if (!pick) pick = requestAnimationFrame(choose); }, { passive: true });
+            tiles.forEach(function (t) {
+              if (!t.querySelector('video')) return;
+              t.addEventListener('click', function (ev) {
+                if (tapped !== t) { ev.preventDefault(); tapped = t; choose(); }
+              });
+            });
           } else {
             tiles.forEach(function (t) {
               t.addEventListener('mouseenter', function () { hovered = t; choose(); });
