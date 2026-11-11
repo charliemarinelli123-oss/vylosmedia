@@ -1549,7 +1549,7 @@ h2 .champ { color: var(--accent); font-style: italic; }
 
 /* Services strip under the heading: one hairline box, four cells */
 .svc-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 4px;
-  background: rgba(255, 255, 255, .015); margin: 0 0 clamp(40px, 5vw, 64px); }
+  background: rgba(255, 255, 255, .015); margin: clamp(40px, 5vw, 64px) 0 0; }
 .svc-strip > div { padding: clamp(24px, 2.4vw, 34px) clamp(20px, 2.4vw, 34px); }
 .svc-strip > div + div { border-left: 1px solid var(--line); }
 .svc-strip h3 { font-family: var(--serif); font-size: clamp(16px, 1.3vw, 18px); white-space: nowrap; font-weight: 500; line-height: 1.25; }
