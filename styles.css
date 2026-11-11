@@ -1323,9 +1323,9 @@ h2 { font-size: clamp(26px, 3.4vw, 44px); line-height: 1.08; }
 .tiles .tile h3 { font-size: clamp(19px, 1.9vw, 24px); letter-spacing: -0.025em; }
 
 /* Main button: lighter, muted champagne-taupe, not brown */
-.btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #807562 0%, #6f6656 50%, #5f574a 100%);
-  color: #f6f0e2; border: 1px solid rgba(232, 222, 200, .26); }
-.btn-dark:hover { background: linear-gradient(160deg, #8a7f6b 0%, #786e5d 50%, #675e50 100%); }
+.btn-dark, :root[data-theme="dark"] .btn-dark { background: linear-gradient(160deg, #8f805f 0%, #776a4f 50%, #615641 100%);
+  color: #f6f0e2; border: 1px solid rgba(208, 187, 138, .32); }
+.btn-dark:hover { background: linear-gradient(160deg, #9a8a67 0%, #807256 50%, #6a5e47 100%); }
 
 /* ---------- Round 13: Textures direction ---------- */
 /* Light weights for headlines (fonts set in Round 14 below) */
@@ -1633,3 +1633,12 @@ html.pt-in::before { visibility: visible; animation: pt-in .42s cubic-bezier(.22
 #contact .cta-card { background: none; border-color: transparent; box-shadow: none; }
 #contact .form { background: rgb(20, 25, 34); border: 1px solid rgba(195, 203, 215, .11); border-radius: 10px; box-shadow: none; }
 #contact .form input, #contact .form select, #contact .form textarea { background: rgb(14, 17, 23); border-color: rgba(195, 203, 215, .11); }
+
+/* Site-wide consistency (2026-11-11) */
+/* Logo: the white mark on its own, no dark tile */
+.brand img { border-radius: 0; background: none; object-fit: contain; }
+/* Footer wordmark matches the nav */
+.footer .brand, .footer .brand span { font-weight: 400; }
+/* "deserves." carries a soft filmic glow; its word mask is opened up so the glow is not clipped */
+.hero h1 .champ { text-shadow: 0 0 .28em rgba(208, 187, 138, .42), 0 0 .9em rgba(208, 187, 138, .18); }
+.hero h1 .w:has(.champ) { padding: .5em .6em; margin: -.5em -.6em; }
