@@ -1514,6 +1514,12 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
   .hero.hero-texture::before { background: url("/media/hero.jpg?v=4") 70% 0% / auto 62% no-repeat; opacity: .38; }
 }
 
+/* Jet and contrail on the left, balancing the car on the right */
+.hero.hero-texture::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("/media/hero-jet.jpg?v=2") left 0 bottom -20px / 60% auto no-repeat;
+  mix-blend-mode: lighten; opacity: .8; }
+@media (max-width: 760px) { .hero.hero-texture::after { background-size: 96% auto; background-position: left 0 bottom 0; opacity: .6; } }
+
 /* Nav sits on the page at the top (no bar), and only turns into a soft frosted bar once you scroll */
 .nav { transition: background-color .5s ease, border-color .5s ease, -webkit-backdrop-filter .5s ease, backdrop-filter .5s ease; }
 .nav:not(.scrolled) { background: transparent; border-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
