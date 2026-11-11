@@ -303,8 +303,8 @@
           var b = t.getBoundingClientRect();
           var d = Math.min(1, Math.abs(b.left + b.width / 2 - cx) / (half + b.width * 0.25));
           var e = d * d;
-          t.style.transform = 'scale(' + (1 - 0.08 * e).toFixed(4) + ')';
-          t.style.opacity = (1 - 0.55 * e).toFixed(3);
+          t.style.transform = 'scale(' + (1 - 0.04 * e).toFixed(4) + ')';
+          t.style.opacity = (1 - 0.22 * e).toFixed(3);
         });
       }
       function queueBand() { if (!reduceMotion && !bandTick) { bandTick = true; requestAnimationFrame(band); } }

@@ -1581,22 +1581,20 @@ h2.split-io.in .wi { transform: none; opacity: 1; }
 .hero.hero-texture::before { transform: translate3d(0, var(--car-y, 0px), 0); will-change: transform; }
 .hero.hero-texture::after { transform: translate3d(0, var(--jet-y, 0px), 0); will-change: transform; }
 
-/* Page transition: a quick dip through dark film with soft bokeh and grain */
-html::before { content: ""; position: fixed; inset: -2%; z-index: 9999; pointer-events: none; opacity: 0; visibility: hidden;
+/* Page transition: a quick, soft bokeh blur that crossfades into the next page */
+html::before { content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; visibility: hidden;
+  -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1);
   background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .96  0 0 0 0 .9  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
-    radial-gradient(9vmax 9vmax at 18% 30%, rgba(234, 211, 178, .16), rgba(234, 211, 178, 0) 70%),
-    radial-gradient(6vmax 6vmax at 72% 22%, rgba(236, 222, 192, .12), rgba(236, 222, 192, 0) 70%),
-    radial-gradient(12vmax 12vmax at 84% 74%, rgba(222, 204, 168, .10), rgba(222, 204, 168, 0) 70%),
-    radial-gradient(5vmax 5vmax at 40% 80%, rgba(240, 228, 205, .12), rgba(240, 228, 205, 0) 70%),
-    radial-gradient(4vmax 4vmax at 58% 52%, rgba(240, 228, 205, .08), rgba(240, 228, 205, 0) 70%),
-    #07080c;
-  background-size: 220px 220px, auto, auto, auto, auto, auto, auto;
-  transform: scale(1.04); transition: opacity .2s ease, transform .3s ease, visibility 0s linear .2s; }
-html.pt-out::before { opacity: 1; visibility: visible; transform: none; transition: opacity .2s ease, transform .3s ease, visibility 0s; animation: pt-grain .24s steps(3) infinite; }
-html.pt-in::before { visibility: visible; animation: pt-in .42s ease .04s both, pt-grain .24s steps(3) infinite; }
-@keyframes pt-in { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(1.04); visibility: hidden; } }
-@keyframes pt-grain { 0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; } 33% { background-position: -60px 40px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; } 66% { background-position: 50px -70px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; } }
+    radial-gradient(10vmax 10vmax at 18% 30%, rgba(234, 211, 178, .14), rgba(234, 211, 178, 0) 70%),
+    radial-gradient(7vmax 7vmax at 72% 22%, rgba(236, 222, 192, .11), rgba(236, 222, 192, 0) 70%),
+    radial-gradient(13vmax 13vmax at 84% 74%, rgba(222, 204, 168, .09), rgba(222, 204, 168, 0) 70%),
+    radial-gradient(6vmax 6vmax at 40% 80%, rgba(240, 228, 205, .10), rgba(240, 228, 205, 0) 70%),
+    radial-gradient(5vmax 5vmax at 58% 52%, rgba(240, 228, 205, .07), rgba(240, 228, 205, 0) 70%),
+    rgba(8, 10, 14, .62);
+  transition: opacity .21s cubic-bezier(.4, 0, .2, 1), visibility 0s linear .21s; }
+html.pt-out::before { opacity: 1; visibility: visible; transition: opacity .21s cubic-bezier(.4, 0, .2, 1), visibility 0s; }
+html.pt-in::before { visibility: visible; animation: pt-in .42s cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes pt-in { from { opacity: 1; } to { opacity: 0; visibility: hidden; } }
 
 @media (prefers-reduced-motion: reduce) {
   h2.split-io .wi { transform: none; opacity: 1; transition: none; }
@@ -1608,3 +1606,30 @@ html.pt-in::before { visibility: visible; animation: pt-in .42s ease .04s both, 
 .ig-rail .ig-grid { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); }
 .js .ig-rail .ig-post, .js .ig-rail .ig-post.reveal { transform-origin: 50% 50%; will-change: transform, opacity; transition: none; }
 @media (max-width: 760px) { .ig-rail .ig-grid { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%); } }
+
+/* Instagram rail, wider (2026-11-11): four full posters at rest, only a thin faded margin at each edge */
+.ig-rail { --fade: 56px; width: min(100vw, 1360px); margin-inline: calc((100% - min(100vw, 1360px)) / 2); }
+.ig-rail .ig-grid { padding-inline: var(--fade); scroll-padding-inline: var(--fade);
+  grid-auto-columns: calc((100% - 3 * 18px) / 4);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade), #000 calc(100% - var(--fade)), transparent 100%); }
+.ig-rail .ig-arrow.prev { left: calc(var(--fade) / 2 - 24px); }
+.ig-rail .ig-arrow.next { right: calc(var(--fade) / 2 - 24px); }
+.ig-rail .ig-arrow svg { filter: none; }
+@media (max-width: 900px) {
+  .ig-rail { --fade: 28px; }
+  .ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 14px) / 2.2); }
+  .ig-rail .ig-arrow svg { filter: drop-shadow(0 0 6px rgba(0, 0, 0, .8)); }
+}
+@media (max-width: 760px) {
+  .ig-rail { --fade: 16px; }
+  .ig-rail .ig-grid { margin-inline: 0; padding-block: 4px 24px; }
+  .ig-rail .ig-post { scroll-snap-align: start; }
+  .ig-rail .ig-grid { grid-auto-columns: 80%; }
+  .ig-rail .ig-arrow.prev { left: 2px; } .ig-rail .ig-arrow.next { right: 2px; }
+}
+
+/* Contact: no blue panel; the form is a single card in the same colors as the pricing "What shapes your quote" card */
+#contact .cta-card { background: none; border-color: transparent; box-shadow: none; }
+#contact .form { background: rgb(20, 25, 34); border: 1px solid rgba(195, 203, 215, .11); border-radius: 10px; box-shadow: none; }
+#contact .form input, #contact .form select, #contact .form textarea { background: rgb(14, 17, 23); border-color: rgba(195, 203, 215, .11); }
