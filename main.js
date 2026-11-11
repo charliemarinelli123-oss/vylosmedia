@@ -278,6 +278,14 @@
           img.src = src; img.alt = cap ? cap.slice(0, 120) : 'Instagram post by Vylos Media';
           img.loading = 'lazy'; img.decoding = 'async'; img.width = 480; img.height = 600;
           a.appendChild(img);
+          // Reels get a muted preview that plays only while the tile is on screen
+          if (p.mediaType === 'VIDEO' && p.mediaUrl && !reduceMotion) {
+            var v = document.createElement('video');
+            v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+            v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+            v.setAttribute('data-src', p.mediaUrl);
+            a.appendChild(v);
+          }
           if (p.mediaType === 'VIDEO' || p.isReel) {
             var badge = document.createElement('span');
             badge.className = 'ig-badge'; badge.setAttribute('aria-hidden', 'true');
@@ -297,6 +305,17 @@
         });
         latest.hidden = false;
         if (!reduceMotion && 'IntersectionObserver' in window) {
+          var vio = new IntersectionObserver(function (es) {
+            es.forEach(function (e) {
+              var v = e.target.querySelector('video'); if (!v) return;
+              if (e.isIntersecting) {
+                if (!v.getAttribute('src')) v.src = v.getAttribute('data-src');
+                var pr = v.play();
+                if (pr && pr.then) pr.then(function () { e.target.classList.add('playing'); }).catch(function () {});
+              } else { v.pause(); }
+            });
+          }, { threshold: 0.35 });
+          grid.querySelectorAll('.ig-post').forEach(function (el) { vio.observe(el); });
           var head = latest.querySelector('.section-head');
           var o = new IntersectionObserver(function (es) {
             es.forEach(function (e) {

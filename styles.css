@@ -1471,3 +1471,8 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
   .channels dd { font-size: 15px; }
   .channels > div { margin-bottom: 12px; }
 }
+
+/* Round 19: muted Reel previews in the Instagram section */
+.ig-post video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
+.ig-post.playing video { opacity: 1; }
+.ig-post.playing .ig-badge { opacity: 0; }
