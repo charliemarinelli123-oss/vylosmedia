@@ -352,17 +352,49 @@
         latest.hidden = false;
         initRail();
         if (!reduceMotion && 'IntersectionObserver' in window) {
-          var vio = new IntersectionObserver(function (es) {
-            es.forEach(function (e) {
-              var v = e.target.querySelector('video'); if (!v) return;
-              if (e.isIntersecting) {
-                if (!v.getAttribute('src')) v.src = v.getAttribute('data-src');
-                var pr = v.play();
-                if (pr && pr.then) pr.then(function () { e.target.classList.add('playing'); }).catch(function () {});
-              } else { v.pause(); }
+          // Only one Reel plays at a time: the one under the cursor on desktop,
+          // or the one nearest the middle of the carousel on phones. The rest stay still.
+          var tiles = Array.prototype.slice.call(grid.querySelectorAll('.ig-post'));
+          var touch = window.matchMedia('(hover: none)').matches;
+          var current = null, inView = false, hovered = null, pick = 0;
+          function playOnly(tile) {
+            tiles.forEach(function (t) {
+              if (t === tile) return;
+              var ov = t.querySelector('video');
+              if (ov && !ov.paused) ov.pause();
+              t.classList.remove('playing');
             });
-          }, { threshold: 0.35 });
-          grid.querySelectorAll('.ig-post').forEach(function (el) { vio.observe(el); });
+            current = tile;
+            var v = tile && tile.querySelector('video');
+            if (!v) return;
+            if (!v.getAttribute('src')) v.src = v.getAttribute('data-src');
+            var pr = v.play();
+            if (pr && pr.then) pr.then(function () { if (current === tile) tile.classList.add('playing'); }).catch(function () {});
+          }
+          function centerTile() {
+            var r = grid.getBoundingClientRect(), mid = r.left + r.width / 2, best = null, bd = Infinity;
+            tiles.forEach(function (t) {
+              var b = t.getBoundingClientRect(), d = Math.abs(b.left + b.width / 2 - mid);
+              if (d < bd) { bd = d; best = t; }
+            });
+            return best;
+          }
+          function choose() {
+            pick = 0;
+            var next = !inView ? null : (touch ? centerTile() : hovered);
+            if (next !== current) playOnly(next);
+          }
+          new IntersectionObserver(function (es) { inView = es[0].isIntersecting; choose(); }, { threshold: 0.4 }).observe(grid);
+          if (touch) {
+            grid.addEventListener('scroll', function () { if (!pick) pick = requestAnimationFrame(choose); }, { passive: true });
+          } else {
+            tiles.forEach(function (t) {
+              t.addEventListener('mouseenter', function () { hovered = t; choose(); });
+              t.addEventListener('mouseleave', function () { if (hovered === t) hovered = null; choose(); });
+              t.addEventListener('focus', function () { hovered = t; choose(); });
+              t.addEventListener('blur', function () { if (hovered === t) hovered = null; choose(); });
+            });
+          }
           var head = latest.querySelector('.section-head');
           var o = new IntersectionObserver(function (es) {
             es.forEach(function (e) {
