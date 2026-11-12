@@ -1703,3 +1703,24 @@ body > main { flex: 1 0 auto; }
 body > .footer { margin-top: auto; }
 body > .footer { padding-block: 32px; position: relative; z-index: 41; }
 @media (max-width: 760px) { body > .footer { padding-block: 28px calc(28px + env(safe-area-inset-bottom)); } }
+
+/* ---------- Instagram rail: arrows in their own lane, soft shadow under each post (Charlie 2026-11-11) ---------- */
+.ig-rail { --lane: 64px; }
+.ig-rail .ig-grid {
+  padding-inline: calc(var(--lane) + var(--fade)); scroll-padding-inline: calc(var(--lane) + var(--fade));
+  padding-block: 40px 56px; margin-block: -40px -56px;
+  -webkit-mask-image: linear-gradient(90deg, transparent var(--lane), #000 calc(var(--lane) + var(--fade)), #000 calc(100% - var(--lane) - var(--fade)), transparent calc(100% - var(--lane)));
+  mask-image: linear-gradient(90deg, transparent var(--lane), #000 calc(var(--lane) + var(--fade)), #000 calc(100% - var(--lane) - var(--fade)), transparent calc(100% - var(--lane))); }
+.ig-rail .ig-arrow.prev { left: calc(var(--lane) / 2 - 24px); }
+.ig-rail .ig-arrow.next { right: calc(var(--lane) / 2 - 24px); }
+.ig-rail .ig-arrow svg { filter: none; }
+.ig-rail .ig-post, .ig-rail .ig-skel { width: min(calc(var(--rail-h) * var(--ar)), calc(100vw - 2 * (var(--fade) + var(--lane)) - 8px));
+  box-shadow: 0 22px 44px -14px rgba(0, 0, 0, .75), 0 8px 18px -8px rgba(0, 0, 0, .55); }
+@media (max-width: 900px) { .ig-rail { --lane: 48px; } }
+@media (max-width: 760px) {
+  .ig-rail { --lane: 30px; }
+  .ig-rail .ig-grid { padding-block: 28px 44px; margin-block: -28px -44px; }
+  .ig-rail .ig-arrow { width: 30px; }
+  .ig-rail .ig-arrow svg { width: 24px; height: 24px; filter: none; }
+  .ig-rail .ig-arrow.prev { left: 0; } .ig-rail .ig-arrow.next { right: 0; }
+}
