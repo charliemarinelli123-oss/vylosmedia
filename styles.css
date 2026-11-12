@@ -1684,3 +1684,6 @@ body::before { background: var(--vignette), var(--backdrop); }
 .ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 18px) / 3); }
 @media (max-width: 900px) { .ig-rail .ig-grid { grid-auto-columns: calc((100% - 14px) / 1.6); } }
 @media (max-width: 760px) { .ig-rail .ig-grid { grid-auto-columns: 88%; } }
+
+/* Page transition: a simple fade through the background color (Charlie 2026-11-11, replaces the bokeh blur) */
+html::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: #0e1116; }
