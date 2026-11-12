@@ -1687,3 +1687,19 @@ body::before { background: var(--vignette), var(--backdrop); }
 
 /* Page transition: a simple fade through the background color (Charlie 2026-11-11, replaces the bokeh blur) */
 html::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: #0e1116; }
+
+/* Instagram rail: each tile keeps the shape it was posted in (Charlie 2026-11-11).
+   All tiles share one height; width follows the post's aspect ratio (--ar, set from the feed). */
+.ig-rail { --rail-h: 360px; }
+.ig-rail .ig-grid { grid-auto-columns: max-content; align-items: center; }
+.ig-rail .ig-post, .ig-rail .ig-skel { --ar: .8; aspect-ratio: var(--ar); height: auto; width: min(calc(var(--rail-h) * var(--ar)), calc(100vw - 2 * var(--fade) - 24px)); }
+@media (max-width: 900px) { .ig-rail { --rail-h: 320px; } }
+@media (max-width: 760px) { .ig-rail { --rail-h: 300px; } .ig-rail .ig-grid { grid-auto-columns: max-content; } }
+
+/* Footer always sits at the bottom of the screen, on every page (Charlie 2026-11-11) */
+body { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+body > * { flex-shrink: 0; }
+body > main { flex: 1 0 auto; }
+body > .footer { margin-top: auto; }
+body > .footer { padding-block: 32px; position: relative; z-index: 41; }
+@media (max-width: 760px) { body > .footer { padding-block: 28px calc(28px + env(safe-area-inset-bottom)); } }
