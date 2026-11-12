@@ -1510,10 +1510,10 @@ body::after { background-image: url("/media/grain.png"); background-size: 256px 
 /* Hero photo: dark Porsche detail on the right, fading into the backdrop */
 .hero.hero-texture { position: relative; }
 .hero.hero-texture::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: url("/media/hero.jpg?v=4") 100% 56% / auto 78% no-repeat;
+  background: url("/media/hero.jpg?v=5") 100% 56% / auto 78% no-repeat;
   mix-blend-mode: lighten; }
 @media (max-width: 760px) {
-  .hero.hero-texture::before { background: url("/media/hero.jpg?v=4") 70% 0% / auto 62% no-repeat; opacity: .38; }
+  .hero.hero-texture::before { background: url("/media/hero.jpg?v=5") 70% 0% / auto 62% no-repeat; opacity: .38; }
 }
 
 /* Jet: desktop sits left of the centered lede, plane ending just before "resorts and fine dining" */
@@ -1677,3 +1677,29 @@ body::before { background: var(--vignette), var(--backdrop); }
     radial-gradient(70% 60% at 50% 50%, #20252e 0%, #191d25 35%, rgba(25, 29, 37, 0) 80%),
     linear-gradient(180deg, #13161d 0%, #101319 50%, #0b0d11 100%);
 }
+
+/* ---------- Instagram rail in 16:9 landscape (Charlie 2026-11-11) ---------- */
+.ig-rail .ig-post, .ig-rail .ig-skel { aspect-ratio: 16 / 9; }
+.ig-rail .ig-post img, .ig-rail .ig-post video { object-fit: cover; object-position: 50% 50%; }
+.ig-rail .ig-grid { grid-auto-columns: calc((100% - 2 * 18px) / 3); }
+@media (max-width: 900px) { .ig-rail .ig-grid { grid-auto-columns: calc((100% - 14px) / 1.6); } }
+@media (max-width: 760px) { .ig-rail .ig-grid { grid-auto-columns: 88%; } }
+
+/* Page transition: a simple fade through the background color (Charlie 2026-11-11, replaces the bokeh blur) */
+html::before { -webkit-backdrop-filter: none; backdrop-filter: none; background: #0e1116; }
+
+/* Instagram rail: each tile keeps the shape it was posted in (Charlie 2026-11-11).
+   All tiles share one height; width follows the post's aspect ratio (--ar, set from the feed). */
+.ig-rail { --rail-h: 360px; }
+.ig-rail .ig-grid { grid-auto-columns: max-content; align-items: center; }
+.ig-rail .ig-post, .ig-rail .ig-skel { --ar: .8; aspect-ratio: var(--ar); height: auto; width: min(calc(var(--rail-h) * var(--ar)), calc(100vw - 2 * var(--fade) - 24px)); }
+@media (max-width: 900px) { .ig-rail { --rail-h: 320px; } }
+@media (max-width: 760px) { .ig-rail { --rail-h: 300px; } .ig-rail .ig-grid { grid-auto-columns: max-content; } }
+
+/* Footer always sits at the bottom of the screen, on every page (Charlie 2026-11-11) */
+body { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+body > * { flex-shrink: 0; }
+body > main { flex: 1 0 auto; }
+body > .footer { margin-top: auto; }
+body > .footer { padding-block: 32px; position: relative; z-index: 41; }
+@media (max-width: 760px) { body > .footer { padding-block: 28px calc(28px + env(safe-area-inset-bottom)); } }

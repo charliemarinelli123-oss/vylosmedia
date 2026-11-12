@@ -269,11 +269,16 @@
         latest.querySelector('.ig-rail').classList.toggle('at-start', prev.disabled);
       }
       function step(dir) {
-        var item = track.querySelector('.ig-post');
-        var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-        var w = item ? item.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
-        var per = Math.max(1, Math.floor((track.clientWidth + gap) / w));
-        var from = track.scrollLeft, to = Math.max(0, Math.min(maxX(), Math.round((from + dir * per * w) / w) * w));
+        var posts = track.querySelectorAll('.ig-post');
+        var pad = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+        var r = track.getBoundingClientRect(), from = track.scrollLeft;
+        var aim = from + dir * Math.max(120, (track.clientWidth - 2 * pad) * 0.85);
+        var to = aim, best = Infinity;
+        Array.prototype.forEach.call(posts, function (t) {
+          var x = t.getBoundingClientRect().left - r.left + from - pad;
+          if ((dir > 0 ? x > from + 4 : x < from - 4) && Math.abs(x - aim) < best) { best = Math.abs(x - aim); to = x; }
+        });
+        to = Math.max(0, Math.min(maxX(), Math.round(to)));
         if (reduceMotion) { track.scrollLeft = to; update(); return; }
         if (anim) cancelAnimationFrame(anim);
         track.classList.add('gliding');
@@ -313,6 +318,13 @@
       update();
       queueBand();
     }
+    function setShape(el, r) {
+      if (!r || !isFinite(r)) return;
+      r = Math.max(9 / 16, Math.min(16 / 9, r));
+      el.style.setProperty('--ar', r.toFixed(4));
+      el.classList.toggle('is-wide', r > 1.05);
+      el.classList.toggle('is-tall', r < 0.95);
+    }
     fetch(latest.getAttribute('data-feed'))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (d) {
@@ -333,7 +345,11 @@
           a.setAttribute('aria-label', 'Open on Instagram' + (cap ? ': ' + cap.slice(0, 80) : ''));
           var img = document.createElement('img');
           img.src = src; img.alt = cap ? cap.slice(0, 120) : 'Instagram post by Vylos Media';
-          img.loading = 'lazy'; img.decoding = 'async'; img.width = 480; img.height = 600;
+          img.loading = 'lazy'; img.decoding = 'async';
+          // Each tile takes the shape the post was published in (vertical, square or landscape)
+          var pw = (size && size.width) || (p.dimensions && p.dimensions.width), ph = (size && size.height) || (p.dimensions && p.dimensions.height);
+          setShape(a, pw && ph ? pw / ph : 0);
+          img.addEventListener('load', function () { if (img.naturalWidth && img.naturalHeight) setShape(a, img.naturalWidth / img.naturalHeight); igGrid.dispatchEvent(new Event('scroll')); });
           a.appendChild(img);
           // Reels get a muted preview that plays only while the tile is on screen
           if (p.mediaType === 'VIDEO' && p.mediaUrl && !reduceMotion) {
