@@ -271,19 +271,20 @@
       function step(dir) {
         var posts = track.querySelectorAll('.ig-post');
         var pad = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
-        var r = track.getBoundingClientRect(), from = track.scrollLeft;
+        var from = track.scrollLeft, first = posts[0];
         var aim = from + dir * Math.max(120, (track.clientWidth - 2 * pad) * 0.85);
         var to = aim, best = Infinity;
+        // Layout positions (offsetLeft ignores the band's scale), so the glide ends exactly on the snap point
         Array.prototype.forEach.call(posts, function (t) {
-          var x = t.getBoundingClientRect().left - r.left + from - pad;
+          var x = t.offsetLeft - first.offsetLeft;
           if ((dir > 0 ? x > from + 4 : x < from - 4) && Math.abs(x - aim) < best) { best = Math.abs(x - aim); to = x; }
         });
         to = Math.max(0, Math.min(maxX(), Math.round(to)));
         if (reduceMotion) { track.scrollLeft = to; update(); return; }
         if (anim) cancelAnimationFrame(anim);
         track.classList.add('gliding');
-        var t0 = null, dur = 900;
-        function ease(t) { return 1 - Math.pow(1 - t, 4); }
+        var t0 = null, dur = 1100;
+        function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
         function frame(t) {
           if (t0 === null) t0 = t;
           var k = Math.min(1, (t - t0) / dur);
