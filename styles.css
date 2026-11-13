@@ -1730,6 +1730,11 @@ body > .footer { padding-block: 32px; position: relative; z-index: 41; }
   background: rgb(20, 25, 34); border: 1px solid rgba(195, 203, 215, .11); border-radius: 10px; padding: clamp(28px, 4vw, 52px); }
 .partner-lockup { display: flex; align-items: center; gap: 12px; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
 .partner-lockup .x { color: var(--accent); letter-spacing: 0; font-size: 13px; }
+.partner-lockup .lk { display: inline-flex; align-items: center; gap: 10px; color: var(--text, #f2efe9); }
+.partner-lockup .lk img { display: block; height: 22px; width: auto; }
+.collab-head .partner-lockup { flex-wrap: wrap; gap: 14px 18px; font-size: 12px; margin-bottom: 26px; }
+.collab-head h1 { margin: 0 0 clamp(32px, 5vw, 56px); }
+@media (max-width: 760px) { .collab-head .partner-lockup { font-size: 11px; gap: 12px 14px; } .partner-lockup .lk img { height: 19px; } }
 .partner-copy h2 { margin: 0; }
 .partner-copy .sub { color: var(--muted); margin: 16px 0 26px; max-width: 46ch; }
 .partner-list { list-style: none; margin: 0; padding: 0; }
