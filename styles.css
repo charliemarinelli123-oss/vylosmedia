@@ -1744,3 +1744,13 @@ body > .footer { padding-block: 32px; position: relative; z-index: 41; }
 .partner-list span { display: block; color: var(--muted); font-size: 15px; line-height: 1.6; margin-top: 6px; }
 @media (max-width: 860px) { .partner-card { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .partner-copy .btn { display: flex; justify-content: center; } }
+
+/* Phone hero: car on top, copy in the middle, jet underneath, so the two photos never sit on each other */
+@media (max-width: 760px) {
+  .hero.hero-texture { min-height: 0; padding-top: calc(60px + 230px); padding-bottom: 170px; }
+  .hero.hero-texture::before { inset: 0 0 auto 0; height: 360px; opacity: .9;
+    background: url("/media/hero.jpg?v=5") 78% 0 / auto 360px no-repeat;
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 55%, transparent 100%); }
+  .hero.hero-texture::after { inset: auto 0 0 0; height: 190px; opacity: .8;
+    background: url("/media/hero-jet.jpg?v=2") left 0 bottom 28px / 100% auto no-repeat; }
+}
